@@ -1,0 +1,99 @@
+<div class="loading captureSiteNewsLoading" ng-if="captureSiteNewsLoading" ng-include="'/inc/loading.html'"></div>
+<div class="news-list-content">
+    <div class="row news-list-search">
+        <div class="news-list-condition col-lg-7">
+            <ul class="nav-pills">
+                <li role="presentation" class="news-list-condition-total" ng-click="toggleAllNewsList()">
+                    <a>全选</a>
+                    <div class="pull-left bjj-checkbox checkboxAll {{ active ? 'active' : '' }}">
+                        <i class="fa fa-square-o fa-lg" aria-hidden="true"></i>
+                    </div>
+                </li>
+                <li role="presentation" ng-click="favoriteAll($event)" class="news-condition conditionBorder"><a href="javascript:;">批量收藏</a>
+                    <div style="display: none; position: absolute; z-index: 10; margin-left: -40px;" class="showGroup">
+                        <ol id="siteAllFavorite">
+                            <li ng-repeat="i in normalGroup" class="bjj-ellipsis" ng-click="favoriteAllGroup($event, i.id)">{{i.groupName}}</li>
+                        </ol>
+                    </div>
+                </li>
+                <li ng-click="pushAll()" role="presentation" class="news-condition conditionBorder"><a href="javascript:;">批量推送</a></li>
+                <li role="presentation" class="news-condition-line">|</li>
+                <div class="btn-group news-condition-line">
+                    <button type="button" class="btn btn-default dropdown-toggle time-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="order">{{newsListOrder == 1 ? '时间降序' : '热度降序'}}</span><span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a ng-click="orderClick($event)" data-order="1" href="javascript:;">时间降序</a></li>
+                        <li><a ng-click="orderClick($event)" data-order="2" href="javascript:;">热度降序</a></li>
+                    </ul>
+                </div>
+            </ul>
+        </div>
+        <div class="input-group">
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-default dropdown-toggle time-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{queryScope == 1 ? '正文' : '标题'}}</span> <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a ng-click="queryScopeClick(1)" href="javascript:;">正文</a></li>
+                    <li><a ng-click="queryScopeClick(2)" href="javascript:;">标题</a></li>
+                </ul>
+            </div>
+
+            <input ng-model="keywords" type="text" class="form-control" ng-keyup="myKeyup($event)"  placeholder="请输入关键词" maxlength="20">
+            <span class="input-group-btn">
+                <button class="btn btn-default" ng-click="keywordsSearchClick()" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+            </span>
+        </div>
+    </div>
+    <div class="newsList">
+        <div class="news-list-table">
+            <ul ng-hide="showMsg">
+                <li ng-repeat="item in dataList" class="{{item.id}} capture-site-list">
+                    <div class="pull-left bjj-checkbox {{ item.active ? 'active' : '' }}" ng-click="toggleNewsList();">
+                        <i class="fa fa-square-o fa-lg" aria-hidden="true"></i>
+                    </div>
+                    <div class="news-list-item">
+                        <img ng-if="item.cover!==''" ng-src="{{item.cover}}" onerror="javascript:this.src='/theme/default/images/error-img.jpg';">
+                    </div>
+                    <div class="news-list-item news-list" ng-class="{true:'read',false:''}[item.isRead]">
+                        <a class="news-list-title bjj-ellipsis" ng-click="gotoNewsDetail($event, item.id)" ng-bind-html="item.title"></a>
+                        <i class="fa fa-times rubbish-news" aria-hidden="true" ng-click="newsToRubbish(item.id)"></i>
+                        <div class="pull-right rubbish-data"><span class="rubbish-button">标为垃圾</span></div>
+                        <div class="news-list-contentAbstract bjj-ellipsis-2" ng-bind-html="item.contentAbstract"></div>
+                        <div class="lists-item">
+                            <span class="first-website">采集网站: {{item.siteName}}</span>
+                            <span class="heat">转载数:{{item.reprintCount}}</span>
+                            <span class="time">采集时间: {{item.captureTime|date:'MM月dd日 HH:mm'}}</span>
+                            <span class="handle">
+                                <i class="fa fa-pencil bjj-un-select" ui-sref="editor({type : 1, newsId: item.id})" aria-hidden="true" title="编辑"></i>
+                                <i class="fa fa-share-square-o push-{{item.id}} {{item.isPush ? 'bjj-select-square' : 'bjj-un-select' }}" aria-hidden="true"  ng-disabled="{{item.isPush}}" ng-click="push(item.id, item)" title="推送"></i>
+                                <div class="favoriteBox">
+                                    <i class="fa fa-star {{ item.isCollection ? 'bjj-select-star' : 'bjj-un-select' }}" aria-hidden="true" ng-click="favoriteClick($event, item.id, item)" title="收藏文稿"></i>
+                                    <div style="display: none; position: absolute; margin-left: -40px; z-index: 10;" class="id{{item.id}} listFavorite">
+                                        <ol id="siteFavorite">
+                                            <li ng-repeat="group in normalGroup" class="bjj-ellipsis" ng-click="favoriteGroup($event, group.id)" data-news-id="{{item.id}}">{{group.groupName}}</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div ng-show="dataListBottomFinalView" ng-include="'/inc/data_list_bottom_final_view.html'"></div>
+        </div>
+        <div ng-if="dataListEmptyView"  class="bjj-list-empty"><i class="fa fa-3x fa-exclamation-circle" aria-hidden="true"></i><div ng-bind-html="listEmptyMsg"></div></div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<script>
+    $(function() {
+        $(".newsList").on("mouseover", ".rubbish-news", function(){
+            $(this).next().toggle()
+        });
+        $(".newsList").on("mouseout", ".rubbish-news", function(){
+            $(this).next().toggle()
+        });
+    })
+</script>

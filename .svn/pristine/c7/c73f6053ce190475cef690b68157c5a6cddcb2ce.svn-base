@@ -1,0 +1,381 @@
+<ul class="nav bjj-nav">
+    <li role="presentation" class="{{navActive == 1 ? 'active' : ''}}"><a href="javascript:;" ng-click="toggleNav($emit(1));">文稿</a></li>
+    <li role="presentation" class="{{navActive == 2 ? 'active' : ''}}"><a href="javascript:;" ng-click="toggleNav($emit(2));">数据</a></li>
+    <li role="presentation" class="{{navActive == 3 ? 'active' : ''}}"><a href="javascript:;" ng-click="toggleNav($emit(3));">样式</a></li>
+    <li role="presentation" class="{{navActive == 4 ? 'active' : ''}}"><a href="javascript:;" ng-click="toggleNav($emit(4));">素材</a></li>
+</ul>
+<div class="wait-tips">正在处理中，请耐心等待...</div>
+<div class="editor-left-cont">
+    <div class="slider-pages list-show-{{navActive}}">
+        <div class="list">
+            <div class="loading editorSidebarLeftLoading" ng-if="editorSidebarLeftLoading" ng-include="'/inc/loading.html'"></div>
+            <div class="section-item-list">
+                <div class="list-item-opt container-fluid">
+                    <div class="zy">
+                        <img style="position: absolute; left: 43px; top: 20px;" src="/theme/default/images/zy.svg">
+                        <img style="position: absolute; left: 162px; top: 20px;" src="/theme/default/images/zy.svg">
+                        <img style="position: absolute; left: 173px; top: 65px;" src="/theme/default/images/gd.svg" alt="">
+                        <img style="position: absolute; left: 43px; top: 65px;" src="/theme/default/images/wg.svg" alt="">
+                        <button type="button"
+                                class="btn btn-primary"
+                                title="摘要提取"
+                                ng-click="createMaterialWithAbstract();">摘要提取</button>
+                        <button type="button" class="btn btn-primary gd news-abstract" ng-click="abstractShow()" title="摘要提取2.0">摘要提取2.0</button>
+                        <button type="button" class="btn btn-primary btn-wg pull-left" onclick="$('#wordFile').val('').click();" title="导入文稿">导入文稿</button>
+                        <button  type="button" class="btn btn-primary btn-wg gd pull-left " ng-click="creatViewpoint()" title="观点提炼">观点提炼</button>
+                        <span class="beta" style="position: absolute; left: 258px; top: 7px;">beta</span>
+                        <span class="beta" style="position: absolute; left: 258px; top: 52px;">beta</span>
+                        <input type="file" class="bjj-hidden" id="wordFile" name="file" value="" />
+                        <button class="bjj-hidden" id="wordBtn" ng-click="getFavoriteNewsListData();"></button>
+                        <div class="abstract-type-list">
+                            <ul class="list-unstyled">
+                                <li class="bjj-checkbox {{ abstractLong ? 'active' : '' }}" ng-click="getAbstract(10)">
+                                    <i class="fa fa-square-o fa-lg" aria-hidden="true"></i>长摘要
+                                </li>
+                                <li class="bjj-checkbox {{ abstractMiddle? 'active' : '' }}" ng-click="getAbstract(5)">
+                                    <i class="fa fa-square-o fa-lg" aria-hidden="true"></i>中摘要
+                                </li>
+                                <li class="bjj-checkbox {{ abstractShort ? 'active' : '' }}" ng-click="getAbstract(3)">
+                                    <i class="fa fa-square-o fa-lg" aria-hidden="true"></i>短摘要
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="directories">
+                    <div class="directory-cont" ng-repeat="directoryItem in directoryList">
+                        <ul class="directory-ul">
+                            <li ng-right-click class="directory" ng-repeat="group in directoryItem" ng-if="group.groupType != -1">
+                                <div class="directory1"
+                                        ng-class="{
+                                        'normal-group': {{group.groupType == 0}},
+                                        'import-group': {{group.groupType == 1}},
+                                        'share-group'  : {{group.groupType == 2}}
+                                        }"
+                                        data-group-name="{{group.groupName}}"
+                                        data-group-id="{{group.id}}"
+                                        ng-click="directoryClick($event, $index, group, true)">
+                                </div>
+                                <input size="9" contenteditable="true"
+                                       class="itemSpan form-control groupName-{{group.id}}"
+                                       aria-describedby="basic-addon1"
+                                       data-group-id="{{group.id}}"
+                                       autofocus="autofocus"
+                                       type="text"
+                                       ng-blur="blurInput(group)"
+                                       ng-model="group.groupName"
+                                       ng-if="group.isShowInput"
+                                >
+                                <span class="itemSpan bjj-ellipsis-2" ng-if="!group.isShowInput">{{group.groupName}}</span>
+                                <div class="right-view">
+                                    <ul class="right-click-box nav nav-pills {{group.groupType == 1 || group.groupType == 2? 'bjj-hide' : ''}}">
+                                        <li role="presentation" data-group-id="{{group.id}}" ng-click="renameDirectoryClick($event, group)" class="bindClick {{group.groupType == 1? 'disabled' : ''}}">
+                                            <a href="javascript:">重命名</a></li>
+                                        <li role="presentation" data-group-id="{{group.id}}" ng-click="deleteDirectory($event, group)" class="bindClick {{group.groupType == 1? 'disabled' : ''}}">
+                                            <a href="javascript:;">删除</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li class="directory" ng-repeat="group in directoryItem" ng-if="group.groupType == -1">
+                                <div class="directory3" ng-click="compileAddDirectory()">
+                                <i class="fa fa-plus" aria-hidden="true"></i>
+                                </div>
+                                <span class="fixed">添加分组</span>
+                            </li>
+                        </ul>
+                        <div ng-if="group.groupType!=2" id="favoriteNewsListCont{{group.id}}"
+                             class="directoryItem directoryItem-{{group.id}}"
+                             ng-show="group.groupContShow"
+                             ng-repeat="group in directoryItem"
+                        >
+                            <div class="section-item"
+                                 data-id="{{item._id}}"
+                                 data-list-type="favoriteNews"
+                                 data-operation-type="{{item.operationType}}"
+                                 ng-repeat="item in groupPageInfoMap[group.id].dataList | filter: {title: searchTitle}"
+                            >
+                                <div class="bjj-hidden favoriteNews-cont-{{item._id}}"
+                                     data-news-keyword="{{item.news.keywords.join(' ') || ''}}"
+                                     data-news-imgs="{{item.news.imgUrls}}"
+                                     data-news-classification="{{item.news.classification.join(' ') || ''}}">
+                                </div>
+                                <div class="list-item container-fluid">
+                                    <div ng-if="item.operationType == 3" class="pull-left bjj-checkbox {{item.active ? 'active' : ''}} favoriteNews-checkbox-{{item._id}}" ng-click="toggleSelectedNews(group.id, item._id);">
+                                        <i class="fa fa-square-o fa-lg" aria-hidden="true"></i>
+                                    </div>
+                                    <div ng-if="item.operationType != 3" class="pull-left">&nbsp;</div>
+                                    <div class="list-item-heading bjj-ellipsis pull-left" data-toggle="modal" ng-click="previewDetail(group.groupType, item._id)">
+                                        {{item.news.title}}
+                                        <div class="help-block small">
+                                            <span class="pull-left">{{item.news.siteName}}</span>
+                                            <span class="pull-right">{{item.news.captureTime | date: 'MM/dd HH:mm'}}</span>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="icon-close" ng-click="delFavoriteNews(group.id, item._id);"><i class="fa fa-times"></i></div>
+                            </div>
+                            <div class="empty-list" ng-if="groupPageInfoMap[group.id].dataListEmptyView">列表为空</div>
+                        </div>
+                        <div ng-if="group.groupType==2" id="favoriteNewsListCont{{group.id}}"
+                             class="directoryItem directoryItem-{{group.id}}"
+                             ng-show="group.groupContShow"
+                             ng-repeat="group in directoryItem"
+                        >
+                            <div class="section-item"
+                                 data-id="{{item._id}}"
+                                 data-list-type="favoriteNews"
+                                 data-operation-type="{{item.operationType}}"
+                                 ng-repeat="item in groupPageInfoMap[group.id].dataList | filter: {title: searchTitle}"
+                            >
+                                <div class="bjj-hidden favoriteNews-cont-{{item._id}}"
+                                     data-news-keyword="{{item.news.keywords.join(' ') || ''}}"
+                                     data-news-imgs="{{item.news.imgUrls}}"
+                                     data-news-classification="{{item.news.classification.join(' ') || ''}}">
+                                </div>
+                                <div class="list-item container-fluid">
+                                    <div ng-if="item.operationType == 5 || item.operationType == 1" class="pull-left bjj-checkbox {{item.active ? 'active' : ''}} favoriteNews-checkbox-{{item._id}}" ng-click="toggleSelectedNews(group.id, item._id);">
+                                        <i class="fa fa-square-o fa-lg" aria-hidden="true"></i>
+                                    </div>
+                                    <div ng-if="item.operationType != 5&& item.operationType != 1" class="pull-left">&nbsp;</div>
+                                    <div class="list-item-heading bjj-ellipsis pull-left" data-toggle="modal" ng-click="previewDetail(group.groupType, item._id)">
+                                        {{item.news.title}}
+                                        <div class="help-block small">
+                                            <span ng-if="item.shareResult==null" class="pull-left bjj-ellipsis">{{item.realName || item.userName}}<span class="push">的推送</span></span>
+                                            <span ng-if="item.shareResult!=null" class="pull-left">
+                                                 <span class="channelUsername bjj-ellipsis">{{item.realName || item.userName}}</span>
+                                                     <span class="sync-material">同步到</span>
+                                                     <span ng-repeat="x in item.shareResult" ng-if="x.isshow" class="share-logos" ng-class="{
+                                                    'share-weibo-logo'   : {{x.channelType == 1}},
+                                                    'share-wechat-logo'  : {{x.channelType == 2}},
+                                                    'share-toutiao-logo' : {{x.channelType == 3}},
+                                                    'share-qqom-logo'    : {{x.channelType == 4}}
+                                                    }">
+                                                     </span>
+                                            </span>
+                                            <span class="pull-right">{{item.createTime | date: 'MM/dd HH:mm'}}</span>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div ng-if="group.groupType!=2" class="icon-close" ng-click="delFavoriteNews(group.id, item._id);"><i class="fa fa-times"></i></div>
+                            </div>
+                            <div class="empty-list" ng-if="groupPageInfoMap[group.id].dataListEmptyView">列表为空</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="search-opt">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="请输入标题关键字" ng-model="searchTitle" maxlength="20">
+                    <span class="input-group-btn"><button class="btn btn-default" type="button"><i class="fa fa-search"></i></button></span>
+                </div>
+            </div>
+        </div>
+        <div class="list" id="echartListCont">
+            <div class="form-group"></div>
+            <div class="form-group container-fluid">
+                <label for="reportName">事件名称</label>
+                <input type="text" class="form-control" id="reportName" placeholder="请输入事件名称" value="{{report.name}}" ng-model="report.name" maxlength="50">
+            </div>
+            <div class="form-group container-fluid">
+                <label for="reportKeywords">关键词</label>
+                <input type="text" class="form-control" id="reportKeywords" placeholder="请输入关键词" value="{{report.keywords}}" ng-model="report.keywords">
+            </div>
+            <div class="form-group container-fluid">
+                <label>时间范围</label>
+                <select class="form-control" ng-model="report.timeRange">
+                    <option value="7">7天</option>
+                    <option value="15">15天</option>
+                    <option value="30">30天</option>
+                </select>
+            </div>
+            <div class="container-fluid help-block">今日剩余生成次数：<span class="report-create-count">{{5 - reportCreateCount || 0}}</span></div>
+            <div class="container-fluid help-block" ng-show="reportCreateBtn">
+                <button type="button" class="btn btn-primary btn-block" ng-click="createReport();">生成</button>
+            </div>
+            <div class="container-fluid help-block" ng-show="reportProgressBar">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="{{progress.value || 0}}" aria-valuemin="0" aria-valuemax="100" style="width: {{progress.value || 0}}%;">
+                        <span class="sr-only3">{{progress.value || 0}}%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid help-block" ng-show="reportResultMsg">{{progress.message}}</div>
+            <div class="section-item form-group container-fluid" data-list-type="echart" data-id="{{item}}" ng-repeat="item in echartsTypeList">
+                <label>{{echartsNameList[$index]}}</label>
+                <div id="{{item}}" class="list-item echarts-container echart-cont-{{item}}"></div>
+            </div>
+            <div id="{{item}}-hide" class="echarts-container-hide" ng-repeat="item in echartsTypeList"></div>
+        </div>
+        <div class="list" id="styleListCont">
+            <div class="list-item-opt container-fluid text-center">
+                <button type="button" class="btn btn-default" onclick="$('#styleFile').val('').click();">导入样式</button>
+                <input type="text" class="bjj-hidden" id="styleContent" ng-model="style.content"/>
+                <input type="file" class="bjj-hidden" id="styleFile" name="file" value="" />
+                <button class="bjj-hidden" id="styleBtn" ng-click="addStyle();"></button>
+            </div>
+            <div class="section-item section-style" data-id="{{item.id}}" data-list-type="style" ng-repeat="item in styleList">
+                <div class="list-item style-container container-fluid style-cont-{{item.id}} text-center" ng-bind-html="item.content"></div>
+                <div class="icon-close" ng-click="delStyle();" ng-if="item.userId != 0"><i class="fa fa-times"></i></div>
+            </div>
+        </div>
+        <div class="list">
+            <div class="section-list-sucai-view">
+                <div class="list-item-opt container-fluid text-center">
+                    <ul class="list-unstyled upload-btn">
+                        <li class="active" ng-click="uploadType(1)">图片</li>
+                        <li ng-click="uploadType(2)">视频</li>
+                    </ul>
+                    <div class="local-upload" ng-show="localUploadImg">
+                        <button type="button" class="btn btn-primary" onclick="$('#imgLibFile').val('').click();">上传图片</button>
+                        <input type="text" class="bjj-hidden" id="imgLibContent" ng-model="imgLib.content"/>
+                        <input type="file" class="bjj-hidden" id="imgLibFile" name="file" value="" />
+                        <button class="bjj-hidden" id="imgLibBtn" ng-click="addImgLib();"></button>
+                    </div>
+                    <div id="container-img-file" class="container-file list-item-opt" ng-show="aliyunUploadImg">
+                        <button type="button" class="btn btn-primary" id="img-files">上传素材</button>
+                    </div>
+                    <div id="container-sp-file" class="container-file list-item-opt" ng-show="aliyunUploadSp">
+                        <button type="button" class="btn btn-primary" id="shipin-files">上传素材</button>
+                    </div>
+                </div>
+                <div class="no-img empty-page" ng-if="imgLibList.length == 0 && (localUploadImg || aliyunUploadImg) && typeUpload=='img'">
+                    <img src="/theme/default/images/img-null.svg">
+                    <div>请上传图片素材</div>
+                </div>
+                <div class="no-shipin empty-page" ng-if="shipinList.length == 0 && !UploadNull && typeUpload=='video'">
+                    <img src="/theme/default/images/sp-null.svg">
+                    <div>请上传视频素材</div>
+                </div>
+                <div class="no-shipin-power empty-page" ng-if="UploadNull">
+                    <img src="/theme/default/images/sp-null.svg">
+                    <div>权限不足，视频相关功能请联系</div>
+                    <div>销售或客服，客服电话：010-83051272</div>
+                </div>
+                <div class="section-item-shipin-list" ng-if="aliyunUploadSp">
+                    <div class="section-item section-sucai pull-left" id="videoListCont{{item.id}}"  ng-repeat="item in shipinList">
+                        <div class="list-item container-fluid text-center pull-left">
+                            <video ng-src="{{item.videoPreviewUrl}}" ng-if="item.videoPreviewUrl != ''" type='video/*' controls='controls' ng-click="previewVideo()"></video>
+                            <span ng-if="item.videoPreviewUrl == ''">{{uploadStatus}}</span>
+                            <span ng-if="item.videoStateText == '转码中...' || item.videoStateText == '转码失败'" ng-class="{true : 'video-fail', false : ''}[item.videoStateText == '转码失败']">{{item.videoStateText}}</span>
+                            <span ng-if="item.videoState == 4" class="retry-decode" ng-click="retryDecode()">重试</span>
+                            <div ng-if="item.videoState == 4 || item.videoState == 2" class="video-status"></div>
+                        </div>
+                        <div class="add-video" ng-class="{true : 'add-video-left', false : ''}[$index%2 == 0]" ng-click="addVideo()"><i class="fa fa-plus"></i></div>
+                        <div class="icon-close" ng-click="delMaterialLib();"><i class="fa fa-trash-o"></i></div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="section-item-tupian-list"  ng-if="localUploadImg || aliyunUploadImg">
+                    <div class="section-item section-sucai pull-left" ng-repeat="item in imgLibList">
+                        <div class="list-item img container-fluid text-center" id="sucai-list-img-viewer-{{item.id}}"><img ng-src="{{item.imgUrl}}" /></div>
+                        <div class="icon-close" ng-click="delMaterialLib();" ng-if="item.userId != 0"><i class="fa fa-trash-o"></i></div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h5 class="modal-title" id="myModalLabel">
+                        <b>新闻预览</b>
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="page-header">
+                            <h3 class="">{{previewDetailList.news.title}}<small><a href={{previewDetailList.news.url}} class="oldContent" target="_blank">原文链接</a></small></h3>
+                        </div>
+                        <p class="clearfix">
+                            <span>发布时间: <i>{{previewDetailList.news.firstPublishTime ? previewDetailList.news.firstPublishTime : previewDetailList.news.publishTime | date:"yyyy年MM月dd日 HH:mm"}}</i></span>
+                            <span>来源网站: <i>{{previewDetailList.news.firstPublishSiteName ? previewDetailList.news.firstPublishSiteName : previewDetailList.news.siteName}}</i></span>
+                            <span>转载数: <i>{{previewDetailList.news.reprintCount}}</i></span>
+                            <span>作者: <i>{{previewDetailList.news.author || previewDetailList.news.siteName}}</i></span>
+                        </p>
+                        <p class="clearfix">
+                            <span>采集时间: <i>{{previewDetailList.news.captureTime | date:"yyyy年MM月dd日 HH:mm"}}</i></span>
+                            <span>采集网站: <i>{{previewDetailList.news.siteName}}</i></span>
+                            <i class="fa fa-tags" aria-hidden="true"></i><b>{{previewDetailList.news.keywords.join(" / ")}}</b>
+                        </p>
+                        <div class="clearfix"></div>
+                        <div class="preview-line"></div>
+                        <div class="preview-content">
+                            <p ng-bind-html="previewDetailList.news.content"></p>
+                            <p ng-repeat="i in previewDetailList.news.imgUrls track by $index" ng-if="!i.news.isHtmlContent"><img src={{i}}></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 视频模态框（Modal） -->
+    <div class="modal fade" id="videoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <video ng-src="{{previewVideoUrl}}" type='video/mp4' autoplay='autoplay'  controls='controls'></video>
+        </div>
+    </div>
+</div>
+<script>
+    $("#styleFile").AjaxFileUpload({
+        action      : "/api/upload/img?type=style",
+        onComplete  : function(filename, response) {
+            if(response.status == 200){
+                setTimeout(function () {
+                    $('#styleContent').val(response.msg).change();
+                    $('#styleBtn').click();
+                }, 0);
+            }else {
+                bjj.dialog.alert('danger', response.msg);
+            }
+        }
+    });
+    $("#imgLibFile").AjaxFileUpload({
+        action      : "/api/upload/img?type=sucai",
+        onComplete  : function(filename, response) {
+            if(response.status == 200){
+                setTimeout(function () {
+                    $('#imgLibContent').val(response.msg).change();
+                    $('#imgLibBtn').click();
+                }, 0);
+            }else {
+                bjj.dialog.alert('danger', response.msg);
+            }
+        }
+    });
+    $("#wordFile").AjaxFileUpload({
+        action      : "/api/compile/material/import",
+        onComplete  : function(filename, res) {
+            console.log(res);
+            if(res.status == 200){
+                bjj.dialog.alert('success', res.msg, {
+                    callback: function () {
+                        $('#wordBtn').click();
+                    }
+                });
+            } else if(res.status == 401) {
+                goto('/');
+            } else if(res.status == 423) {
+                var _dialog = $('.yc-dialog-info');
+                if(_dialog.length <= 0) {
+                    bjj.dialog.info(res.msg, function () {
+                        goto('/');
+                    });
+                }
+            } else {
+                bjj.dialog.alert('danger', res.msg);
+            }
+        }
+    });
+</script>

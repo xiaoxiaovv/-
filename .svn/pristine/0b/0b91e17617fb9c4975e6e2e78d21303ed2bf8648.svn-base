@@ -1,0 +1,56 @@
+.analysis-site { padding-right: 15px; }
+.analysis-site i { font-size: 16px; color: #2494f2; }
+.analysis-body { margin: 0px 15px 0 15px; position: relative; }
+.analysis-body .table { width: calc(100% - 20px); border: 1px solid #ddd; margin: 20px 10px 0 10px; }
+.analysis-body .table thead { background: #f5f5f5; }
+.analysis-body .analysis-week-all .bs-example table tbody tr:hover { background-color: #eaeaea; }
+.analysis-body .analysis-week-all .bs-example table tbody tr td.order { width: 75px; }
+.analysis-body .analysis-week-all .bs-example table tbody tr td.index { width: 90px; }
+.analysis-body .analysis-week-all .bs-example table tbody tr td.line-1 { color: #eb2336; }
+.analysis-body .analysis-week-all .bs-example table tbody tr td.line-2 { color: #fda71f; }
+.analysis-body .analysis-week-all .bs-example table tbody tr td.line-3 { color: #00cc99; }
+.analysis-body .analysis-week-all .bs-example table tbody tr td span.image{ display: inline-block; width: 18px; height: 18px; margin:0 -30px 0 20px; background-image: url(/theme/default/images/channel-logo.png); background-repeat: no-repeat; background-size: cover; }
+.analysis-body .analysis-week-all .bs-example table tbody tr td span.site-image { background-position: 0 -100px; }
+.analysis-body .analysis-week-all .bs-example table tbody tr td span.weibo-image { background-position: 0 3px; }
+.analysis-body .analysis-week-all .bs-example table tbody tr td span.wechart-image { background-position: 0 -53px;}
+.analysis-body .table-striped>tbody>tr:nth-of-type(even) { background-color: #fcfcfd; }
+.analysis-body .table-striped>tbody>tr:nth-of-type(odd) { background-color: #fff; }
+.analysis-body .table-striped .latestNewName { width: 7%; }
+.analysis-body .table-striped .latestNewTitle { width: 80%; }
+.analysis-body .table-striped .latestNewTime { width: 10%; text-align: center; }
+.analysis-body .table thead tr { height: 40px; }
+.analysis-body .table thead tr td { color: #999; line-height: 29px; }
+.analysis-body .table thead tr td .fa-question-circle { margin-left: 5px; color: #999; position: relative; }
+.analysis-body .table tbody { background: #fff;}
+.analysis-body .table tbody tr { height: 40px; }
+.analysis-body .table tbody tr td { color: #333;  line-height: 38px; }
+.analysis-body .table tbody tr .analysis-num { width: 40px; color: #999; text-align: center; }
+.analysis-body .table tfoot tr td.total { text-align: right; }
+.bjj-every-title { height: 50px; line-height: 50px; border-bottom: 1px solid #ededed; }
+.bjj-every-title .sign { float: left; width: 2px; height: 16px; margin: 18px 10px 0 0; background: #2494f2; }
+.analysis-week-all{ width: 100%; padding: 0 20px 20px 20px; margin: 15px 0; background: #fff; }
+.analysis-siteName { width: 40%; }
+.analysis-body .loading { width: 100%; height: 250px; }
+/*一周稿件排行*/
+.analysis-week-all .table tbody tr td.analysis-date { text-align: left; color: #999; }
+.analysis-week-all .table thead tr td.analysis-title { width: 51%; }
+.ellipsis span { width: 90%; height: 35px; display: block; overflow: hidden;}
+/**/
+#analysis-press { height: 410px; margin-top: 15px; }
+#analysis-word { height: 370px; margin-top: 15px; }
+
+/*渠道设置*/
+.modal-body .form-group { margin-left: 20px; margin-bottom: 20px; }
+.modal-body .form-group label { font-weight: 400; }
+.modal-body .form-group.analysis input { width: 83%; }
+.analysis-tip { color: red; margin-top: 10px; margin-left: 15px; margin-bottom: 25px; }
+.analysis-modal-every { margin-bottom: 20px; margin-left: 20px; position: relative; }
+.analysis-modal-every select { width: 16%; }
+.analysis-modal-every input { width: 65%; margin-left: 10px;}
+.analysis-modal-every input.modal-website { margin-left: calc(14% + 21px); margin-top: 10px; }
+.analysis-modal-every .modal-delete { margin-left: 10px; cursor: pointer; position: absolute; bottom: 7px; color: #666; font-size: 12px; }
+.analysis-modal-every .modal-add { cursor: pointer; position: absolute; bottom: 7px; right: 10px; color: #2494f2; font-size: 12px; }
+
+.bs-example .explain { width: 240px; height: auto; background: #fdf8e4; border: 1px solid #f9ebd0; margin-top: 15px; padding: 10px; font-size: 14px; font-family: "Microsoft YaHei"; color: #947755; border-radius: 4px; position: absolute; right: -115px; line-height: 20px; }
+.bs-example .explain:after { content: ' '; width: 20px; height: 20px; border: 1px solid #f9ebd0; position: absolute; top: -10px; right: 110px; transform: rotate(45deg); display: inline-block; border-right-width: 0; border-bottom-width: 0; background: #fdf8e4;}
+

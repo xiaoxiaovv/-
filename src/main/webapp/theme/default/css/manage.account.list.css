@@ -1,0 +1,70 @@
+.container-list { height: calc( 100% - 70px); margin-top: 10px; }
+.container-list .account-info { height: 140px; background: #fff; padding: 20px; }
+.container-list .account-info .account-title { font-size: 16px; color: #333; margin-bottom: 15px; }
+.container-list .account-info .account-title span { color: #999; font-size: 14px; }
+.container-list .account-info .account-detail p span { display: inline-block; width: 150px; color:#999; }
+.container-list .account-body {  min-height: calc( 100% - 165px); background: #fff; padding: 15px; margin-top: 15px; margin-bottom: 15px; }
+.container-list .account-body .input-group .form-control { float: right; }
+.container-list .account-body ul.operationBtn { height: 35px; position: relative; }
+.container-list .account-body ul.operationBtn.moveBtn { background: #f5f5f5; color: #999; }
+.container-list .account-body ul.operationBtn li.operationBtn { width: 95px; height: 35px; line-height: 35px; border-radius: 4px; padding: 0 15px; border:1px solid #dddddd; margin-right: 10px; cursor: pointer; text-align: center; }
+.container-list .account-body ul.operationBtn li.moveBtn { background: #f5f5f5; color: #999; cursor: inherit; }
+.container-list .account-body ul.operationBtn li.operationBtn:hover { background: #f5f5f5; }
+.container-list .account-body ul .form-control { width: 20%; }
+.container-list .account-body ul .input-group-btn { margin-left: -4px; margin-right: 23px; }
+.container-list .account-body .setTeamBox { width: 185px; border: 1px solid #ddd; background: #fff; }
+.container-list .account-body .setTeamBox .setTeam li {  width: 100%; height: 35px; line-height: 35px; font-size: 14px; border-bottom: 0; margin: 0; padding: 0 15px; color: #333;}
+.container-list .account-body .setTeamBox .setTeam li:hover { background: #E6EDF6; color: #a8c7fe; cursor: pointer; }
+.container-list .account-body .member-list { color: #333; }
+.container-list .account-body .member-list .box-condensed { border: 1px solid #ededed; }
+.container-list .account-body .member-list .box-condensed ol li{ color: #999; font-size: 12px; height: 40px; float: left; line-height: 40px; }
+.container-list .account-body .member-list .box-condensed ol li.seize { width: 36px; }
+.container-list .account-body .member-list .box-condensed ol li.account { width: 30%; padding-left: 15px; }
+.container-list .account-body .member-list .box-condensed ol li.phone { width: 15%; }
+.container-list .account-body .member-list .box-condensed ol li.name { width: 15%; }
+.container-list .account-body .member-list .box-condensed ol li.really { width: 50px; }
+.container-list .account-body .member-list .box-condensed ol li.edit { width: 260px; padding-left: 145px; }
+.container-list .account-body .member-list .everyGroup .toggleGroup { float: right; width: 40px; height: 40px; text-align: center; border-left: 1px solid #ededed; cursor: pointer; }
+.container-list .account-body .member-list .everyGroup .toggleGroup:hover { background: #ededed;}
+.container-list .account-body .member-list .groupMember .toggleGroup { border-left: none; }
+.container-list .account-body .member-list .groupMember .channels { width: 360px; display: none; background: #fff; box-shadow: 0 6px 12px rgba(0,0,0,.175); max-height: 190px; overflow-y: auto; padding-left: 20px; margin-left: -50px; position: absolute; right: 20%; z-index: 10; }
+.container-list .account-body .member-list .groupMember .channels span { float: left; width: 30px; height: 30px; background-image: url(/theme/default/images/channel-logo.png); background-repeat: no-repeat; background-size: cover; margin: 10px 10px 10px 0;}
+.container-list .account-body .member-list .groupMember .channels span.icon2 { background-position: 0 -95px; }
+.container-list .account-body .member-list .groupMember .channels span.icon3 { background-position: 0 -45px; }
+.container-list .account-body .member-list .groupMember .channels span.icon1 { background-position: 0 5px; }
+.container-list .account-body .member-list .groupMember .channels span.icon4 { background-position: 0 -135px; }
+.container-list .account-body .member-list .groupMember .channels b { font-weight: normal; float: left; margin-left: 10px; display: inline-block; line-height: 20px; margin-top: 14px; }
+.container-list .account-body .member-list .groupMember .channels .channelsBox { clear: both; min-height: 40px; margin-top: 15px; }
+.container-list .account-body .member-list .toggleGroup b { cursor: pointer; }
+.container-list .account-body .member-list ul { border: 1px solid #ededed; border-bottom: none; border-top: none; margin-bottom: 0px; }
+.container-list .account-body .member-list ul li { height: 50px; line-height: 50px; border-bottom: 1px solid #ededed;}
+.container-list .account-body .member-list .groupMember li { padding-left: 23px;  font-size: 12px; position: relative; }
+.container-list .account-body .member-list ul .groupMember .deleteTeam,.container-list .account-body .member-list ul .groupMember .editTeam { color: #999; margin-right: 24px; cursor: pointer; }
+.container-list .account-body .member-list ul .groupMember .moveTeam { color: #999; cursor: pointer; }
+.container-list .account-body .member-list ul .groupMember .isManager .moveTeam { margin-left: 107px; }
+.container-list .account-body .member-list ul .everyGroup .deleteTeam,.container-list .account-body .member-list ul .everyGroup .editTeam { color: #999; margin-right: 24px; cursor: pointer; }
+.container-list .account-body .member-list ul .moveTeam:hover { color: #2494f2;}
+.container-list .account-body .member-list ul .deleteTeam:hover { color: #2494f2;}
+.container-list .account-body .member-list ul .editTeam:hover { color: #2494f2;}
+.container-list .account-body .member-list ul .everyGroup .deleteTeam { margin-right: -20px; }
+.container-list .account-body .member-list ul .inputTeamName { width: 70px; height: 20px; margin-left: 15px; float: left; margin-top: 10px;}
+.container-list .account-body .member-list ul .deleteTeam.deleteUser { margin-right: 19px; }
+.container-list .account-body .member-list ul li.everyGroup { height: 40px; line-height: 40px; background: #f9f9f9; }
+.container-list .account-body .member-list ul li.everyGroup .line { float:left; width: 3px; height: 40px; background: #777788; margin-right: 20px; }
+.container-list .account-body .member-list ul .everyGroup .editMember { width: 164px; min-width: 164px; }
+.container-list .account-body .member-list ul .groupMember li .editMember { width: 164px; text-align: left; font-size: 14px; height: 50px; }
+.container-list .account-body .member-list ul li .editMember.team0 { width: 164px; min-width: 164px; }
+.container-list .account-body .member-list ul li .editMember.team0 .editTeam{ margin-right: 25px; }
+.container-list .account-body .member-list ul li .editMember.team0 .deleteTeam { margin-right: 50px; }
+.container-list .account-body .member-list ul li .account-people { display: inline-block; width: 30%; }
+.container-list .account-body .member-list ul li .account-people .spanTeamName { margin-left: 15px; }
+.container-list .account-body .member-list ul li .account-people b { font-weight: normal; margin-right: 12px; margin-left: 15px; }
+.container-list .account-body .member-list ul li .ismanager { display: inline-block; padding:0 2px; height: 14px; background: #ff9900; position: absolute; top: 19px; font-size: 12px; font-weight: 400; }
+.container-list .account-body .member-list ul li .account-phone { display: inline-block; width: 15%; }
+.container-list .account-body .member-list ul li .account-name { display: inline-block; width: 15%; text-align: left; }
+.container-list .account-body .member-list ul li .account-name b { font-weight: normal; width: 135px; height: 31px; }
+.container-list .account-body .member-list ul li .account-really { display: inline-block; text-align: left; cursor: pointer; }
+.container-list .account-body .member-list ul li .account-edit { display: inline-block; width: 15%; }
+.table-striped>tbody>tr:nth-of-type(odd) { background: #fff; }
+#modifyTeamModal .modal-body { height: 120px; }
+.modal-body .promptlength { display: inline-block; color: red; margin-top: 10px; }

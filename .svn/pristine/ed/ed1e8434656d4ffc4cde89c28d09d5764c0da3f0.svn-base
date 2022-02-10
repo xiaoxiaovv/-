@@ -1,0 +1,26 @@
+<div class="bjj-cont-sidebar capture-subject-nav">
+    <div class="loading captureSubjectLoading" ng-if="captureSubjectLoading" ng-include="'/inc/loading.html'"></div>
+    <div class="nav bjj-nav">
+        <span>全网监控</span>
+        <b><a href="javascript:;" ng-click="goAccountSubject();"><i ng-if="subjectList.length > 0" class="fa fa-cog" aria-hidden="true"></i></a></b>
+    </div>
+    <div class="clearfix"></div>
+    <div ng-if="subjectList.length > 0" class="subject-list">
+        <ul class="nav-list">
+            <li ng-repeat="subject in subjectList" role="presentation">
+                <a class="bjj-ellipsis" href="javaScript:;" ng-click="subjectClick(subject.subjectId,subject.subjectName)">{{subject.subjectName}}</a>
+                <span class="badge pull-right">{{(subject.count > 9999 ? '1w+' : subject.count) || ''}}</span>
+            </li>
+        </ul>
+    </div>
+    <div ng-if="subjectList.length <= 0" class="empty-subject-list">
+        <button ui-sref="accountSubject.modify" type="button" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> 新建主题</button>
+    </div>
+</div>
+<div class="bjj-cont-page" data-ui-view="">
+    <div ng-if="subjectList.length <= 0" class="help-null">
+        <i class="fa fa-3x fa-exclamation-circle" aria-hidden="true"></i>
+        <div>暂无监控主题</div>
+    </div>
+</div>
+<div class="clearfix"></div>

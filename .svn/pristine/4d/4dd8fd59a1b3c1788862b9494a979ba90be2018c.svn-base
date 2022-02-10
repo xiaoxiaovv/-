@@ -1,0 +1,21 @@
+#账号类别 试用、正式
+userType=试用
+#用户名
+userName=zcc27
+#手机号
+phoneNumber=12345678917
+#密码
+password=pw
+#账号有效期 ？天
+expDate=2017-08-31
+#所属媒体全称
+company=testcom2
+#用户真实姓名
+realName=张小花27
+#用户所在地区
+userArea=北京
+#职务 1\2\3
+duty=1
+#设置默认站点数目 10
+maxMediaSiteCount=10
+maxWechatSiteCount=10

@@ -1,0 +1,28 @@
+.evaluate-body-managemente { padding: 0px 40px 80px 40px; min-height: 100%; background: #fff; }
+.evaluate-body-managemente .management-header { height: 120px; line-height: 120px; }
+.evaluate-body-managemente .management-header p { font-size: 21px; }
+.evaluate-management select { width: 120px; margin: 44px 10px 0 10px; border: 1px solid #eceff8; }
+.evaluate-management button.create-evaluate { width: 110px; text-align: center; margin: 44px 0 0 10px; }
+.evaluate-management div.input-group { width: 258px;  float: right; margin-top: 44px; }
+.evaluate-management input.form-control { width: 220px; border: 1px solid #eceff8; }
+.evaluate-management .input-group-btn button { border-color: #eceff8; }
+.evaluate-body-managemente .evaluate-management-box .table { border: 1px solid #eceff8; }
+.evaluate-body-managemente .evaluate-management-box .table .pagination li { margin-right: 10px; }
+.evaluate-body-managemente .evaluate-management-box .table thead tr,.evaluate-body-managemente .evaluate-management-box .table tbody tr { width: 100%; height: 49px; }
+.evaluate-body-managemente .evaluate-management-box .table thead tr td.operation,.evaluate-body-managemente .evaluate-management-box .table tbody tr td.operation { padding-right: 15px; }
+.evaluate-body-managemente .evaluate-management-box .table tbody tr td.operate span{ display: inline-block; margin-left: 10px; color: #2494f2; cursor: pointer; }
+.evaluate-body-managemente .evaluate-management-box .table tbody tr td.operate span:hover { color: #2494f2;}
+.evaluate-body-managemente .evaluate-management-box .table tbody tr td.operate span.no-delete { color: #ddd; }
+.evaluate-body-managemente .evaluate-management-box .table thead tr,.evaluate-body-managemente .evaluate-management-box .table tbody tr { width: 100%; height: 49px; }
+.evaluate-body-managemente .evaluate-management-box .table thead tr td,.evaluate-body-managemente .evaluate-management-box .table tbody tr td { line-height: 38px; text-align: right; border-bottom: 1px solid #eceff8}
+.evaluate-body-managemente .evaluate-management-box .table thead tr td.index,.evaluate-body-managemente .evaluate-management-box .table tbody tr td.index { text-align: center; }
+.evaluate-body-managemente .evaluate-management-box .table thead tr td.title,.evaluate-body-managemente .evaluate-management-box .table tbody tr td.title { text-align: left;}
+.evaluate-body-managemente .evaluate-management-box .table tbody tr td.title { position: relative; }
+.evaluate-body-managemente .evaluate-management-box .table tbody tr td.title span { display: inline-block; background: #2494f2; line-height: 14px; margin: 10px 0 8px 8px; color:#fff; position: absolute; width: 43px; height: 17px; padding: 1px 3px; font-size: 12px; }
+.evaluate-body-managemente .evaluate-management-box .table-striped>tbody>tr:nth-of-type(odd),.evaluate-management-box .table-striped>tbody>tr:nth-of-type(odd):hover { background: #fff; }
+.evaluate-body-managemente .evaluate-management-box .table tbody tr td.be-generated { color:#999; }
+.evaluate-body-managemente .evaluate-management-box .table tbody tr td.generated { color:#00CCAF; }
+.evaluate-body-managemente .evaluate-management-box .table tbody tr td.generating { color:#FFA16E; }
+.evaluate-body-managemente .evaluate-management-box .table tbody tr td.generated-fail { color:#F86574; }
+.management-echarts-box { width: 800px; height: 300px; text-align: center; border: 1px solid red; position: absolute; right: 0; bottom: 0; z-index: -1000;}
+.evaluateListLoading { width: calc(100% - 440px); top: 0; }

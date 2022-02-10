@@ -1,0 +1,33 @@
+<div class="loading subscriptionNewsLoading" ng-if="subscriptionNewsLoading" ng-include="'/inc/loading.html'"></div>
+<div class="subscript-news-page">
+    <div class="bjj-ellipsis bjj-page-title">{{subjectName}}</div>
+    <div class="container-fluid subscription-manage-list">
+        <div ng-if="!dataListEmptyView" class="push-count">今日新闻数<span class="count">{{count}}</span>篇</div>
+        <div class="news-list-table">
+            <ul>
+                <li ng-repeat="item in dataList" class="subscription-manage-table clearfix">
+                    <div class="news-list-item">
+                        <img ng-if="item.news.imgUrls.length !=0" ng-src="{{item.news.imgUrls[0]}}" onerror="javascript:this.src='/theme/default/images/error-img.jpg';">
+                    </div>
+                    <div class="news-list bjj-ellipsis-2">
+                        <div class="subscription-news-title" ng-class="{true:'read',false:''}[item.isRead]">
+                            <a ng-click="gotoNewsDetail($event, item.newsId)" class="pull-left news-title bjj-ellipsis">{{item.news.title}}</a>
+                            <div class="pull-right push-status push-status-1 {{item.status==0? 'push-status-2': 'push-status-1'}}">{{item.status == 0? '待推送' : '已推送'}}</div>
+                        </div>
+                        <div class="subscription-news-contentAbstract bjj-ellipsis-2" ng-class="{true:'read',false:''}[item.isRead]">{{item.news.contentAbstract}} </div>
+                        <div class="lists-item">
+                            <span class="source-website item">来源网站：{{item.news.siteName}}</span>
+                            <span class="time item">采集时间：{{item.news.captureTime | date: 'yyyy-M-dd HH:mm:ss'}}</span>
+                            <span class="time item">推送时间：{{item.createTime | date:'yyyy-M-dd HH:mm:ss'}}</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div ng-show="dataListBottomFinalView" ng-include="'/inc/data_list_bottom_final_view.html'"></div>
+        </div>
+        <div ng-if="dataListEmptyView" class="bjj-list-empty subscription-empty"><i class="fa fa-3x fa-exclamation-circle" aria-hidden="true"></i><div>{{msg || "暂无相关数据"}}</div></div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<div class="capture-news-detail-page bjj-hide" ng-include="'/capture/news/detail_list_page.html'"></div>
+<back-to-top container="bjj-cont-page"></back-to-top>

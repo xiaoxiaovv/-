@@ -1,0 +1,18 @@
+<div class="loading editorSidebarRightLoading" ng-if="editorSidebarRightLoading" ng-include="'/inc/loading.html'"></div>
+<div class="detailBody">
+    <div class="form-group">
+        <div class="page-header">
+            <span class="deleteDetail" ng-click="closeDetail()"><i class="fa fa-times"></i></span>
+            <h3 class="">{{previewDetailList.news.title}}<small><a href={{previewDetailList.news.url}} class="oldContent" target="_blank">原文链接</a></small></h3>
+        </div>
+        <p class="clearfix captureInfo">
+            <span class="captureTime">采集时间: <i>{{previewDetailList.news.captureTime | date:"yyyy年MM月dd日 HH:mm"}}</i></span>
+            <span class="siteName">采集网站: <i>{{previewDetailList.news.siteName}}</i></span>
+        </p>
+        <div class="clearfix"></div>
+        <div class="preview-line"></div>
+        <div class="preview-content">
+            <p ng-bind-html="previewDetailList.news.content"></p>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,9 @@
+.bjj-account-save-view.dashborad-view { width: calc(100% - 220px); }
+.bjj-main.min-bar .bjj-account-save-view.dashborad-view { width: calc(100% - 50px); }
+
+.account-dashboard-modules span { margin: 5px 10px 5px 0; padding: 12px; width: 120px; background: #e9f4fe; position: relative; }
+.account-dashboard-modules span i.fa-plus { color: #999; }
+.account-dashboard-modules span:hover { color: #2494f2; }
+.account-dashboard-modules #account-modules span { cursor: move; cursor: -webkit-grabbing; }
+.account-dashboard-modules #account-modules span i { position: absolute; top: -7px; right: -5px; padding-left: 1px; color: #ff0000; display: none; }
+.account-dashboard-modules #account-modules span:hover i { display: block; }

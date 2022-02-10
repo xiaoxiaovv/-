@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="indexApp" ng-controller="indexCtrl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="format-detection" content="telephone=no">
+    <title ng-bind="appInfo.appName"></title>
+    <link rel="icon" ng-href="{{appInfo.icon}}">
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/default/css/ui.css?0214">
+    <link rel="stylesheet" href="/theme/default/font/SourceHanSans.css">
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        body { width: 100%; height: 100%; min-height: 600px; position: absolute; color: #fff; }
+        body::-webkit-scrollbar { width: 0; }
+        .index-bg { background-position: top center; background-repeat: no-repeat; background-size: cover; }
+        .nav-view > div { position: absolute; width: 100%; height: 50px; }
+        .nav-view > div:first-child { background: #3f4044; }
+        .nav-view-content img  { margin: 10px 0; height: 30px; }
+        .nav-view-content span  { line-height: 50px; }
+        .nav-view-content .api-entrance { margin-right: 30px; }
+        .nav-view-content .api-entrance>a { color: #fff; }
+        .login-view { position: absolute; top: -600px; left: calc(50% - 300px);
+            transition: all .8s;
+            -o-transition: all .8s;
+            -ms-transition: all .8s;
+            -moz-transition: all .8s;
+            -webkit-transition: all .8s;
+        }
+        .login-view.show { top: calc(50% - 250px); }
+        .login-view h1, .login-view h4 { line-height: 1.5; font-family: SourceHanSans; }
+        .login-view h4 { font-size: 16px; }
+        .login-view > div { position: absolute; width: 600px; height: 380px; }
+        .login-view > div:first-child { background: #666666; opacity: 0; border-radius: 4px; }
+        .login-view > div:last-child { padding: 35px; }
+        .login-view-content .form-inline { width: 405px; text-align: justify; }
+        .login-view-content .form-input { width: 200px; height: 38px; margin: 5px 0 5px 0; letter-spacing: 1px; -webkit-box-shadow: 0 0 0 100px #fff inset; }
+        .login-view-content button { width: 100%; height: 36px; margin-top: 5px; background: #2494f2; }
+        .login-view-content button:hover { background: #1f7ece; color: #fff; }
+        .login-view-content button:focus, .login-view-content button.focus
+        .login-view-content button:active, .login-view-content button.active { color: #fff; outline: none;}
+        .login-view-content .error-msg { margin-top: 20px; color: red; }
+        .login-view-content .captcha { margin: 5px 0 5px 0; width: 200px; height: 38px; padding-left: 1px; cursor: pointer; }
+        .login-view-content .captcha a { color: #fff; }
+        .other { margin: 15px 0; }
+        .other a { margin: 5px; color: #fff; }
+        .login-view-content .captcha a:hover,
+        .other a:hover { color: #2494f2; }
+        .footer { width: 100%; line-height: 1.5; position: absolute; bottom: 15px; }
+        @media (min-height: 720px) {
+            .login-view.show { top: calc(50% - 280px); }
+            .index-bg { background-size: auto; }
+        }
+        @media (min-height: 1080px) {
+            .login-view.show { top: 150px; }
+            .footer { color: #333; }
+        }
+    </style>
+    <link rel="stylesheet" ng-href="{{'/theme/' + appInfo.appKey + '/css/diy.css'}}">
+</head>
+<body class="index-bg" style="{{'background-image: url(' + appInfo.bgImage + ')'}}">
+<div class="nav-view">
+    <div class="pop"></div>
+    <div class="container-fluid nav-view-content">
+        <img ng-src="{{appInfo.logo}}" ng-title="{{appInfo.appName}}">
+        <span class="pull-right">客服电话：{{appInfo.telephone}}</span>
+        <span class="pull-right api-entrance" ng-if="appInfo.appKey == 'default'"><a href="/wiki/developer.html" target="_blank">API 对接平台</a></span>
+    </div>
+</div>
+<div class="container-fluid bjj-main">
+    <div class="center-block text-center login-view">
+        <div class="pop"></div>
+        <div class="container-fluid login-view-content">
+            <h1 ng-bind="appInfo.slogen"></h1>
+            <h4 ng-bind="appInfo.desc"></h4>
+            <div class="form-inline center-block error-msg">&nbsp;</div>
+            <form class="form-inline center-block">
+                <div class="pull-left">
+                    <label class="sr-only" for="inputUsername">Username</label>
+                    <input type="text" class="form-control form-input" id="inputUsername" placeholder="账号" autofocus autocomplete="off" ng-model="userName" ng-change="hideErrorMsg();" maxlength="20">
+                </div>
+                <div class="pull-right">
+                    <label class="sr-only" for="inputPassword">Password</label>
+                    <input type="password" class="form-control form-input" id="inputPassword" placeholder="密码" ng-model="password" ng-change="hideErrorMsg();" maxlength="20">
+                </div>
+                <div class="pull-left captcha-view bjj-hide">
+                    <label class="sr-only" for="inputCaptcha">Username</label>
+                    <input type="text" class="form-control form-input" id="inputCaptcha" placeholder="验证码" autocomplete="off" ng-model="verifyCode" ng-change="hideErrorMsg();" maxlength="4">
+                </div>
+                <div class="pull-right">
+                    <div class="captcha captcha-view bjj-hide">
+                        <img ng-src="{{captcha.img}}" ng-click="getCaptcha();"/>
+                        <a href="javascript:void(0);" ng-click="getCaptcha();">看不清?换一张</a>
+                    </div>
+                </div>
+                <button class="btn" type="submit" ng-click="login();">登录</button>
+            </form>
+            <div class="other" ng-if="appInfo.appKey == 'default'">
+                <a href="/account/apply.html">新用户注册</a>
+                <a href="/account/password_forget.html">忘记密码</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="text-center footer">
+    <p ng-bind-html="appInfo.footer"></p>
+</div>
+
+<script src="//cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="//cdn.bootcss.com/angular.js/1.6.5/angular.js"></script>
+<script src="//cdn.bootcss.com/angular-sanitize/1.6.5/angular-sanitize.min.js"></script>
+<script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="//cdn.bootcss.com/popper.js/1.10.8/umd/popper.min.js"></script>
+<script src="/lib/common.js"></script>
+<script>
+    var _hmt = _hmt || [];
+   // var setting = { expires: 1000, path: '/' };
+    var setting = {};//关闭浏览器清除登录状态
+    var app = angular.module('indexApp', ["ngSanitize"]);
+    app.controller('indexCtrl', function ($scope, $http, $sce) {
+        getLoginStatus($scope, $http, $sce);
+
+        $scope.login = function () {
+            if($scope.userName == undefined
+                || $scope.userName == 'null'
+                || $scope.userName == ''
+                || $scope.password == undefined
+                || $scope.password == 'null'
+                || $scope.password == ''
+            ) {
+                $scope.showErrorMsg('请输入用户名和密码！');
+                return false;
+            }
+            if($scope.verifyCode == undefined || $scope.verifyCode == '') {
+                $scope.showErrorMsg('请输入验证码！');
+                return false;
+            }
+            doLogin($scope, $http);
+        };
+        $scope.showErrorMsg = function (msg) {
+            $('.error-msg').text(msg)
+        };
+        $scope.hideErrorMsg = function () {
+            $('.error-msg').html('&nbsp;');
+        };
+        $scope.showCaptchaView = function () {
+            $(".captcha-view").fadeIn();
+            if($scope.appInfo.appKey == "default"){
+                $(".login-view > div").css("height", "430px");
+            }
+        };
+        $scope.getCaptcha = function () {
+            bjj.http.ng.get($scope, $http, '/api/account/captcha', {
+                w: 100, k : $scope.key, ua : navigator.userAgent
+            }, function (res) {
+                $(".login-view-content .captcha img").attr('src', res.img);
+                $scope.showCaptchaView();
+            });
+        };
+    });
+    var doLogin = function ($scope, $http) {
+        bjj.http.ng.post($scope, $http, '/api/account/login', {
+            userName    : $scope.userName,
+            password    : $scope.password,
+            key         : $scope.key,
+            verifyCode  : $scope.verifyCode
+        }, function (res) {
+            $scope.hideErrorMsg();
+            $.cookie('isPNumTips',  res.phoneNumberTips,   setting);
+            $.cookie('showTips',    true,           setting);
+            $.cookie('sid',         res.sid,        setting);
+            $.cookie('userName',    res.userName,   setting);
+            $.cookie('nickName',    res.nickName,   setting);
+            $.cookie('avatar',      res.avatar,     setting);
+            $.cookie('roleName',    res.roleName,   setting);
+            $.cookie('isSitesInited',       res.isSitesInited,      setting);
+            $.cookie('isRecommandInited',   res.isRecommandInited,  setting);
+            $.cookie('isCompileInited',     res.isCompileInited,    setting);
+            $.cookie('loginSource',     res.loginSource,    setting);
+
+            collectUserBehavior($scope, $http, 'login', 'homepage', 'login', 'login');
+
+            if(res.isPwdModified == false){
+                $.cookie('isPwdModified', false);
+                goto('/account/alter_password.html')
+            }
+            if(res.isSitesInited == false&&res.isPwdModified == true) {
+                goto('/account/init.html');
+            }
+            if(res.isSitesInited == true&&res.isPwdModified == true) {
+                goto('/main.html');
+            }
+        }, function (res) {
+            $scope.showErrorMsg(res.msg);
+            if(res.key != undefined) $scope.key = res.key;
+            $scope.getCaptcha();
+        });
+    };
+    var getAppInfo = function ($scope, $http, $sce) {
+        bjj.http.ng.get($scope, $http, '/api/app/info', {}, function (res) {
+            $scope.appInfo = res.appInfo;
+            $scope.appInfo.footer = $sce.trustAsHtml($scope.appInfo.footer);
+            $scope.key = res.appInfo.key;
+            if($scope.appInfo.appKey == 'default') {
+                initBaiduKeFu('fee60541844f8a0fe42fd03431ffb3d7')
+            }else if($scope.appInfo.appKey == 'ghms') {
+                initBaiduKeFu('20554c0f7194193f3881c153f1cb1bf1')
+            }
+            $scope.getCaptcha();
+        });
+    };
+    var collectUserBehavior = function ($scope, $http, type, module, func, action) {
+        bjj.http.ng.post($scope, $http, '/api/user/behavior', {
+            type: type, module: module, func: func, action: action
+        }, function (res) { console.log(res)});
+    };
+    var getLoginStatus = function ($scope, $http, $sce) {
+        bjj.http.ng.get($scope, $http, '/api/account/login/status', {}, function (res) {
+            goto('/main.html');
+        }, function (res) {
+            getAppInfo($scope, $http, $sce);
+            $scope.userName = $.cookie('userName');
+            $scope.verifyCode = "";
+            $scope.key = new Date().getTime();
+            $('.login-view').addClass('show');
+        });
+    };
+    var initBaiduKeFu = function(id) {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?"+id;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    };
+</script>
+</body>
+</html>

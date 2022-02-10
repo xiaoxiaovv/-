@@ -1,0 +1,62 @@
+<div ng-hide="isShowView" class="subject-Page">
+    <div id="bjj-page-title" class="bjj-page-title">
+        <span>{{subjectEditPage ? '编辑主题名称' : '新建主题'}}</span>
+        <span class="pull-right" ng-if="subjectEditPage"><a ng-click="deleteSubject()" href="">删除主题</a></span>
+    </div>
+    <div class="new-site-body">
+        <div class="subject-container">
+            <form name="subjectName">
+                <label class="site-type">监测名称</label>
+                <div class="form-group">
+                    <input ng-model="subject.subjectName" type="text" class="form-control" placeholder="在此输入主题名称" maxlength="20">
+                    <span class="navigation"><b>*</b></span>
+                </div>
+                <div class="clearfix"></div>
+                <label class="site-type">
+                    关键搜索词范围 &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="bjj-radio {{subject.keywordsScope == 1 ? 'active' : ''}}" ng-click="toggleKeywordsScope(1);"> <i></i> 正文</span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <span class="bjj-radio {{subject.keywordsScope == 2 ? 'active' : ''}}" ng-click="toggleKeywordsScope(2);"> <i></i> 标题</span>
+                </label>
+                <div class="clearfix"></div>
+
+                <label ng-show="subject.keywordsScope == 1" class="site-type">关键词 &nbsp;&nbsp;&nbsp;&nbsp;<span class="small"><i class="fa fa-circle or"></i> 橙色表示关键词关系为or &nbsp;&nbsp;<i class="fa fa-circle and"></i> 蓝色表示关键词关系为and &nbsp;&nbsp;</span></label>
+                <div ng-show="subject.keywordsScope == 1" class="form-group">
+                    <div class="form-control textarea-keyword">
+                        <div ng-repeat="item in keywordsExpression track by $index" class="{{$index % 2 == 0 ? 'item' : 'opt'}}">
+                            <span class="{{item.subOperator}}"
+                                  ng-if="$index % 2 == 0 && !item.editMode"
+                                  ng-click="toggleSubOperator();"
+                                  ng-dblclick="openEditMode();"
+                            >{{item.keywords.join('  ')}}</span>
+                            <i ng-if="$index % 2 == 0 && !item.editMode" class="fa fa-times-circle" ng-click="delKeywordsTag();"></i>
+                            <input ng-if="item.editMode" ng-blur="updateKeywordsTag();" class="keywordsTag-{{$index}}" type="text" value="{{item.keywords.join('   ')}}">
+                            <span ng-if="$index % 2 == 1" class="{{item.operator}}" ng-click="toggleOperator();">{{item.operator}}</span>
+                        </div>
+                        <div class="add-btn" ng-click="openNewKeywordsTag();" ng-if="!expressionStatus.newKeywordsTagView">输入关键词 空格分隔</div>
+                        <input type="text" class="newKeywordsTag"
+                               ng-model="expressionStatus.newKeywordsTagValue"
+                               ng-if="expressionStatus.newKeywordsTagView"
+                               ng-blur="doAddKeywords();"/>
+                    </div>
+                    <span class="navigation"><b>*</b></span>
+                </div>
+
+                <label ng-show="subject.keywordsScope == 2" class="site-type">关键词</label>
+                <div ng-show="subject.keywordsScope == 2" class="form-group">
+                    <textarea rows="4" ng-model="subject.titleKeywords" type="text" class="form-control" placeholder="请输入关键词，空格分隔，关键词为and关系"></textarea>
+                    <span class="navigation"><b>*</b></span>
+                </div>
+
+                <div class="clearfix"></div>
+                <label class="site-type">排除词</label>
+                <textarea rows="4" ng-model="subject.excludeWords" type="text" class="form-control" placeholder="请在此输入不包含的关键词，如关键词为'社保定点'，排除词为'保定'"></textarea>
+                <div class="clearfix"></div>
+            </form>
+        </div>
+    </div>
+</div>
+<div ng-hide="isShowView" class="bjj-account-save-view">
+    <div><button class="btn btn-primary" ng-click="save();">保存</button></div>
+</div>
+<div ng-show="isShowView" class="subject-deleted-view"><p>该主题已删除</p></div>

@@ -1,0 +1,5 @@
+*/2 * * * * /var/svn/task/task_exec.sh TestTask
+*/5 * * * * /var/svn/task/task_exec.sh AutoNewsPushTask
+*/5 * * * * /var/svn/task/task_exec.sh CopyrightMonitorTask
+*/5 * * * * /var/svn/task/task_exec.sh CaptureStatTask
+*/5 * * * * /var/svn/task/task_exec.sh FocusCaptureTask

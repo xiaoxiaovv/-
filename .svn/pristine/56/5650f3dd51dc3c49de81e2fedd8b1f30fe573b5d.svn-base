@@ -1,0 +1,87 @@
+package com.istar.mediabroken.service.toutiao
+
+import com.istar.mediabroken.entity.app.Agent
+import com.istar.mediabroken.service.shareChannel.ChannelOAuthService
+import com.istar.mediabroken.utils.StringUtils
+import com.mashape.unirest.http.Unirest
+import groovy.util.logging.Slf4j
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Service
+
+import javax.servlet.http.HttpServletRequest
+
+import static com.istar.mediabroken.api.ShareResult.*
+
+/**
+ * Author : YCSnail
+ * Date   : 2017-05-31
+ * Email  : liyancai1986@163.com
+ */
+@Service
+@Slf4j
+class ToutiaoShareService extends ChannelOAuthService<ToutiaoOAuthConfig> {
+
+    @Value('${toutiao.open.client.key}')
+    public String clientKey
+    @Value('${toutiao.open.article.public}')
+    public int articlePublic
+
+    @Autowired
+    private ToutiaoOAuthService toutiaoOAuthSrv
+
+    public static final int TOUTIAO_TITLE_MAX_LENGTH = 30
+    public static final int DIGEST_MAX_LENGTH = 140
+
+    def createToutiao(HttpServletRequest request, String uid, def shareContent) {
+
+        config = getOAuthConfig(request)
+
+        String accessToken = toutiaoOAuthSrv.getAccessTokenFromMongo(request, uid)
+        if(!accessToken) {
+            return [
+                    status  : 0,
+                    msg     : 'token不存在，或是授权已过期'
+            ]
+        }
+
+        try {
+            String url = "https://mp.toutiao.com/open/new_article_post/?access_token=${accessToken}&client_key=${config.clientKey}"
+
+            def params = [
+                    title   : org.apache.commons.lang3.StringUtils.substring((shareContent.title?:'') as String, 0, TOUTIAO_TITLE_MAX_LENGTH),
+                    content : StringUtils.removeAElement(shareContent.content as String),
+                    abstract: org.apache.commons.lang3.StringUtils.substring((shareContent.digest?:'') as String, 0, DIGEST_MAX_LENGTH),
+                    save    : articlePublic    //0-草稿 1-发布
+            ]
+            def res = Unirest.post(url).fields(params as Map<String, String>).asJson()
+
+            def result = res.body.object
+            return ('success' == result?.message) ? shareSuccess() : shareFailure(result?.isNull('data') ? '' : result.data, 0)
+        } catch (Exception e) {
+            e.printStackTrace()
+            return shareFailure()
+        }
+    }
+
+    @Override
+    ToutiaoOAuthConfig getOAuthConfig(HttpServletRequest request) {
+
+        Agent agent = agentService.getAgent(request)
+
+        config = configMap.get(agent.agentKey)
+
+        if(!config) {
+            def obj = getShareChannelOAuthConfig(agent)
+
+            config = new ToutiaoOAuthConfig([
+                    clientKey       : obj.toutiao.appKey,
+                    clientSecret    : obj.toutiao.appSecret
+            ])
+            configMap.put(agent.agentKey, config)
+        }
+        return config
+    }
+
+
+}

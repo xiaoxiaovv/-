@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, shrink-to-fit=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>编++ - 同步操作说明</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/default/css/ui.css">
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .section-main { width: 100%; padding: 20px; background: #fff;}
+        .section-cont { width: 730px; margin: 0 auto; }
+        .section-main .title { width: 100%; line-height: 4rem; font-size: 1.6rem; font-weight: bold; border-bottom: 1px solid #ebebeb;}
+        .section-main ol { margin: 20px; list-style-type: decimal; }
+        .section-main li { line-height: 1.4rem; color: #888888; }
+        .section-main ol:before { content: '以下情况可能导致同步失败:'; margin-left: -20px; line-height: 2rem; }
+    </style>
+</head>
+<body ng-app="wikiSyncApp" ng-controller="wikiSyncCtrl">
+<div class="bjj-header" ng-include="'/inc/header_pure.html'"></div>
+<div class="bjj-main section-main">
+    <div class="section-cont">
+        <div class="title">同步操作说明</div>
+
+        <section>
+            <h5>微信公众号</h5>
+            <p>文章将会同步到微信公众平台的“素材管理”模块或直接发出微信消息；</p>
+            <ol>
+                <li>文中包含音频</li>
+                <li>封面图片大于2M</li>
+                <li>封面图片格式错误（支持bmp、 png、 jpeg、jpg、gif格式）</li>
+                <li>文本内容敏感（涉及政治等话题）</li>
+                <li>封面未上传成功</li>
+                <li>5秒内连续同步同一篇文章</li>
+                <li>正文图片大于2M</li>
+                <li>微信后台正在维护</li>
+            </ol>
+        </section>
+        <section>
+            <h5>头条号</h5>
+            <p>文章将会同步到头条号的“内容管理”草稿模块或直接发表头条文章；</p>
+            <p>选择直接发表头条文章后，文章立即进入到头条号平台的审核状态，审核通过后直接发布，审核期间无法修改；</p>
+            <ol>
+                <li>文章标题少于5个字或者多于30个字</li>
+                <li>5分钟内重复同步两篇一样的文章</li>
+                <li>头条号未获得头条号平台的发文权限</li>
+                <li>正文中包含外站链接</li>
+                <li>发文数目超过头条号平台的上限</li>
+                <li>头条号平台正在维护</li>
+            </ol>
+        </section>
+        <section>
+            <h5>新浪微博</h5>
+            <p>同步到微博时，单条新闻将以摘要形式直接发出到微博，要闻摘要或传播综述分析将会以外链的形式同步到微博，在微博展示文章标题。</p>
+            <ol>
+                <li>授权失效（需重新授权）</li>
+                <li>平台升级维护</li>
+            </ol>
+        </section>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.6.5/angular-sanitize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.10.8/umd/popper.min.js"></script>
+<script src="/lib/common.js"></script>
+<script>
+    var app = angular.module("wikiSyncApp", []);
+    app.controller('wikiSyncCtrl', function($scope, $http){
+    });
+</script>
+</body>
+</html>

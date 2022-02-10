@@ -1,0 +1,83 @@
+<div class="bjj-cont-body">
+    <div class="loading instantNewsMarkLoading" ng-if="instantNewsMarkLoading" ng-include="'/inc/loading.html'"></div>
+    <div class="bjj-cont-page">
+        <div class="new-news" ng-show="newNews" ng-click="reloadPage()">
+            <span>{{count}}</span>条最新采集
+        </div>
+        <div class="instant-body title-only">
+            <div class="instant-header">
+                <div class="col-xs-4 col-md-4">
+                    <p class="pull-left title">资讯快选</p>
+                    <span id="time"></span>
+                    <div></div>
+                </div>
+                <div class="col-xs-8 col-md-8 tools">
+                    <div class="instant-actions pull-right">
+                        <div class="input-group">
+                            <span class="input-btn" ng-click="searchNews()"></span>
+                            <input type="text" id="searchInput" ng-model="markQueryName" ng-keyup="searchNews($event)" class="form-control" placeholder="请输入需要搜索的标题">
+                        </div>
+                        <div class="operation-tools">
+                            <span class="markPage" ng-click="goNewsRead()"></span>
+                            <span class="refresh" ng-click="reloadThisPage()"></span>
+                            <span class="th-large" ng-click="toNewsCentered()"></span>
+                            <span class="list" ng-click="toTitleOnly()"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="title-only-body">
+                <div class="laterNewsList">
+                    <ul class="list-unstyled">
+                        <li ng-repeat="news in dataList" class="every-instant-news-later" ng-class="{true:'hover',false:''}[news.isHover]">
+                            <span class="unread pull-left unread-{{news.id}}" ng-class="{true:'later-read',false:''}[news.isMarked]" ng-click="LaterReadMark($event, news)"></span>
+                            <div class="title-only-news-from" ng-click="selectNews($event, $index)">{{news.siteName}}</div>
+                            <div class="instant-content pull-left" ng-click="goDetail($event, news.id)">
+                                <a class="title title-{{news.id}}" ng-class="{true:'read',false:''}[news.isRead]">{{news.title}}</a>
+                                <div class="instant-summary">{{news.contentAbstract}}</div>
+                            </div>
+                            <span class="news-time pull-right">{{news.captureTime | date:'HH:mm' }}</span>
+                            <div class="clearfix"></div>
+                            <div class="condensed-tools">
+                                <span class="link"><a ng-href="{{news.url}}" target="_blank"></a></span>
+                                <span class="copy copy-{{news.id}}" ng-click="copyInstantNews();"></span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <list-empty ng-if="markNewsdataListView" msg="{{markListEmptyMsg}}"></list-empty>
+            </div>
+        </div>
+    </div>
+    <div ng-show="newsDetail" ng-include="'/capture/news/detail_instant_news.html'"></div>
+    <back-to-top container="bjj-cont-page"></back-to-top>
+</div>
+<script type="text/javascript">
+    function showtime() {
+        var today,hour,second,minute,month,date;
+        today=new Date();
+        month = today.getMonth()+1;
+        date = today.getDate();
+        hour = today.getHours();
+        minute =today.getMinutes();
+        second = today.getSeconds();
+        if(month< 10) {
+            month = '0'+ month;
+        }
+        if(date< 10) {
+            date = '0'+ date;
+        }
+        if(hour< 10) {
+            hour = '0'+ hour;
+        }
+        if(minute< 10) {
+            minute = '0'+ minute;
+        }
+        if(second< 10) {
+            second = '0'+ second;
+        }
+        document.getElementById('time').innerHTML = "<p>"+ month + "月" + date + "日  "  + hour + ":" + minute + ":" + second+"</p>"; //显示时间
+        setTimeout("showtime();", 1000);
+    }
+    showtime();
+</script>

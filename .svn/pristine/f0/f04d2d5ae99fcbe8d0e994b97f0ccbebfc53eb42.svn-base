@@ -1,0 +1,100 @@
+<div class="bjj-cont-page bjj-bg-white container-fluid">
+    <div class="bjj-page-title">基本信息</div>
+    <div class="profile-prompt">
+        <i class="fa fa-bell" aria-hidden="true"></i> <span>亲，请完善注册信息，以便我们更好的为您服务哦！</span>
+    </div>
+    <div class="bjj-page-container profile-container">
+        <div class="profile-content">
+            <div class="profile-info pull-left">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="pull-left control-label control-label">账号：</label>
+                        <span class="pull-left account">{{userName}}</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="pull-left control-label control-label">手机号：</label>
+                        <span class="pull-left mobile">{{mobile}}</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputName" class="pull-left control-label control-label">昵称：</label>
+                        <div class="pull-left control-input">
+                            <input type="text" class="form-control" id="inputName" placeholder="请输入昵称" ng-model="nickName" maxlength="20">
+                        </div>
+                    </div>
+                    <div class="form-group genderChoice">
+                        <label class="pull-left control-label control-label">性别：</label>
+                        <span class="bjj-radio {{gender == 1 ? 'active' : ''}}" ng-click="toggleGender(1);"> <i></i> 男</span>
+                        <span class="bjj-radio {{gender == 2 ? 'active' : ''}}" ng-click="toggleGender(2);"> <i></i> 女</span>
+                    </div>
+                    <div class="form-group">
+                        <label class="pull-left control-label control-label">出生日期：</label>
+                        <div class="pull-left control-input">
+                            <input type="text" class="form-control" id="birthTime" value="{{birthday | date: 'yyyy-M-dd'}}" placeholder="1900-1-1">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputMedia" class="pull-left control-label control-label">所属媒体全称：</label>
+                        <div class="pull-left control-input">
+                            <input type="text" class="form-control" id="inputMedia" placeholder="请输入媒体全称" ng-model="company">
+                        </div>
+                    </div>
+                    <div class="form-group nowDuty">
+                        <label class="pull-left control-label control-label">现任职务：</label>
+                        <select class="bootstrap-select form-control site-trust" ng-model="nowDuty">
+                            <option ng-repeat="x in duties" value="{{x.value}}">{{x.duty}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputQq" class="pull-left control-label control-label">QQ：</label>
+                        <div class="pull-left control-input">
+                            <input type="text" class="form-control" id="inputQq" placeholder="请输入QQ" ng-model="qqNumber">
+                            <span class="infoPrompt pull-left" ng-show="qqShow">请输入正确的QQ号码</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputWechat" class="pull-left control-label control-label">微信：</label>
+                        <div class="pull-left control-input">
+                            <input type="text" class="form-control" id="inputWechat" placeholder="请输入微信号" ng-model="weChatNumber">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail" class="pull-left control-label control-label">常用邮箱：</label>
+                        <div class="pull-left control-input">
+                            <input type="email" class="form-control" id="inputEmail" placeholder="请输入常用邮箱" ng-model="email">
+                            <span class="infoPrompt pull-left" ng-show="emailShow">邮箱格式不正确</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="content-right avatar-view pull-right">
+                <span class="pull-left">上传头像 :</span>
+                <img ng-src="{{avatar}}" onerror="javascript:this.src='/theme/default/images/default-avatar.png';" class="pull-right" id="img_pre"/>
+                <input type="text" class="hidden" id="avatar" ng-model="avatar"/>
+                <input type="file" class="hidden" id="avatarFile" name="file" value=""/>
+                <div class="btn avatarBtn" onclick="$('#avatarFile').val('').click();">
+                    {{account.avatar == '/theme/default/images/default-avatar.png' ? '上传头像' : '修改头像'}}
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<div class="bjj-account-save-view profile-view">
+    <div><button class="btn btn-primary" ng-click="save();">保存</button></div>
+</div>
+<script src="/lib/jquery/jquery.ajaxfileupload.js"></script>
+<script>
+    $("#avatarFile").AjaxFileUpload({
+        action      : "/api/upload/img?type=avatar",
+        onComplete  : function(filename, response) {
+            if(response.status == 200){
+                console.log(response.msg)
+                $('#img_pre').attr('src', response.msg);
+                $('#avatar').val(response.msg).change();
+                $('.avatarBtn').text('修改头像');
+            }else {
+                bjj.dialog.alert('danger', response.msg);
+            }
+        }
+    });
+</script>

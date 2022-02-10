@@ -1,0 +1,95 @@
+package com.istar.mediabroken.entity.compile
+
+/**
+ * Author: Luda
+ * Time: 2017/8/1
+ */
+class Material {
+
+    String id  // _id, uuid
+    String title //文章标题
+    String author //编辑
+    String content //内容
+    String contentAbstract //摘要
+    String keywords //关键词
+    String classification //新闻分类
+    String source //新闻来源
+    String picUrl //图片
+    int type // 1新闻素材，2 智能组稿素材，3自建素材
+    boolean isPublished //true false
+    boolean isReleased //H5 发布
+    String articleId
+    long userId
+    String orgId
+    Date createTime
+    Date updateTime
+
+    Map<String, Object> toMap() {
+        return [
+                _id            : id ?: UUID.randomUUID().toString(),
+                title          : title,
+                author         : author,
+                content        : content,
+                contentAbstract: contentAbstract,
+                keywords       : keywords,
+                classification : classification,
+                source         : source,
+                picUrl         : picUrl,
+                type           : type ?: 3,
+                isPublished    : isPublished ?: false,
+                isReleased     : isReleased ?: false,
+                articleId      : articleId,
+                userId         : userId,
+                orgId          : orgId,
+                updateTime     : updateTime,
+                createTime     : createTime,
+        ]
+    }
+
+    Material() {
+        super
+    }
+
+    Material(Map map) {
+        id = map._id ?: map.id ?: ""
+        title = map.title ?: ""
+        author = map.author ?: ""
+        content = map.content ?: ""
+        contentAbstract = map.contentAbstract ?: ""
+        keywords = map.keywords ?: map.keyWords ?: ""
+        classification = map.classification ?: ""
+        source = map.source ?: ""
+        picUrl = map.picUrl ?: ""
+        type = map.type ?: 0
+        isPublished = map.isPublished ?: false
+        isReleased = map.isReleased ?: false
+        articleId = map.articleId ?: map.articleId ?: ""
+        userId = map.userId ?: 0L
+        orgId = map.orgId ?: "0"
+        createTime = map.createTime ?: new Date()
+        updateTime = map.updateTime ?: new Date()
+    }
+
+    @Override
+    public String toString() {
+        return "Material{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", content='" + content + '\'' +
+                ", contentAbstract='" + contentAbstract + '\'' +
+                ", keywords='" + keywords + '\'' +
+                ", classification='" + classification + '\'' +
+                ", source='" + source + '\'' +
+                ", picUrl='" + picUrl + '\'' +
+                ", type=" + type +
+                ", isPublished=" + isPublished +
+                ", isReleased=" + isReleased +
+                ", userId=" + userId +
+                ", articleId=" + articleId +
+                ", orgId='" + orgId + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
+}

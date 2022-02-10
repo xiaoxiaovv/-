@@ -1,0 +1,16 @@
+.capture-subscription-nav .bjj-nav { height: 80px; line-height: 80px; }
+.bjj-cont-sidebar .subscription-list { height: calc(100% - 85px); overflow-y: auto; overflow-x: hidden; }
+.bjj-cont-sidebar .subscription-list .new-add-site { width: 180px; height: 45px; line-height: 45px; color: #999; border: 1px dashed #ddd; margin: 10px 20px; text-align: center; cursor: pointer; }
+.bjj-cont-sidebar .subscription-list .new-add-site:hover { color: #2494f2; border: 1px dashed #2494f2; }
+.bjj-cont-sidebar .empty-subscription-list { margin: 200px auto; text-align: center; }
+.bjj-cont-sidebar .empty-subscription-list .help-block { display: block; margin-top: 5px; margin-bottom: 10px; color: #737373; }
+.bjj-cont-sidebar .subscription-list .nav-list { padding-left: 0; }
+.bjj-cont-sidebar .subscription-list .nav-list li { width: 100%; height: 40px;line-height: 40px; list-style: none; color: #333; }
+.bjj-cont-sidebar .subscription-list .nav-list li:hover { background: #eee; }
+.bjj-cont-sidebar .subscription-list .nav-list li.active { background: #eee; }
+.bjj-cont-sidebar .subscription-list .nav-list li a { padding: 0 0 0 20px; color:#333; display: inline-block; }
+.bjj-cont-page .help-null { position: absolute; top: 30%; right: calc(50% - 265px); color: #e5e5e5; }
+.bjj-cont-page .help-null div { margin-left: -25px; color: #999; }
+.capture-conditions { height: 50px; line-height: 48px; border-bottom:1px dashed #ededed; clear: both; }
+.capture-conditions .laydateTime { width: 180px; height: 25px; padding-left: 5px; border:1px solid #ddd; border-radius: 4px; margin: 10px 10px 0 0; }
+.subscriptSubjectLoading { width: 220px; }

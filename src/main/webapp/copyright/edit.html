@@ -1,0 +1,49 @@
+<div class="modal fade" id="whiteExampleModal" tabindex="-1" role="dialog" aria-labelledby="whiteExampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="whiteExampleModalLabel">白名单媒体</h4>
+            </div>
+            <div class="modal-body">
+                <form class="editForm" action="">
+                    <div class="editTitle">白名单媒体转载您的监控作品后，在版权分析列表中不提示疑似侵权</div>
+                    <div class="editIpt" ng-repeat="item in mediaSettingList.whiteList">
+                        <input class="form-control short ng-pristine ng-not-empty ng-valid ng-valid-required ng-touched" ng-model="item.websiteName" value="{{item.websiteName}}" placeholder="输入站点名称" type="text" maxlength="20">
+                        <input class="form-control long  ng-pristine ng-not-empty ng-valid ng-valid-required ng-touched" ng-model="item.websiteDomain" value="{{item.websiteDomain}}" placeholder="输入站点域名"  class="siteDomain" type="text" maxlength="20">
+                        <span  ng-click="delWhiteRecord($index)" class="deleteWhiteBtn">删除</span>
+                        <span  ng-show="mediaSettingList.whiteList.length == ($index + 1)" ng-click="addWhiteRecord()" class="addBtn">添加</span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button ng-click="saveBtn()" type="button" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="blackExampleModal" tabindex="-1" role="dialog" aria-labelledby="blackExampleModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="blackExampleModalLabel">重点监控媒体</h4>
+            </div>
+            <div class="modal-body">
+                <form class="editForm" action="">
+                    <div class="editTitle">重点监控媒体转载您的监控媒体,在版权分析列表中重点提示您疑似侵权</div>
+                    <div class="editIpt" ng-repeat="item in mediaSettingList.blackList">
+                        <input class="form-control short ng-pristine ng-not-empty ng-valid ng-valid-required ng-touched" ng-model="item.websiteName" value="{{item.websiteName}}" placeholder="输入站点名称" type="text" maxlength="20">
+                        <input class="form-control long  ng-pristine ng-not-empty ng-valid ng-valid-required ng-touched" ng-model="item.websiteDomain" value="{{item.websiteDomain}}" placeholder="输入站点域名" class="siteDomain" type="text" maxlength="20">
+                        <span  ng-click="delBlackRecord($index)" class="deleteBlackBtn">删除</span>
+                        <span id="add" ng-show="mediaSettingList.blackList.length == ($index + 1)" ng-click="addBlackRecord()" class="addBtn">添加</span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button ng-click="saveBtn()" type="button" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="bjj-cont-sidebar list-group bjj-siteList account-site-nav">
+    <div class="nav bjj-nav">
+        <span>站点设置</span>
+        <b><a ui-sref="captureSite({type: 'list'})">返回</a></b>
+    </div>
+    <div class="site-list">
+        <div class="new-add-site" ui-sref=".add" ng-click="newAddSite()">
+            <i class="fa fa-plus" aria-hidden="true"></i> 新建站点
+        </div>
+        <ul class="nav-list list-unstyled">
+            <li ng-repeat="item in siteList | filter: { siteName : keywords }" role="presentation" class="{{item.siteId}}" >
+                <a class="bjj-ellipsis pull-left ellipsis" ui-sref=".modify" ng-click="transmit($event)" data-site-id="{{item.siteId}}">{{item.siteName}}</a>
+                <i ng-click="deleteSiteId($event)" data-site-id="{{item.siteId}}" class="fa fa-times pull-left" aria-hidden="true"></i>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="col-lg-12 search-input account-site-search-option ">
+    <div class="input-group input-site input-search">
+        <input ng-model="keywords" type="text" class="form-control" placeholder="请输入站点名称" maxlength="20">
+            <span class="input-group-btn">
+                <button ng-click="searchClick()" class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+            </span>
+    </div>
+</div>
+<div class="bjj-cont-page bjj-bg-white container-fluid" data-ui-view=""></div>

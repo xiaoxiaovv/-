@@ -1,0 +1,70 @@
+<div class="">
+    <div class="evaluate-header" ng-if='isDemo'>以下内容为演示数据，请联系销售或客服了解更多传播测评功能详情，电话<span>010-83051272</span></div>
+    <div class="evaluate-body">
+        <div class="evaluate-index evaluate-name-box">
+            <div class="evaluate-channel">
+                <div class="pull-left">
+                    <p class="pull-left">
+                        <span class="channels-name">{{info.channelsName || '总渠道名称'}}</span>
+                        <span class="summary-time">测评时间: {{info.startTime | date: 'yyyy-MM-dd'}} {{info ? '至' : '--'}} {{info.endTime | date: 'yyyy-MM-dd'}}</span>
+                        <span class="summary-name">测评名称：{{info.evaluateName || '--'}}</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="evaluate-content-box">
+            <p class="module-name">内容排行TOP10</p>
+            <ul class="list-unstyled list-ul">
+                <li ng-click="contentRank('sumRead')" class="active">累计阅读（公众号）</li>
+                <li ng-click="contentRank('sumLike')">累计点赞（公众号、微博）</li>
+                <li ng-click="contentRank('sumReprint')">累计转载（网站、公众号、微博）</li>
+            </ul>
+            <table class="table table-condensed table-striped table-hover" ng-if="!contentRankEmptyView">
+                <thead>
+                <tr>
+                    <td class="index">排行</td>
+                    <td class="title">标题</td>
+                    <td>{{type}}</td><!--可变-->
+                    <td class="type">类型</td>
+                    <td class="content-poster">编辑作者</td>
+                    <td class="content-siteName">发布机构</td>
+                    <td class="time">发布时间</td>
+                    <td class="operation">操作</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat = "item in contentRankList">
+                    <td class="index">{{$index+1}}</td>
+                    <td class="title"><span>{{item.title}}</span></td>
+                    <td class="count-num" ng-if="type == '阅读量'">{{item.readCount}}</td>
+                    <td class="count-num" ng-if="type == '点赞数'">{{item.likeCount}}</td>
+                    <td class="count-num" ng-if="type == '转载数'">{{item.reprintCount}}</td>
+                    <td class="type" ng-if="item.siteType == 1">网站</td>
+                    <td class="type" ng-if="item.siteType == 2">公众号</td>
+                    <td class="type" ng-if="item.siteType == 3">微博号</td>
+                    <td class="content-poster" title="{{item.poster}}">{{item.poster}}</td>
+                    <td class="content-siteName" title="{{item.siteName}}">{{item.siteName}}</td>
+                    <td class="time">{{item.publishTime | date: 'yyyy-MM-dd HH:mm'}}</td>
+                    <td class="operation"><a  href="{{item.url}}" target="_blank">原文链接</a></td>
+                </tr>
+                </tbody>
+            </table>
+            <list-empty ng-if="contentRankEmptyView" msg="{{contentRankEmptyMsg}}"></list-empty>
+        </div>
+        <div class="evaluate-content-box">
+            <p class="module-name">词云分析</p>
+            <div ng-if="!contentKeywordsEmptyView" id="content-keywords"></div>
+            <list-empty ng-if="contentKeywordsEmptyView" msg="{{contentKeywordsEmptyMsg}}"></list-empty>
+        </div>
+        <div class="evaluate-content-box">
+            <p class="module-name">平均阅读点赞分布（公众号）</p>
+            <div ng-if="!contentReadAndLikeEmptyView" id="content-read-and-like"></div>
+            <list-empty ng-if="contentReadAndLikeEmptyView" msg="{{contentReadAndLikeEmptyMsg}}"></list-empty>
+        </div>
+    </div>
+</div>
+<script>
+    $('.evaluate-content-box ul li').click(function() {
+        $(this).addClass('active').siblings().removeClass('active')
+    })
+</script>

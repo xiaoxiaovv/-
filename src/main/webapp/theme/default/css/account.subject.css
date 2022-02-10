@@ -1,0 +1,16 @@
+.account-subject-nav .bjj-nav { height: 80px; line-height: 80px; }
+.account-subject-nav .bjj-nav b { font-size: 14px; font-weight: normal; }
+
+.bjj-siteList { height: calc(100% - 50px); }
+.bjj-cont-sidebar .account-subject-list { height: calc(100% - 95px); overflow-y: auto; overflow-x: hidden; }
+.bjj-cont-sidebar .account-subject-list .new-add-site { width: 180px; height: 45px; line-height: 45px; color: #999; border: 1px dashed #ddd; margin: 10px 20px; text-align: center; cursor: pointer; }
+.bjj-cont-sidebar .account-subject-list .new-add-site:hover { color: #2494f2; border: 1px dashed #2494f2; }
+.bjj-cont-sidebar .account-subject-list .new-add-site:hover .fa-plus { color: #2494f2; }
+.bjj-cont-sidebar .account-subject-list .fa-plus { color: #999; margin-right: 5px; }
+.bjj-cont-sidebar .account-subject-list .nav-list { padding-left: 0; }
+.bjj-cont-sidebar .account-subject-list .nav-list li { width: 100%;  height: 40px; line-height: 40px; list-style: none; }
+.bjj-cont-sidebar .account-subject-list .nav-list li:hover { background: #eee; }
+.bjj-cont-sidebar .account-subject-list .nav-list li.active { background: #eee; }
+.bjj-cont-sidebar .account-subject-list .nav-list li a { color: #333; padding: 0 0 0 20px; display: inline-block;}
+
+.accountSubjectLoading { width: 220px; }

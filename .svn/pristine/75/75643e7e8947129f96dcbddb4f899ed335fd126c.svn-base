@@ -1,0 +1,21 @@
+<div ng-controller="menuCtrl">
+    <div class="module">
+        <div class="menu-toggle" ng-click="toggleMinBar();"><i class="fa fa-outdent" aria-hidden="true"></i></div>
+    </div>
+    <div class="module {{$index == 0 ? 'default-show-menu' : ''}}" ng-repeat="menu in menuList | orderBy: 'order'">
+        <a class="title title-self" ui-sref-active="active" ui-sref-opts="{reload: true}" ui-sref="{{menu.url}}" ng-if="menu.isLeaf > 0" title="{{menu.name}}">
+            <i class="fa {{menu.icon}}" aria-hidden="true"></i><span>{{menu.name}}</span>
+        </a>
+        <div class="title-parent" ng-if="menu.isLeaf == 0">
+            <a class="title" ng-click="toggleSubMenu();" title="{{menu.name}}">
+                <i class="fa {{menu.icon}}" aria-hidden="true"></i><span>{{menu.name}}</span><b class="caret"></b>
+            </a>
+            <div class="title-group title-group-normal sub-menu-{{menu.id}} {{minBar ? 'bjj-hidden' : ''}}">
+                <a ng-repeat="subMenu in menu.subList" href="#" ui-sref-active="active" ui-sref-opts="{reload: true}" ui-sref="{{subMenu.url}}" title="{{subMenu.name}}">{{subMenu.name}}</a>
+            </div>
+            <div class="title-group title-group-min sub-menu-{{menu.id}}">
+                <a ng-repeat="subMenu in menu.subList" href="#" ui-sref-active="active" ui-sref-opts="{reload: true}" ui-sref="{{subMenu.url}}" title="{{subMenu.name}}">{{subMenu.name}}</a>
+            </div>
+        </div>
+    </div>
+</div>

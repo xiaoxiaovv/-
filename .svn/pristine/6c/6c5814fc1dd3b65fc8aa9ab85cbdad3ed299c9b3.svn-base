@@ -1,0 +1,12 @@
+<div class="bjj-cont-page">
+    <div class="bjj-ellipsis bjj-page-title">排除词设置</div>
+    <div class="container-fluid subscription-exclusion-list">
+        <div class="exclusion-title">设置适用全部监控主题的排除词，多个词用空格隔开 </div>
+        <div class="form-group">
+            <textarea ng-model="excludeWords" placeholder="请在此输入不包含的关键词，如：关键词为“社保定点”，排除词为“保定"。 class="form-control" name="" id="" cols="20" rows="4"></textarea>
+        </div>
+    </div>
+    <div class="bjj-account-save-view exclusion-save">
+        <div><button class="btn btn-primary" ng-click="editSaveSite()">保存</button></div>
+    </div>
+</div>

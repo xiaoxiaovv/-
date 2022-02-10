@@ -1,0 +1,63 @@
+<div class="loading captureSiteNewsLoading" ng-if="captureSiteNewsLoading" ng-include="'/inc/loading.html'"></div>
+<div class="capture-news-page">
+    <div class="bjj-ellipsis bjj-page-title">
+        {{captureSiteFilter.siteName}}
+        <span class="auto" ng-if="captureSiteFilter.siteName!='全部'">自动推送</span>
+        <i ng-if="captureSiteFilter.siteName!='全部'" ng-click="toggleAutoPush();" class="fa fa-2x {{captureSiteFilter.isAutoPush ? 'fa-toggle-on' : 'fa-toggle-off'}}" aria-hidden="true"></i>
+        <span class="add-site"><a href="javascript:;" class="pull-right" ng-click="goAddSite()">+ 新建站点</a></span>
+    </div>
+    <div class="container-fluid containerBox" ng-class="{true : 'containerSite', false : ''}[captureSiteFilter.containerSiteBox]">
+        <div class="news-condition container-fluid">
+            <div class="conditions">
+                <div class="capture-conditions"><label>热度:</label>
+                    <span class="conditions {{captureSiteFilter.heat == 0 ? 'on' : ''}}" ng-click="newsHeatListClick($event)" data-heat="0">全部</span>
+                    <span class="conditions {{captureSiteFilter.heat == 3 ? 'on' : ''}}" ng-click="newsHeatListClick($event)" data-heat="3">高</span>
+                    <span class="conditions {{captureSiteFilter.heat == 2 ? 'on' : ''}}" ng-click="newsHeatListClick($event)" data-heat="2">中</span>
+                    <span class="conditions {{captureSiteFilter.heat == 1 ? 'on' : ''}}" ng-click="newsHeatListClick($event)" data-heat="1">低</span>
+                </div>
+                <div class="isShowBox">
+                    <div class="capture-conditions clearfix"><label class="pull-left">时间:</label>
+                        <input type="text" name="date" class='laydateTime form-control pull-left' id="siteStartTime" value="{{captureSiteFilter.startTime | date: 'yyyy-M-dd HH:mm:ss'}}"/>
+                        <input type="text" name="date" class='laydateTime form-control pull-left' id="siteEndTime" value="{{captureSiteFilter.endTime | date: 'yyyy-M-dd HH:mm:ss'}}"/>
+                        <a href="javascript:;" ng-click="clearSiteTimeClick()">重置</a>
+                    </div>
+                    <div class="capture-conditions"><label>倾向性:</label>
+                        <span class="conditions {{captureSiteFilter.orientation == 0 ? 'on' : ''}}" ng-click="newsOrientationListClick($event)" data-orientation="0">全部</span>
+                        <span class="conditions {{captureSiteFilter.orientation == 1 ? 'on' : ''}}" ng-click="newsOrientationListClick($event)" data-orientation="1">正面</span>
+                        <span class="conditions {{captureSiteFilter.orientation == 2 ? 'on' : ''}}" ng-click="newsOrientationListClick($event)" data-orientation="2">负面</span>
+                        <span class="conditions {{captureSiteFilter.orientation == 3 ? 'on' : ''}}" ng-click="newsOrientationListClick($event)" data-orientation="3">中性</span>
+                    </div>
+                    <div class="capture-conditions"><label> 类别:</label>
+                        <span class="conditions {{captureSiteFilter.hasPic == 0 ? 'on' : ''}}" ng-click="newsHasPicListClick($event)" data-has-pic="0">全部</span>
+                        <span class="conditions {{captureSiteFilter.hasPic == 1 ? 'on' : ''}}" ng-click="newsHasPicListClick($event)" data-has-pic="1">带图</span>
+                    </div>
+                </div>
+            </div>
+            <div class="capture-conditions-toggle hidden-conditions"><a>隐藏筛选条件 <i class="fa fa-angle-double-up" aria-hidden="true"></i></a></div>
+            <div class="capture-conditions-toggle show-conditions"><a>展开筛选条件 <i class="fa fa-angle-double-down" aria-hidden="true"></i></a></div>
+        </div>
+        <div class="view-news-list" data-ui-view=""></div>
+    </div>
+</div>
+<div class="capture-news-detail-page bjj-hide" ng-include="'/capture/news/detail_list_page.html'"></div>
+<back-to-top container="bjj-cont-page"></back-to-top>
+<script>
+    $('.news-condition .hidden-conditions').click(function(){
+        $('.news-condition .conditions .isShowBox').slideUp();
+        $('.hidden-conditions').hide();
+        $('.show-conditions').show();
+        $(".container-fluid").addClass("toggle-condition-site");
+    });
+    $('.news-condition .show-conditions').click(function(){
+        $('.news-condition .conditions .isShowBox').slideDown();
+        $('.hidden-conditions').show();
+        $('.show-conditions').hide();
+        $(".container-fluid").removeClass("toggle-condition-site");
+    });
+    $('.news-condition .conditions .capture-conditions span ').click(function(){
+        $(this).addClass('on').siblings().removeClass('on');
+    });
+    $('.news-condition .conditions .capture-weiboConditions span ').click(function(){
+        $(this).addClass('on').siblings().removeClass('on');
+    });
+</script>

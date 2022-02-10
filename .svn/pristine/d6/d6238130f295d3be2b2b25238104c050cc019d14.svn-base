@@ -1,0 +1,42 @@
+<div class="instant-news-detail">
+    <div class="close-tools" ng-click="closeOverlay()">
+        <div class="close-number-bg"></div>
+        <div class="close-news-detail"></div>
+    </div>
+    <div class="instant-content">
+        <div class="arrow-box">
+            <div class="arrow left-news" ng-click="leftNews()"></div>
+            <div class="left-arrow-bg"></div>
+        </div>
+        <div class="instant-news-content">
+            <div class="entry-header">
+                <h3>{{news.title}}<small class="unread" ng-class="{true:'later-read',false:''}[news.isMarked]" ng-click="modifyMark($event)"></small><span class="link"><a ng-href="{{news.url}}" target="_blank"></a></span><span class="copy" ng-click="copyInstantNews();"></span></h3>
+                <div>
+                    <p class="clearfix">
+                        <span>发布时间: <i>{{news.publishTime | date:"yyyy年MM月dd日 HH:mm"}}</i></span>
+                        <span>来源网站: <i>{{page == 'reprint'? news.firstPublishSiteName: news.siteName}}</i></span>
+                        <span>转载数: <i>{{news.reprintCount}}</i></span>
+                        <span>作者: <i>{{news.poster || news.siteName}}</i></span>
+                    </p>
+                    <p class="clearfix">
+                        <span>采集时间: <i>{{news.captureTime | date:"yyyy年MM月dd日 HH:mm"}}</i></span>
+                        <span>采集网站: <i>{{news.siteName}}</i></span>
+                        <i class="fa fa-tags" aria-hidden="true"></i><b>{{news.keywords.join(" / ")}}</b>
+                    </p>
+                </div>
+            </div>
+            <div class="entry-body">
+                <div class="instant-detail-content">
+                    <p class="content-abstract">【自动摘要】{{contentAbstract}}</p>
+                    <p class="content-cont" ng-bind-html="news.content"></p>
+                </div>
+            </div>
+        </div>
+        <div class="arrow-box">
+            <div class="arrow right-news" ng-click="rightNews()"></div>
+            <div class="right-arrow-bg"></div>
+        </div>
+    </div>
+
+</div>
+<div class="overlay" ng-click="closeOverlay()"></div>

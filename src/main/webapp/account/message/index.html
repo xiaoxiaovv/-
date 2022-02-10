@@ -1,0 +1,26 @@
+<div class="bjj-page-title message-title">
+    <p class="bjj-ellipsis ng-binding">消息中心</p>
+</div>
+<div class="container-fluid message-continer">
+    <div class="message" ng-repeat="item in messageList">
+        <div class="bell-left first-bell">
+            <div class="circle">
+                <i class="fa fa-bell" aria-hidden="true"></i>
+                <div ng-if="item.isRead == false">
+                    <div class="out"></div>
+                    <div class="no-read-sign"></div>
+                </div>
+            </div>
+        </div>
+        <div class="message-right">
+            <div class="detail-message">
+                <span class="notice-title">{{item.title}}</span>
+                <span class="notice-time">{{item.createTime|date:'MM月dd日 HH:mm'}}</span>
+            </div>
+            <div class="notice-tips" ng-bind-html="item.content"></div>
+        </div>
+    </div>
+    <div ng-show="dataListBottomFinalView" ng-include="'/inc/data_list_bottom_final_view.html'"></div>
+    <list-empty ng-if="messageList.length<=0"></list-empty>
+</div>
+<div class="clearfix"></div>

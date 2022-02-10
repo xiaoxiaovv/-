@@ -1,0 +1,393 @@
+package com.istar.mediabroken.utils
+
+import groovy.util.logging.Slf4j
+import org.apache.http.protocol.HTTP
+
+import java.util.regex.Matcher
+import java.util.regex.Pattern;
+
+@Slf4j
+public class StringUtils {
+
+    private static final String default_sentence_separator = "[િી—｜🏻🧀🌭=＝/、~.●《》“”（）(),，…。:：？?！!；;\"【】]"
+
+    public static String stripHtml2(String content) {
+// <p>段落替换为换行
+        content = content.replaceAll('<p .*?>', '\r\n');
+// <br><br/>替换为换行
+        content = content.replaceAll('<br\\s*/?>', '\r\n');
+// 去掉其它的<>之间的东西
+        content = content.replaceAll('\\<.*?>', '');
+// 还原HTML
+        content = content.replaceAll('\r\n', '<br/>')
+        return content;
+    }
+
+
+    static Pattern tagPattern = Pattern.compile(/\<.*?>/)
+    static Pattern resolveTagPattern = ~/(<p .*?>)|(<br\s*\/?>)|(<\/\s*br\s*\/?>)|(<img.*\/?>)/
+
+    public static String stripHtml(String content) {
+        def matcher = tagPattern.matcher(content)
+        def sb = new StringBuffer(content.length())
+        while (matcher.find()) {
+            def tag = matcher.group()
+
+            if (resolveTagPattern.matcher(tag).matches()) {
+                matcher.appendReplacement(sb, tag)
+            } else {
+                matcher.appendReplacement(sb, '')
+            }
+        }
+        matcher.appendTail(sb)
+        return sb.toString()
+    }
+
+    public static String html2text(String content) {
+// <p>段落替换为换行
+        content = content.replaceAll('<p .*?>', '\r\n');
+// <br><br/>替换为换行
+        content = content.replaceAll('<br\\s*/?>', '\r\n');
+// 去掉其它的<>之间的东西
+        content = content.replaceAll('\\<.*?>', '');
+//替换BR
+        content = content.replaceAll('<br/>', '\r\n');
+//替换空格转义字符
+        content = content.replaceAll('&nbsp;', ' ');
+//替换@字符
+        content = content.replaceAll('&copy;', '@');
+        //替换&字符
+        content = content.replaceAll('&', " ");
+        content = content.replaceAll('gt;', "");
+        content = content.replaceAll(':', " ");
+        content = content.replaceAll('\\?', " ");
+        return content;
+    }
+
+    static Pattern imgTagPattern = ~/(<img.*\/?>)/
+    static Pattern srcPropertyPattern = ~/src=['"](.*?)['"]/
+
+    public static List extractImgUrl(String content) {
+        def matcher = tagPattern.matcher(content)
+        def list = []
+        while (matcher.find()) {
+            def tag = matcher.group()
+            if (imgTagPattern.matcher(tag).matches()) {
+                def srcMatcher = srcPropertyPattern.matcher(tag)
+                if (srcMatcher.find()) {
+                    list << srcMatcher.group(1)
+                }
+            }
+        }
+        return list
+    }
+
+    static Pattern tagPattern2 = Pattern.compile(/<b class='high-light'>.*?<\/b>/)
+
+    public static Map extractHighlight(String content) {
+        def matcher = tagPattern2.matcher(content)
+        Map result = [:]
+        while (matcher.find()) {
+            String key = matcher.group()
+            String value = key.substring(22, key.length() - 4)
+            result.put(key, value)
+        }
+        return result
+    }
+
+    public static String solrHtml2text(String content) {
+        content = content.trim()
+        content = content.replaceAll("\\\\n", '');
+        content = content.replaceAll("\\\\t", '');
+        content = content.replaceAll("\\\\r", '');
+        return content;
+    }
+
+    public static String solrText2Html(String content) {
+        content = content.trim()
+        content = content.replaceAll("\\\\r\\\\n", "<br/>");
+        content = content.replaceAll("\\\\n", "<br/>");
+        content = content.replaceAll("\\\\t", "  ");
+        content = content.replaceAll("\\\\r", "<br/>");
+        content = content.replaceAll("<br/><br/>", "<br/>");
+        return content;
+    }
+
+    public static String ContentText2Html(String content) {
+        content=content.replaceAll("　"," ");
+//        content = content.replaceAll("/", "|");
+        content = content.replaceAll("\\r\\n\\r\\n", "<br>");
+        content = content.replaceAll("\\r\\n", "<br>");
+        content = content.replaceAll("\\n", "<br>");
+        content = content.replaceAll("\\t", "　");
+        content = content.replaceAll("\\r", "<br>");
+        content = content.replaceAll("\r", "<br>");
+        content = content.replaceAll("\n", "<br>");
+        content = content.replaceAll("\\>\\s*\\<", "><")
+        content = content.replaceAll("(<br>)+", "<br/>")
+        StringBuffer stringBuffer = new StringBuffer()
+        content.split("<br/>").each {
+            if(it.toString().trim()){
+                stringBuffer.append("<p>")
+                stringBuffer.append(it)
+                stringBuffer.append("</p>")
+            }
+        }
+        return stringBuffer.toString();
+    }
+
+    public static String Text2Html(String content) {
+        content = content.trim()
+        content = content.replaceAll("\\r\\n", "<br/>");
+        content = content.replaceAll("\\n", "<br/>");
+        content = content.replaceAll("\\t", "");
+        content = content.replaceAll("\\r", "<br/>");
+        content = content.replaceAll("<br/><br/>", "<br/>");
+        return content;
+    }
+
+    public static String removeSpaceCode(String content) {
+        content = content.trim()
+        content = content.replaceAll("&#13;", "");
+        content = content.replaceAll("\\<p>[　]+", "<p>");
+        content = content.replaceAll("\\<p>\\s*", "<p>");
+        return content;
+    }
+
+    public static String illegalText2Html(String content) {
+        content = content.trim()
+        content = content.replaceAll("\\r\\n", "");
+        content = content.replaceAll("\\n", "");
+        content = content.replaceAll("\\t", "");
+        content = content.replaceAll("\\r", "");
+        content = content.replaceAll("<br/><br/>", "<br/>");
+        return content;
+    }
+
+    /**
+     * 用单个空格字符替换多个空格字符
+     * @param str
+     * @return
+     */
+    public static String replaceMultipleSpace(String str){
+        str = str.replaceAll(" ", " ")
+        str = str.replaceAll(" +"," ")
+        return str
+    }
+
+    //判断字符串是不是以数字开头
+    public static boolean isStartWithNumber(String str) {
+        if (str != null && !"".equals(str)){
+            if (str.matches("[0-9]+.*")){
+                return true
+            }else {
+                return false
+            }
+        }
+    }
+
+    //去掉微博正文后缀视频地址 http://t.cn/RrGZA5m
+    public static String removeWeiboSuffix(String str) {
+        try {
+            if (str != null && !"".equals(str)) {
+                int index = str.lastIndexOf("http://t.cn")
+                if (str.length() == (index + 19)) {
+                    str = str.substring(0, index)
+                } else {
+                    str = str.substring(0, index) + str.substring(index + 19, str.length())
+                }
+            }
+        }catch (IndexOutOfBoundsException e){
+            return str
+        }
+        return str
+    }
+
+
+    public static String decodeStr(String source) {
+        def resultStr = ""
+        if (source) {
+            if (source.contains("%")) {
+                try {
+                    resultStr = URLDecoder.decode(source, HTTP.UTF_8)
+                } catch (UnsupportedEncodingException e) {
+                    log.error("decode exception ::: {}", e)
+                }
+            } else {
+                resultStr = source
+            }
+        }
+        return resultStr
+    }
+
+    public static String encodeStr(String source) {
+        try {
+            if (source) {
+                return URLEncoder.encode(source, HTTP.UTF_8)
+            } else {
+                return ''
+            }
+        } catch (UnsupportedEncodingException e) {
+            log.error("encode exception ::: {}", e)
+        }
+    }
+
+    public static String removeSpecialCode(String str) {
+        String regEx = "[\"＂`~!@#%^&*()+=|\${}':;',  　　\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        return m.replaceAll("").trim();
+    }
+
+    //全网监控表达式不能包含特殊字符，除括号外
+    public static boolean existSpecialCode(String str) {
+        String regEx = "[\"＂`~!@#%^&*+=|\${}':;',,.\\[\\].<>/?~！@#￥%……&*——+|{}【】‘；：”“’。，、？]";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        return m.find();
+    }
+
+    //检查字符串是否只有文本、数字、下划线
+    public static boolean isLegitimate(String str) {
+        String regEx = "^\\w+\$"
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        return m.matches()
+    }
+    //检查字符串是否只有数字中文下划线
+    public static boolean isCheckName(String str) {
+        String regEx = "[^(a-zA-Z0-9\\\\u4e00-\\\\u9fa5)]"
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str);
+        return m.matches()
+    }
+
+    //检查密码的安全度,6-18位 包含数字、字母、下划线中至少两种
+    public static boolean securityPwd(String pwd) {
+        if (pwd && pwd.length() >= 6 && pwd.length() <= 18) {
+            if (isLegitimate(pwd)) {
+                //如果只包含数字或字母或下划线
+                String numReg = "^[0-9]+\$"
+                String wordReg = "^[A-Za-z]+\$"
+                String lineReg = "^[_]+\$"
+                if (Pattern.compile(numReg).matcher(pwd) || Pattern.compile(wordReg).matcher(pwd) || Pattern.compile(lineReg).matcher(pwd)) {
+                    return false
+                } else {
+                    return true
+                }
+            } else {
+                return false
+            }
+        } else {
+            return false
+        }
+    }
+
+    /**
+     * 过滤文本中的a标签
+     * @param str
+     * @return
+     */
+    public static String removeAElement(String str) {
+        return str ? str.replaceAll('<a.+href[^>]*>', '').replaceAll('</a>', '') : ''
+    }
+
+    public static String isNullOrNot(String str) {
+        String strRe = "";
+        strRe = (str == null ? "" : html2text(str))
+        return strRe
+    }
+
+    public static boolean isMobileNumber(String mobiles) {
+        return Pattern.compile('^((13[0-9])|(14[0-9])|(15[0-9])|(16[0-9])|(18[0-9])|(17[0-9])|(19[0-9])|(147))\\\\d{8}$').matcher(mobiles).matches();
+    }
+
+    /**
+     * 切分句子
+     * @param document
+     * @param sentence_separator
+     * @return
+     */
+    static Set<String> splitSentence(String document, String sentence_separator) {
+        def map = [:]
+
+        if (sentence_separator == null || sentence_separator.isEmpty()) {
+            sentence_separator = default_sentence_separator
+        }
+        document = document.replaceAll(" ", "\n").replaceAll("　", "\n")
+
+        for (String line : document.split("[\t\r\n]")) {
+            if (line.length() == 0) continue
+            for (String sent : line.split(sentence_separator)) {
+                if (sent.length() == 0) continue
+                for (String str : sent.split("\\s+")) {
+                    if (str) {
+                        map.put(str, org.apache.commons.lang3.StringUtils.deleteWhitespace(
+                                str.replaceAll(" ", "")
+                        ).length())
+                    }
+                }
+            }
+        }
+        def sort = map.sort { -it.value }
+
+        def set = sort.take(3).keySet()
+
+        return set
+    }
+
+    /**
+     * java生成随机数字和字母组合
+     * @param length[生成随机数的长度]
+     */
+    public static String getCharAndNumr(int length) {
+        String val = "";
+        Random random = new Random();
+        for (int i = 0; i < length; i++) {
+            // 输出字母还是数字
+            String charOrNum = random.nextInt(2) % 2 == 0 ? "char" : "num";
+            // 字符串
+            if ("char".equalsIgnoreCase(charOrNum)) {
+                // 取得大写字母还是小写字母
+                int choice = random.nextInt(2) % 2 == 0 ? 65 : 97;
+                val += (char) (choice + random.nextInt(26));
+            } else if ("num".equalsIgnoreCase(charOrNum)) { // 数字
+                val += String.valueOf(random.nextInt(10));
+            }
+        }
+        return val;
+    }
+
+    //生成word 时候url 转义
+    public static String replaceSpecialWord(String str){
+
+        if(str){
+            return str.replaceAll("&","&amp;").replaceAll("<","&lt;")
+            .replaceAll(">","&gt;").replaceAll("\"","&quot;").replaceAll("'","&apos;")
+        }else {
+            return ""
+        }
+    }
+
+    public static void main(String[] args) {
+        String a = "\n" +
+                "      \n" +
+                "原标题： lt;1441期 最高人民检察院关于人民检察院加强对民事诉讼和执行活动法律监督工作情况的报告\n" +
+                "            \n" +
+                "最高人民检察院关于人民检察院 \n" +
+                "\n" +
+                "加强对民事诉讼和执行活动法律监督 \n" +
+                "\n" +
+                "工作情况的报告（摘要） \n" +
+                "\n" +
+                "——2018年10月24日在第十三届全国人民代表大会常务委员会第六次会议上 \n" +
+                "\n" +
+                "最高人民检察院检察长　张军 \n" +
+                "根据本次会议安排，我代表最高人民检察院报告人民检察院加强对民事诉讼和执行活动法律监督工作情况，请予审议。 \n" +
+                "人民检察院依法对民事诉讼和执行活动实行法律监督，是中国特色社会主义检察制度的重要内容，也是我国司法制度的鲜明特色。2012年民事诉讼法修改，进一步完善了检察机关民事诉讼法律监督内容，将审判人员违法行为、执行活动和调解书等纳入检察监督范围，并新增检察建议、调查核实等监督方式和措施，规范了当事人申请监督的条件，对加强民事检察工作提出了更高要求。在以习近平同志为核心的党中央坚强领导下，在全国人大及其常委会有力监督下，全国检察机关紧紧围绕经济社会发展大局，深入贯彻民事诉讼法，忠实履行对民事诉讼和执行活动的法律监督职责，努力维护司法公正和权威，让人民群众在每一个民事检察监督案件中感受到公平正义。 \n" +
+                "一、准确把握人民群众日益增长的司法需求，民事诉讼和执行活动法律监督取得积极进展 \n" +
+                "民事诉讼和执行活动事关人民群众切身利益，案件量大、涉及面广。民事检察工作在化解矛盾纠纷、维护社会稳定、促进经济发展等方面具有不可替代的作用。中国特色社会主义进入新时代，我国社会主要矛盾转化，人民群众对民主、法治、公平、正义、安全、环境等方面的更高需求，不仅体现在刑事案件中，而且更多体现在民事案件里。近年来，检察机关受理的民事申诉信访案件持续高位运行，超过刑事申诉信访案件量，在信访案件总量中的占比上升趋势明显。2013年1月至2017年12月，全国检察机关共受理涉法涉诉信访172万件次，其中民事申诉信访65万件次，占37.8%；刑事申诉信访59.7万件次，占34.7%。2018年1月至9月，受理民事申诉信访9.5万件次，占各类涉法涉诉信访总数的40.4%，比2012年高出18.6个百分点。 \n" +
+                "各级检察机关牢记宪法法律赋予的职责，顺应人民群众新期待，坚持以司法办案为中心，全面加强对生效民事裁判、调解书和审判、执行活动的法律监督，构建起多元化民事检察"
+        println(a.trim())
+    }
+}

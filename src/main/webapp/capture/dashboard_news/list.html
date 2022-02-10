@@ -1,0 +1,138 @@
+<div class="bjj-cont-page">
+    <div class="loading highlightNewsLoading" ng-if="highlightNewsLoading" ng-include="'/inc/loading.html'"></div>
+    <div class="dashboard-list-body">
+        <div class="bjj-ellipsis bjj-page-title">
+            <a href="javascript:;" class="return" ng-click="detailBack()"><i class="fa fa-chevron-left" aria-hidden="true"></i> 返回 </a>
+            {{modalName}}
+            <span class="createTime" ng-show ="timeShow">更新时间：{{createTime}}</span>
+        </div>
+        <div class="container-fluid containerBox" ng-class="{true : 'containerSite', false : ''}[highlightSiteFilter.containerSiteBox]">
+            <div class="news-condition container-fluid" ng-show="needShow">
+                <div class="conditions">
+                    <div class="capture-conditions"><label>热度:</label>
+                        <span class="conditions {{highlightSiteFilter.heat == 0 ? 'on' : ''}}" ng-click="hightlightNewsHeatListClick($event)" data-heat="0">全部</span>
+                        <span class="conditions {{highlightSiteFilter.heat == 3 ? 'on' : ''}}" ng-click="hightlightNewsHeatListClick($event)" data-heat="3">高</span>
+                        <span class="conditions {{highlightSiteFilter.heat == 2 ? 'on' : ''}}" ng-click="hightlightNewsHeatListClick($event)" data-heat="2">中</span>
+                        <span class="conditions {{highlightSiteFilter.heat == 1 ? 'on' : ''}}" ng-click="hightlightNewsHeatListClick($event)" data-heat="1">低</span>
+                    </div>
+                    <div class="isShowBox">
+                        <div class="capture-conditions"><label>时间:</label>
+                            <input type="text" class="laydateTime" id="siteStartTime" ng-model="highlightSiteFilter.startTime" value="{{highlightSiteFilter.startTime | date: 'yyyy-M-dd HH:mm:ss'}}">
+                            <input type="text" class="laydateTime" id="siteEndTime" ng-model="highlightSiteFilter.endTime" value="{{highlightSiteFilter.endTime | date: 'yyyy-M-dd HH:mm:ss'}}"/>
+                        </div>
+                        <div class="capture-conditions"><label>倾向性:</label>
+                            <span class="conditions {{highlightSiteFilter.orientation == 0 ? 'on' : ''}}" ng-click="hightlightNewsOrientationListClick($event)" data-orientation="0">全部</span>
+                            <span class="conditions {{highlightSiteFilter.orientation == 1 ? 'on' : ''}}" ng-click="hightlightNewsOrientationListClick($event)" data-orientation="1">负面</span>
+                            <span class="conditions {{highlightSiteFilter.orientation == 2 ? 'on' : ''}}" ng-click="hightlightNewsOrientationListClick($event)" data-orientation="2">正面</span>
+                            <span class="conditions {{highlightSiteFilter.orientation == 3 ? 'on' : ''}}" ng-click="hightlightNewsOrientationListClick($event)" data-orientation="3">中性</span>
+                        </div>
+                        <div class="capture-conditions"><label> 类别:</label>
+                            <span class="conditions {{highlightSiteFilter.hasPic == 0 ? 'on' : ''}}" ng-click="hightlightNewsHasPicListClick($event)" data-has-pic="0">全部</span>
+                            <span class="conditions {{highlightSiteFilter.hasPic == 1 ? 'on' : ''}}" ng-click="hightlightNewsHasPicListClick($event)" data-has-pic="1">带图</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="capture-conditions-toggle hidden-conditions"><a>隐藏筛选条件 <i class="fa fa-angle-double-up" aria-hidden="true"></i></a></div>
+                <div class="capture-conditions-toggle show-conditions"><a>展开筛选条件 <i class="fa fa-angle-double-down" aria-hidden="true"></i></a></div>
+            </div>
+            <div class="view-news-list">
+                <div class="news-list-content">
+                    <div class="row news-list-search">
+                        <div class="news-list-condition col-lg-8">
+                            <ul class="nav-pills">
+                                <li role="presentation" class="news-list-condition-total" ng-click="hightlightToggleAllNewsList()">
+                                    <a>全选</a>
+                                    <div class="pull-left bjj-checkbox checkboxAll {{ active ? 'active' : '' }}">
+                                        <i class="fa fa-square-o fa-lg" aria-hidden="true"></i>
+                                    </div>
+                                </li>
+                                <li role="presentation" class="news-condition conditionBorder" ng-click="favoriteAll($event)"><a href="javascript:;">批量收藏</a>
+                                    <div style="display: none; position: absolute; margin-left: -40px; z-index:10;" class="showGroup">
+                                        <ol id="siteAllFavorite">
+                                            <li ng-repeat="i in normalGroup" class="bjj-ellipsis" ng-click="favoriteAllGroup($event, i.id)">{{i.groupName}}</li>
+                                        </ol>
+                                    </div>
+                                </li>
+                                <li ng-click="pushAll()" role="presentation" class="news-condition conditionBorder"><a href="javascript:;">批量推送</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-offset-3">
+                            <div class="input-group" ng-show="needShow">
+                                <input ng-model="keywords" type="text" class="form-control" ng-keyup="myKeyup($event)" placeholder="请输入关键词" maxlength="20">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" ng-click="keywordsSearchClick()" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="newsList">
+                        <div class="news-list-table">
+                            <ul class="dashboard-site-list">
+                                <li ng-repeat="item in dataList" class="{{item.id}} capture-site-list">
+                                    <div class="pull-left bjj-checkbox {{ item.active ? 'active' : '' }}" ng-click="hightlightToggleNewsList();">
+                                        <i class="fa fa-square-o fa-lg" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="news-list-item news-list" ng-class="{true:'read',false:''}[item.isRead]">
+                                        <a class="news-list-title" ng-click="gotoDetail($event, item.id)" ng-bind-html="item.title"></a>
+                                        <div class="news-list-contentAbstract bjj-ellipsis-2" ng-bind-html="item.contentAbstract"></div>
+                                        <div class="lists-item">
+                                            <p class="pull-left" ng-if="highlightShow">
+                                                <span class="first-website">发布网站: {{item.siteName}}</span>
+                                                <span class="time">发布时间: {{item.publishTime| date:"MM-dd HH:mm"}}</span>
+                                            </p>
+                                            <p class="pull-left" ng-if="riseRateMonitorShow">
+                                                <span class="first-website">来源网站: {{item.siteName}}</span>
+                                                <span class="time">发布时间: {{item.publishTime| date:"yyyy-MM-dd HH:mm"}}</span>
+                                                <span>热度上升率：{{item.riseRate}}</span>
+                                            </p>
+                                            <p class="pull-left" ng-if="reprintMediaMonitorShow">
+                                                <span class="first-website">节点网站: {{item.siteName}}</span>
+                                                <span class="time">转载时间: {{item.publishTime| date:"yyyy-MM-dd HH:mm"}}</span>
+                                                <span class="heat">来源网站：{{item.firstPublishSiteName}}</span>
+                                                <span class="heat">发布时间：{{item.firstPublishTime| date:"yyyy-MM-dd HH:mm"}}</span>
+                                            </p>
+                                            <span class="handle">
+                                                <i class="fa fa-pencil" ui-sref="editor({type : 1, newsId: item.id})" aria-hidden="true" title="编辑"></i>
+                                                <i class="fa fa-share-square-o push-{{item.id}} {{item.isPush ? 'bjj-select-square' : 'bjj-un-select' }}" aria-hidden="true" ng-click="push(item.id, item)" title="推送"></i>
+                                                <div class="favoriteBox">
+                                                    <i class="fa fa-star {{ item.isCollection ? 'bjj-select-star' : 'bjj-un-select' }}" aria-hidden="true" ng-click="favoriteClick($event, item.id, item)" title="收藏文稿"></i>
+                                                    <div style="display: none; position: absolute; margin-left: -40px; z-index: 10;" class="id{{item.id}} listFavorite">
+                                                        <ol id="siteFavorite">
+                                                            <li ng-repeat="group in normalGroup" class="bjj-ellipsis" ng-click="favoriteGroup($event, group.id, item.id)" data-news-id="{{item.id}}">{{group.groupName}}</li>
+                                                        </ol>
+                                                    </div>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                            <div ng-show="dataListBottomFinalView" ng-include="'/inc/data_list_bottom_final_view.html'"></div>
+                        </div>
+                        <list-empty ng-if="dataListEmptyView" msg="{{listEmptyMsg}}"></list-empty>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="capture-news-detail-page bjj-hide" ng-include="'/capture/news/detail_list_page.html'"></div>
+    <back-to-top container="bjj-cont-page"></back-to-top>
+</div>
+<script>
+    $('.news-condition .hidden-conditions').click(function(){
+        $('.news-condition .conditions .isShowBox').slideUp();
+        $('.hidden-conditions').hide();
+        $('.show-conditions').show();
+        $(".container-fluid").addClass("toggle-condition-site");
+    });
+    $('.news-condition .show-conditions').click(function(){
+        $('.news-condition .conditions .isShowBox').slideDown();
+        $('.hidden-conditions').show();
+        $('.show-conditions').hide();
+        $(".container-fluid").removeClass("toggle-condition-site");
+    });
+    $('.news-condition .conditions .capture-conditions span ').click(function(){
+        $(this).addClass('on').siblings().removeClass('on');
+    });
+</script>

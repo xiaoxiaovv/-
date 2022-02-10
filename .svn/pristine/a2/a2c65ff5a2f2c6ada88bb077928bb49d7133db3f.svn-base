@@ -1,0 +1,55 @@
+.evaluate-body { padding: 48px 40px 80px 40px; background: #fff; }
+.evaluate-body .evaluate-every-box { padding-bottom: 22px; border-bottom: 1px solid #eceff8; margin-bottom: 40px; }
+.evaluate-index .evaluate-channel { height: 65px; }
+.evaluate-index .evaluate-channel p .back { color: #2494f2; display: inline-block; margin-right: 20px; cursor: pointer; }
+.evaluate-index .evaluate-channel p .channels-name { font-size: 21px; margin-right: 24px;}
+.evaluate-index .evaluate-channel p .summary-time { color: #a4a4a4; margin-right: 24px; font-size: 13px; }
+.evaluate-index .evaluate-channel p .summary-name { color: #a4a4a4; font-size: 13px; }
+.evaluate-index .evaluate-channel span strong { font-weight: normal; font-size: 22px; margin-left: 5px; margin-top: 8px;}
+.evaluate-index .evaluate-detail-index { width: 100%; height: 140px; border: 1px solid #eceff8; border-left: none;  }
+.evaluate-body .evaluate-every-box .module-name { font-size: 15px; color: #191919; }
+.evaluate-index .evaluate-detail-index ul li { width: calc(20% - 1px); height: 140px; border-left: 1px solid #eceff8; padding: 27px 0 22px 23px; position: relative; }
+.evaluate-index .evaluate-detail-index ul li.active { color: #2494f2; }
+.evaluate-index .evaluate-detail-index ul li p { margin: 0;}
+.evaluate-index .evaluate-detail-index ul li p span:first-child { color:  #6f6f6f; }
+.evaluate-index .evaluate-detail-index ul li p.content-tips { position: absolute; display: none; z-index: 10; width: 275px; height: 80px; background: #fff; line-height: 25px; padding: 15px 10px; border: 1px solid #eceff8; top: 53px; left: 40px;}
+.evaluate-index .evaluate-detail-index ul li p.content-tips.content-tsi-tips-p { left: -150px;}
+.evaluate-index .evaluate-detail-index ul li p.content-tips a { cursor: pointer; }
+.evaluate-index .evaluate-detail-index ul li p.content-tips span { color: #d8d8d8; cursor: pointer;}
+.evaluate-index .evaluate-detail-index ul li p b { font-weight: normal; float: left; margin-right: 5px; color: #a4a4a4; }
+.evaluate-index .evaluate-detail-index ul li p i{ width: 10px; height: 11px;margin: 4px 5px 0 0px; float: left; background-image: url(/theme/default/images/trend-marks.png);}
+.evaluate-index .evaluate-detail-index ul li p.top i { background-position: 0px -33px; }
+.evaluate-index .evaluate-detail-index ul li p.down i { background-position: 10px -33px; }
+.evaluate-index .evaluate-detail-index ul li p.top span.trend { color: #F86574; }
+.evaluate-index .evaluate-detail-index ul li p.down span.trend { color: #00CCAF; }
+.evaluate-index .evaluate-detail-index ul li .explain {display: inline-block; cursor: pointer; width: 14px; height: 14px; padding-left: 3px; color:#a4a4a4; margin-left: 5px; line-height: 12px; border: 1px solid #a4a4a4; border-radius: 50%; font-size: 10px; }
+.evaluate-index .evaluate-detail-index ul li .detail-index { font-size: 20px; margin-bottom: 22px;}
+.evaluate-body .evaluate-every-box ul.list-ul li { padding-right: 20px; color: #6f6f6f; float: left; cursor: pointer; margin: 8px 0 20px 0; font-size: 13px;}
+.evaluate-body .evaluate-every-box ul.list-ul li:hover,
+.evaluate-body .evaluate-every-box ul.list-ul li.active { color: #2494f2; }
+.evaluate-body .evaluate-every-box .bjj-list-empty { height: 200px; margin-top: 150px; }
+.evaluate-body .trend-statistics .echarts-box { width: 100%; height: 300px; clear: both; text-align: center;}
+.evaluate-body .evaluate-every-box .table { border: 1px solid #eceff8; }
+.evaluate-body .evaluate-every-box .table .pagination li { margin-right: 10px; }
+.evaluate-body .evaluate-every-box .table thead tr,.evaluate-body .evaluate-every-box .table tbody tr { width: 100%; height: 49px; }
+.evaluate-body .evaluate-every-box .table thead tr td,.evaluate-body .evaluate-every-box .table tbody tr td { line-height: 38px; text-align: right; border-bottom: 1px solid #eceff8;}
+.evaluate-body .evaluate-every-box.site-ranking { padding-bottom: 55px; }
+.evaluate-body .evaluate-every-box .table thead tr td.index,.evaluate-body .evaluate-every-box .table tbody tr td.index { text-align: center; }
+.evaluate-body .evaluate-every-box .table thead tr td.title,.evaluate-body .evaluate-every-box .table tbody tr td.title { text-align: left; width: 40%; }
+.evaluate-body .evaluate-every-box .table tbody tr td.title span { display: inline-block; height: 38px; overflow: hidden; }
+.evaluate-body .evaluate-every-box .table tbody tr td a { cursor: pointer; }
+.evaluate-every-box .table tbody tr td.channel-active { color: #00CCAF; }
+.evaluate-every-box .table tbody tr td.channel-no-active { color: #FFA16E ; }
+.evaluate-every-box .table tbody tr td.channel-abnormal { color: #F86574; }
+.evaluate-every-box .table-striped>tbody>tr:nth-of-type(odd),.evaluate-every-box .table-striped>tbody>tr:nth-of-type(odd):hover { background: #fff; }
+.setIndex .modal-dialog { width: 335px;}
+.setIndex .channel-explain,.setIndex .channel-explain-four-power { display: inline-block; cursor: pointer; width: 14px; height: 14px; padding-left: 3px; color:#a4a4a4; margin-left: 5px; line-height: 12px; border: 1px solid #a4a4a4; border-radius: 50%; font-size: 10px;}
+.setIndex .channel-explain:hover + .channel-explain-content{ display: block; }
+.setIndex .channel-explain-content { width: 242px; height: 113px; display: none; z-index: 10; position: absolute; margin-left: 260px; border: 1px solid #eceff8; padding-top: 10px; background: #fff; }
+.setIndex .channel-explain-four-power:hover + .channel-explain-content-four-power { display: block; }
+.setIndex .channel-explain-content-four-power { width: 341px; height: 171px; display: none; padding-top: 10px; position: absolute; border: 1px solid #eceff8; background: #fff; margin-left: 260px; }
+.setIndex .channel-explain-content-four-power span {   float: left;width: 60px; margin-left: 20px; line-height: 30px; color: #6f6f6f; }
+.setIndex .channel-explain-content span { float: left; width: 100px; margin-left: 20px; color: #6f6f6f; line-height: 30px;}
+.setIndex .modal-body .form-group div.every-box { height: 35px; margin-bottom: 15px; }
+.setIndex .modal-body .form-group div.every-box label { display: inline-block; width: 100px; text-align: right; color: #878787; }
+.setIndex .modal-body .form-group div.every-box input,.setIndex .modal-body .form-group div.every-box select { border: 1px solid #eceff8; width: 110px; height: 30px; padding-left: 3px; margin: 0 10px; }

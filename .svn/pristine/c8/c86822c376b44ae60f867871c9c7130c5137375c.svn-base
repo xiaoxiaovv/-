@@ -1,0 +1,70 @@
+.evaluate-report { background: #fff; min-height: 100%; padding: 0px 40px 35px 40px;}
+.evaluate-report-title { height: 90px; padding-top: 35px; color:#191919; }
+.evaluate-report-title p { font-size: 21px; margin-right: 30px; }
+.evaluate-report-title span { line-height: 35px; font-size: 13px; color: #a4a4a4;}
+.evaluate-report-name label { display: block; width: 100%; margin-top: 30px; }
+.evaluate-report-name input { width: 100%; margin-top: 20px; height: 36px; border:1px solid #eceff8; padding-left: 10px; }
+.evaluate-report-name p { color: red; margin-top: 5px;}
+.evaluate-report-list { margin-top: 38px; }
+.evaluate-report-list ul.operationBtn { height: 35px; position: relative; }
+.evaluate-report-list ul.operationBtn.moveBtn { background: #f5f5f5; color: #999; }
+.evaluate-report-list ul.operationBtn li.operationBtn { width: 95px; height: 35px; line-height: 35px; border-radius: 4px; padding: 0 15px; border:1px solid #eceff8; margin-right: 10px; cursor: pointer; text-align: center; }
+.evaluate-report-list ul.operationBtn li.moveBtn { background: #f5f5f5; color: #999; cursor: inherit; }
+.evaluate-report-list ul.operationBtn li.operationBtn:hover { background: #f5f5f5; }
+.evaluate-report-list ul .form-control { width: 20%; float: right; }
+.evaluate-report-list ul .input-group-btn { margin-left: -4px; margin-right: 23px; }
+.evaluate-report-list .setTeamBox { width: 185px; border: 1px solid #eceff8; background: #fff; }
+.evaluate-report-list .setTeamBox .setTeam li {  width: 100%; height: 35px; line-height: 35px; font-size: 14px; border-bottom: 0; margin: 0; padding: 0 15px; color: #333;}
+.evaluate-report-list .setTeamBox .setTeam li:hover { background: #E6EDF6; color: #a8c7fe; cursor: pointer; }
+.evaluate-report-list select.bootstrap-select { width: 110px; margin-right: 15px; border: 1px solid #eceff8; }
+.evaluate-report-list input, .evaluate-report-list .input-group-btn button { border: 1px solid #eceff8; }
+.evaluate-report-list .member-list { color: #333; }
+.evaluate-report-list .member-list .box-condensed { border: 1px solid #ededed; }
+.evaluate-report-list .member-list .box-condensed ol li{ color: #999; font-size: 12px; height: 40px; float: left; line-height: 40px; }
+.evaluate-report-list .member-list .box-condensed ol li.seize { width: 36px; }
+.evaluate-report-list .member-list .box-condensed ol li.account { width: 30%; padding-left: 15px; }
+.evaluate-report-list .member-list .box-condensed ol li.phone { width: 15%; }
+.evaluate-report-list .member-list .box-condensed ol li.name { width: 15%; }
+.evaluate-report-list .member-list .box-condensed ol li.really { width: 50px; }
+.evaluate-report-list .member-list .box-condensed ol li.edit { width: 260px; padding-left: 145px; }
+.evaluate-report-list .member-list .everyGroup .toggleGroup { float: right; width: 40px; height: 40px; text-align: center; border-left: 1px solid #ededed; cursor: pointer; }
+.evaluate-report-list .member-list .everyGroup .toggleGroup:hover { background: #ededed;}
+.evaluate-report-list .member-list .groupMember .toggleGroup { border-left: none; }
+.evaluate-report-list .member-list .toggleGroup b { cursor: pointer; }
+.evaluate-report-list .member-list ul { border: 1px solid #eceff8; border-bottom: none; border-top: none; margin-bottom: 0px; }
+.evaluate-report-list .member-list ul li { height: 50px; line-height: 50px; border-bottom: 1px solid #eceff8;}
+.evaluate-report-list .member-list .groupMember li { padding-left: 23px;  font-size: 12px; position: relative; }
+.evaluate-report-list .member-list ul .groupMember .deleteTeam,.evaluate-report-list .member-list ul .groupMember .editTeam { color: #999; margin-right: 24px; cursor: pointer; }
+.evaluate-report-list .member-list ul .groupMember .moveTeam { color: #999; cursor: pointer; }
+.evaluate-report-list .member-list ul .groupMember .isManager .moveTeam { margin-left: 107px; }
+.evaluate-report-list .member-list ul .everyGroup .deleteTeam,.evaluate-report-list .member-list ul .everyGroup .editTeam { color: #999; margin-right: 24px; cursor: pointer; }
+.evaluate-report-list .member-list ul .moveTeam:hover { color: #2494f2;}
+.evaluate-report-list .member-list ul .deleteTeam:hover { color: #2494f2;}
+.evaluate-report-list .member-list ul .editTeam:hover { color: #2494f2;}
+.evaluate-report-list .member-list ul .everyGroup .deleteTeam { margin-right: -20px; }
+.evaluate-report-list .member-list ul .inputTeamName { width: 70px; height: 20px; margin-left: 15px; float: left; margin-top: 10px;}
+.evaluate-report-list .member-list ul .deleteTeam.deleteUser { margin-right: 19px; }
+.evaluate-report-list .member-list ul li.everyGroup { height: 40px; line-height: 40px; background: #f9f9f9; }
+.evaluate-report-list .member-list ul li.everyGroup .line { float:left; width: 3px; height: 40px; background: #777788; margin-right: 20px; }
+.evaluate-report-list .member-list ul .everyGroup .editMember { width: 164px; min-width: 164px; }
+.evaluate-report-list .member-list ul .groupMember li .editMember { width: 164px; text-align: left; font-size: 14px; height: 50px; }
+.evaluate-report-list .member-list ul li .editMember.team0 { width: 164px; min-width: 164px; }
+.evaluate-report-list .member-list ul li .editMember.team0 .editTeam{ margin-right: 25px; }
+.evaluate-report-list .member-list ul li .editMember.team0 .deleteTeam { margin-right: 50px; }
+.evaluate-report-list .member-list ul li .account-people { float: left; width: 30%; }
+.evaluate-report-list .member-list ul li .account-people .spanTeamName { margin-left: 15px; }
+.evaluate-report-list .member-list ul li .account-people b { font-weight: normal; margin-right: 12px; margin-left: 15px; }
+.evaluate-report-list .member-list ul li .ismanager { display: inline-block; padding:0 2px; height: 14px; background: #ff9900; position: absolute; top: 19px; font-size: 12px; font-weight: 400; }
+.evaluate-report-list .member-list ul li .account-phone { float: left; width: 15%; height: 50px; }
+.evaluate-report-list .member-list ul li .account-name { float: left; width: 15%; height: 50px; text-align: left; }
+.evaluate-report-list .member-list ul li .account-name span { float: left; width: 92%; height: 50px; overflow: hidden; }
+.evaluate-report-list .member-list ul li .account-really {float: left; text-align: left; cursor: pointer; }
+.evaluate-report-list .member-list ul li .account-edit { display: inline-block; width: 15%; }
+.btn-box { margin-top: 50px; }
+.btn-box .btn { width: 110px; }
+#modifyTeamModal .modal-body { height: 120px; }
+.evaluate-modal-every select { width: 21%; }
+.evaluate-modal-every select.team-select { margin-left: 15px; }
+.evaluate-modal-every input { width: 52%; margin-left: 10px;}
+.evaluate-modal-every input.modal-website { margin-left: calc(43% + 21px); margin-top: 10px; }
+

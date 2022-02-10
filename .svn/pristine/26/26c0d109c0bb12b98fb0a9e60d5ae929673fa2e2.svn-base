@@ -1,0 +1,101 @@
+package com.istar.mediabroken.service.statistics
+
+import com.alibaba.fastjson.JSON
+import com.alibaba.fastjson.JSONObject
+import com.istar.mediabroken.entity.capture.NewsOperation
+import com.istar.mediabroken.repo.capture.NewsRepo
+import com.istar.mediabroken.repo.statistics.StatisticsManageRepo
+import com.istar.mediabroken.utils.DateUitl
+import groovy.util.logging.Slf4j
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Service
+
+/**
+ * author:hh
+ * date:2018/3/21
+ */
+@Service
+@Slf4j
+class DataDeleteService {
+    @Value('${data.backup.path}')
+    String backUpPath
+    @Value('${env}')
+    String env
+    @Autowired
+    StatisticsManageRepo statisticsManageRepo
+    @Autowired
+    NewsRepo newsRepo
+
+    void DataDelete() {
+        Date date = DateUitl.addDay(new Date(), -60)
+        def flag = true
+        long deleteCount = 0L
+        while (flag) {
+            List<NewsOperation> operationList = newsRepo.getTimeOutNewsData(date)
+            if (operationList) {
+                if ("online".equals(env)) {
+                    handleAndWriteTimeOutData(operationList)
+                }
+                deleteTimeOutData(operationList)
+                deleteCount += operationList.size()
+            } else {
+                flag = false
+                log.info(new Date()+"删除newsOperation表中数据"+deleteCount+"条!")
+            }
+        }
+    }
+
+    private void deleteTimeOutData(List<NewsOperation> operationList) {
+        def operationIds = []
+        operationList.each { operation ->
+            operationIds.add(operation.get_id())
+        }
+        newsRepo.deleteTimeOutData(operationIds)
+    }
+
+    private Boolean handleAndWriteTimeOutData(List<NewsOperation> operationList) {
+        def listCount = operationList.size()
+        Boolean isEquals = DateUitl.isEquals(operationList.get(0).getCreateTime(),
+                operationList.get(listCount - 1).getCreateTime())
+        if (isEquals) {
+            String date = DateUitl.convertFormatDate(operationList.get(0).getCreateTime(), "yyyyMMdd")
+            String fileName = backUpPath + "newsOperation" + date + ".txt"
+            WriteTimeOutData(operationList, fileName)
+        } else {
+            Map operationMap = groupByCreateTime(operationList)
+            operationMap.each { operation ->
+                String fileName = backUpPath + "newsOperation" + operation.key + ".txt"
+                WriteTimeOutData(operation.value, fileName)
+            }
+        }
+    }
+
+    private Map groupByCreateTime(List<NewsOperation> operationList) {
+        Map<String, List<NewsOperation>> resultMap = new HashMap<String, List<NewsOperation>>()
+        for (NewsOperation newsOperation : operationList) {
+            String key = DateUitl.convertFormatDate(newsOperation.getCreateTime(), "yyyyMMdd")
+            if (resultMap.containsKey(key)) {
+                resultMap.get(key).add(newsOperation)
+            } else {
+                List<NewsOperation> tmpList = new ArrayList<NewsOperation>()
+                tmpList.add(newsOperation)
+                resultMap.put(key, tmpList)
+            }
+        }
+        return resultMap
+    }
+
+    private void WriteTimeOutData(List<NewsOperation> operationList, fileName) {
+        JSON json = JSONObject.toJSON(operationList)
+        try {
+            FileWriter file = new FileWriter(fileName, true)
+            BufferedWriter out = new BufferedWriter(file);
+            out.write(json.toString())
+            out.newLine()
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}

@@ -1,0 +1,42 @@
+<div class="bjj-page-title">版权分析</div>
+<div class="container-fluid containerBox"  ng-class="{true :'containerMonitor', false :''}[containerMonitorBox]">
+    <div class="news-condition container-fluid">
+        <div class="monitorNews"><span class="containerTitle bjj-ellipsis" ng-bind="monitor.title"></span></div>
+        <div class="monitorNews">
+            <span class="firstSpan">监控开始时间：{{monitor.startDate | date:'yyyy-MM-dd'}}</span>
+            <span>文章数：{{monitor.reprintCount}}</span>
+            <span>疑似侵权：{{monitor.tortCount}}</span>
+            <span>作者：{{monitor.author}}</span>
+            <span>来源：{{monitor.media}}</span>
+        </div>
+        <div class="monitorNews monitor-contentAbstract"><span class="firstSpan contentAbstractSpan">摘要：</span><span class="contentAbstract bjj-ellipsis-2">{{monitor.contentAbstract || '无'}}</span></div>
+        <div class="monitorNews"><span class="firstSpan bjj-ellipsis-2" ng-click="jumpCopy()">原文链接：<span class="monitorUrl">{{monitor.url}}</span></span></div>
+    </div>
+    <div class="clearfix"></div>
+    <ul class="nav nav-tabs">
+        <li class="newsBtn on" ng-click="listClick()" class="on"><a href="javascript:;">文章列表</a></li>
+        <li class="analysisBtn" ng-click="getMonitorIdReprintData()"><a href="javascript:;">传播分析</a></li>
+    </ul>
+    <div class="clearfix"></div>
+    <div class="newsListBox" ng-hide="show" ng-include="'/copyright/news_list.html?'"></div>
+    <div class="monitor-analysis container-fluid" ng-show="show">
+        <div class="monitor-analysis-echarts">
+            <div id="news-analysis-summary"></div>
+            <div class="loading copyrightAnalysisLoading" ng-if="copyrightAnalysisLoading" ng-include="'/inc/loading.html'"></div>
+        </div>
+        <div class="monitor-analysis-echarts">
+            <div id="news-analysis-weekly-reprint-trend"></div>
+            <div class="loading copyrightAnalysisTrendLoading" ng-if="copyrightAnalysisTrendLoading" ng-include="'/inc/loading.html'"></div>
+        </div>
+        <div class="monitor-analysis-echarts">
+            <div id="news-analysis-channel-reprint-summary"></div>
+            <div class="loading copyrightAnalysisSummaryLoading" ng-if="copyrightAnalysisSummaryLoading" ng-include="'/inc/loading.html'"></div>
+        </div>
+    </div>
+</div>
+<back-to-top container="bjj-cont-page"></back-to-top>
+<script>
+    $('.containerBox .nav-tabs li').click(function(){
+        $(this).addClass('on').siblings().removeClass('on');
+    })
+</script>

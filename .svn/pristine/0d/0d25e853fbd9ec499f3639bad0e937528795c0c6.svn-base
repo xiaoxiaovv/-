@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="accountInitApp" ng-controller="accountInitCtrl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, shrink-to-fit=no">
+    <meta name="format-detection" content="telephone=no">
+    <title ng-bind="appInfo.appName"></title>
+    <link rel="icon" ng-href="{{appInfo.icon}}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/default/css/ui.css">
+    <link rel="stylesheet" href="/theme/default/css/account.init.css">
+    <link rel="stylesheet" ng-href="{{'/theme/' + appInfo.appKey + '/css/diy.css'}}">
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="bjj-header">
+    <div class="bjj-header">
+        <nav class="navbar navbar-default navbar-fixed-top default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="/main.html"><img ng-src="{{appInfo.logo}}" alt="{{appInfo.appName}}"></a>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+<div class="bjj-main container-fluid">
+    <div class="field row">
+        <div class="title">欢迎你，{{username}}</div>
+        <div class="help-block introduce">通过简单的设置即可获得更适合你的内容</div>
+        <div class="field-classify">
+            <div class="field-container">
+                <div class="fields">
+                    <div class="pull-left classify-title">请选择您所关注的领域<span class="sign">（可选3个）</span></div>
+                    <div class="clearfix"></div>
+                    <div class="field-btn {{ item.active ? 'active' : '' }}" ng-repeat="item in fields">
+                        <i class="fa fa-check-circle" aria-hidden="true"></i>
+                        <button ng-click="toggleField()" type="button" class="btn btn-default navbar-btn fields-btn btn-{{item.row}}-{{$index % 5 + 1}}">{{item.value}}</button>
+                    </div>
+                </div>
+                <div class="field-handle">
+                    <button ng-click="finishedClick()" type="button" class="btn btn-primary firstNext">完成</button>
+                    <span ng-click="skip()" class="btn skip">跳过</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.6.5/angular-sanitize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.10.8/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+<script src="/lib/common.js"></script>
+<script>
+    var setting = { expires: 1000, path: '/' };
+    var app = angular.module( "accountInitApp", [] );
+    app.controller('accountInitCtrl', function($scope, $http) {
+
+        getAppInfo($scope, $http);
+        if($.cookie('sid') == undefined) { goto('/'); return; }
+        if($.cookie('isSitesInited') == 'true') { goto('/main.html'); return; }
+
+        $scope.username = $.cookie('userName');
+        $scope.identityType   = 1;
+        $scope.selectedFields = [];
+        $scope.Fields           = [];
+        $scope.selectedIdentityType = [];
+        getClassificationDate($scope, $http);
+
+        $scope.firstNext = function() {
+            $('.bjj-main .field').hide();
+            $('.bjj-main .area').show();
+        };
+        /*领域*/
+        $scope.toggleField = function(){
+            this.item.active = !this.item.active;
+            if(this.item.active == true) {
+                $scope.selectedFields.push(this.item)
+                $scope.Fields = $scope.selectedFields;
+            }
+            if(this.item.active == false) {
+                $scope.selectedFields = _.filter($scope.selectedFields, {'active' : true});
+                $scope.Fields = $scope.selectedFields;
+            }
+            if($scope.selectedFields.length > 3) {
+                this.item.active = false;
+                bjj.dialog.alert('danger', '最多可选择3个！');
+                return ;
+            }
+        };
+        /*跳过*/
+        $scope.skip = function(){
+            var classification = [];
+            getInitData($scope, $http, classification);
+        };
+        /*完成*/
+        $scope.finishedClick = function() {
+            var classification = [];
+            _.forEach($scope.Fields, function (v, i) {
+                classification.push(v.value);
+            });
+            classification = classification.join(',')
+            getInitData($scope, $http, classification);
+        };
+    });
+    var getClassificationDate = function($scope, $http) {
+        bjj.http.ng.get($scope, $http, '/api/capture/site/classification', {}, function (res) {
+            $scope.fields = res.msg;
+            _.map($scope.fields, function (v, i) {
+                v.row = parseInt(i / 5) + 1;
+            });
+        });
+    };
+    var getInitData = function($scope, $http, classification ) {
+        bjj.http.ng.post($scope, $http, '/api/account/initialization', {
+            classification  : encodeURIComponent(classification),
+            duty            : ''
+        }, function (res) {
+            $.cookie('isSitesInited',   true,  setting);
+            goto('/main.html');
+        });
+    };
+    var getAppInfo = function ($scope, $http) {
+        bjj.http.ng.get($scope, $http, '/api/app/info', {}, function (res) {
+            $scope.appInfo = res.appInfo;
+        });
+    };
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+<div class="bjj-cont-sidebar account-monitor-nav">
+    <div class="loading copyrightMonitorLoading" ng-if="copyrightMonitorLoading" ng-include="'/inc/loading.html'"></div>
+    <div class="nav bjj-nav">
+        <span>版权监控设置</span>
+        <b><a ui-sref="copyright({type: 'list'})">返回</a></b>
+    </div>
+    <div class="account-monitor-list">
+        <div class="new-add-site" ui-sref=".modify({monitorId: '0'})">
+            <i class="fa fa-plus" aria-hidden="true"></i> 新建作品
+        </div>
+        <ul class="nav-list list-unstyled monitor-list">
+            <li ng-repeat="item in monitorList" class="monitorSet" role="presentation">
+                <a class="bjj-ellipsis-2" ui-sref=".modify({monitorId: item.monitorId})">{{item.title}}</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="bjj-cont-page bjj-bg-white container-fluid" data-ui-view=""></div>
+<div class="clearfix"></div>

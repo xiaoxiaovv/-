@@ -1,0 +1,17 @@
+.message-title { border-bottom: none; padding-left: 20px; }
+.message-continer { min-height: calc(100% - 50px);background: #fff; padding: 0px 15px; }
+.message-continer .message:first-child { border-top: 1px solid #ddd;}
+.message-continer .message:first-child .bell-left { margin-top: 25px; }
+.message-continer .message { border-bottom: 1px solid #ddd; }
+.message-continer .message:last-child { border-bottom: none; }
+.message-continer .message .bell-left { float: left; padding-left: 20px; text-align: center;}
+.message-continer .message .bell-left .circle { width: 48px; height: 48px; line-height: 53px; border-radius:50px; background: #ff9900; position: relative; }
+.message-continer .message .bell-left .circle .out { position: absolute; top: 5px; left: 38px; width: 12px; height: 12px; border-radius: 12px; background: #fff; }
+.message-continer .message .bell-left .circle .no-read-sign { position: absolute; top: 7px; left: 40px; width: 8px; height: 8px; border-radius: 8px; background: red; }
+.message-continer .message .bell-left .circle .fa-bell { color: #fff; font-size: 22px; }
+.message-continer .message .message-right { margin: 25px 0 25px 90px; }
+.message-continer .message .message-right .detail-message { margin-bottom: 15px; }
+.message-continer .message .message-right .notice-title { color: #999; font-weight: bold; font-size: 14px; }
+.message-continer .message .message-right .notice-time { color: #999; font-size: 12px; margin-left: 20px; }
+.message-continer .message .message-right .notice-tips { margin-top: 5px; color: #666; }
+.message-continer .message .message-right .notice-tips a { cursor: pointer; }

@@ -1,0 +1,74 @@
+<div class="site-modify-page">
+    <div class="bjj-page-title"><span>{{monitorEditPage ? '编辑监控作品' : '新建监控作品'}}</span>
+        <span class="pull-right" ng-if="monitorEditPage"><a ng-click="deleteMonitor()" href="">删除作品</a></span>
+    </div>
+    <div class="site-container" ng-hide="isShowView">
+        <div class="self-write">
+            <form name="myForm" class="modifyForm">
+                <div class="form-group">
+                    <label class="site-type">链接地址</label>
+                    <p>
+                        <input type="text" class="form-control long" placeholder="请输入或粘贴作品的链接地址，点击查询" ng-model="accountMonitor.url" required/>
+                        <button type="button" ng-click="getNewsByUrl()" class="btn btn-primary btn-sm search-btn">查询</button>
+                        <!--<label class="f1af00" ng-show="myForm.url.$dirty && myForm.url.$valid"></label>-->
+                        <!--<label class="f1af00 fz12" ng-show="myForm.url.$error.required">*</label>-->
+                    </p>
+                </div>
+                <div class="form-group titleName">
+                    <label class="site-type">作品名称</label>
+                    <p>
+                        <input maxlength="140" ng-keyup="titleInput($event)" type="text" class="form-control long" placeholder="请输入作品名称" ng-model="accountMonitor.title" required/>
+                        <span class="sigin">*</span>
+                        <span class="help-block">{{accountMonitor.title.length || 0}}/140</span>
+                    </p>
+                </div>
+                <div class="form-group">
+                    <label class="site-type">摘要</label>
+                    <textarea rows="3" ng-model="accountMonitor.contentAbstract" class="form-control long" placeholder="请输入作品摘要"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="site-type">署名作者</label>
+                    <input type="text" class="form-control long" placeholder="请输入作者" ng-model="accountMonitor.author">
+                </div>
+                <div class="form-group">
+                    <label class="site-type">监控开始时间</label>
+                    <input type="text" name="date" class='form-control short' id="publicTime" value="{{accountMonitor.startDate}}"/>
+                    <span class="help-block monitorTime">(监控时间：30天内)</span>
+                </div>
+                <div class="form-group">
+                    <label class="site-type">版权媒体</label>
+                    <input type="text" class="form-control short" placeholder="请输入媒体名称" ng-model="accountMonitor.media" maxlength="20">
+                </div>
+                <div class="form-group">
+                    <label class="site-type white-site-type">白名单<span class="choose">（勾选后生效）</span></label>
+                    <div class="contain">
+                        <span class="line-t media" ng-repeat="item in accountCopyrightFilter.whiteList">
+                            <div class="pull-left bjj-checkbox {{ item.active ? 'active' : '' }}" ng-click="toggleBlackAndWhiteList();">
+                                <i class="fa fa-square-o fa-lg" aria-hidden="true"></i>
+                            </div>
+                            <span class="lable_check mediaType">{{item.websiteName}}</span>
+                        </span>
+                        <span data-toggle="modal" data-target="#whiteExampleModal" ng-click="addWhiteViewClick()" class="set">设置</span>
+                    </div>
+                </div>
+                <div class="form-group black-form">
+                    <label class="site-type black-site-type">重点监控<span class="choose">（勾选后生效）</span></label>
+                    <div class="contain">
+                        <span class="line-t media" ng-repeat="item in accountCopyrightFilter.blackList">
+                            <div class="pull-left bjj-checkbox {{ item.active ? 'active' : '' }}" ng-click="toggleBlackAndWhiteList();">
+                                <i class="fa fa-square-o fa-lg" aria-hidden="true"></i>
+                            </div>
+                            <span class="lable_check mediaType">{{item.websiteName}}</span>
+                        </span>
+                        <span data-toggle="modal" data-target="#blackExampleModal" ng-click="addBlackViewClick()" class="set">设置</span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="isShow" ng-show="isShowView" class=""><p>该作品已删除</p></div>
+</div>
+<div ng-hide="isShowView" class="bjj-account-save-view">
+    <div><button class="btn btn-primary" ng-click="monitorEditSave()">保存</button></div>
+</div>
+<div ng-include="'/copyright/edit.html'"></div>

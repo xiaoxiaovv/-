@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="icon">
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        body { width: 100%; height: 100%; min-height: 669px; position: absolute; margin: 0;padding: 0;min-width: 1190px; color: #fff;}
+        body::-webkit-scrollbar { width: 0; }
+        .contentTop img , .contentBottom img{
+            width: 147px;
+            height: 168px;
+        }
+        .outer{
+            width: 100%;
+            height: 100%;
+            background: url('theme/default/images/portal/mediaBg.jpg');
+            background-size: 100% 100%;
+            background-repeat:no-repeat;
+        }
+        .headerNav{
+            position: absolute;
+            width: 100%;
+            height: 109px;
+            background: url('theme/default/images/portal/mediaNav.png');
+            background-size: 100% 100%;
+            background-repeat:no-repeat;
+        }
+        .absolute{
+            position: absolute;
+        }
+        .showlogo{
+            left: 7%;
+            top: 14px;
+        }
+        .showtext{
+            left: 10%;
+            height: 61px;
+            line-height: 61px;
+            font-size: 18px;
+            margin-left: 12px;
+        }
+        .contentTop{
+            display: flex;
+            margin: 0 auto;
+            width: fit-content;
+            padding-top: 15vh;
+            text-align: center;
+            color:#2CFDED;
+        }
+        .contentBottom{
+            display: flex;
+            width: fit-content;
+            margin: 43px auto 0;
+            text-align: center;
+            color:#2CFDED;
+        }
+        .margin-right-106{
+            margin-right: 68px;
+            cursor: pointer;
+        }
+        .margin-right-92{
+            margin-right: 54px;
+            cursor: pointer;
+        }
+        .hoverthis{
+            cursor: pointer;
+        }
+        .margin-top-22{
+            margin-top: 22px;
+            height: 33px;
+            width: 205px;
+            line-height: 31px;
+            background: url('theme/default/images/portal/mediaTextBg.png');
+            background-size: 100% 100%;
+            background-repeat:no-repeat;
+        }
+        .margin-right-106:hover img,.margin-right-92:hover img,.hoverthis:hover img{
+                transform: scale(1.2);
+        }
+    </style>
+</head>
+<body>
+<div class="outer">
+    <div class="headerNav">
+        <img src="theme/default/images/portal/productLogo.png" class="absolute showlogo">
+        <div class="absolute showtext">智慧星光融媒体中心</div>
+    </div>
+    <div class="contentTop">
+        <div class="margin-right-92">
+            <img src="theme/default/images/portal/shelteGl.png">
+            <div class="margin-top-22">网媒管理系统</div>
+        </div>
+        <div class="margin-right-92">
+            <img src="theme/default/images/portal/mineGo.png">
+            <div class="margin-top-22">宣传督导系统</div>
+        </div>
+        <div class="margin-right-92">
+            <img src="theme/default/images/portal/collect.png">
+            <div class="margin-top-22">智能采编系统</div>
+        </div>
+        <div class="hoverthis">
+            <img src="theme/default/images/portal/busys.png">
+            <div class="margin-top-22">媒资内容库</div>
+        </div>
+    </div>
+    <div class="contentBottom">
+        <div class="margin-right-106">
+            <img src="theme/default/images/portal/watchCenter.png">
+            <div class="margin-top-22">监控中心系统</div>
+        </div>
+        <div class="margin-right-106">
+            <img src="theme/default/images/portal/enterGl.png">
+            <div class="margin-top-22">网站设置</div>
+        </div>
+        <div class="hoverthis">
+            <img src="theme/default/images/portal/linesBg.png">
+            <div class="margin-top-22">权限管理</div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    document.getElementsByClassName('margin-right-92')[0].onclick=function(){
+        window.open('https://wmgl.zhihuibian.com/main.html#!/review/news/list');
+    }
+    document.getElementsByClassName('margin-right-92')[1].onclick=function(){
+        window.open('https://wmgl.zhihuibian.com/main.html#!/media/quality/list');
+    }
+    document.getElementsByClassName('margin-right-92')[2].onclick=function(){
+        window.open('https://zncb.zhihuibian.com/main.html#!/compile/editor');
+    }
+    document.getElementsByClassName('hoverthis')[0].onclick=function(){
+        window.open('https://zncb.zhihuibian.com/main.html#!/capture/site?type=list&siteType=1');
+    } 
+    document.getElementsByClassName('margin-right-106')[0].onclick=function(){
+        window.open('https://www.zhihuibian.com/watchCenter.html');
+    }
+    document.getElementsByClassName('margin-right-106')[1].onclick=function(){
+        window.open('https://zncb.zhihuibian.com/main.html#!/account/site');
+    }
+    document.getElementsByClassName('hoverthis')[1].onclick=function(){
+        window.open('https://zncb.zhihuibian.com/main.html#!/manage');
+    }
+</script>
+</body>
+</html>

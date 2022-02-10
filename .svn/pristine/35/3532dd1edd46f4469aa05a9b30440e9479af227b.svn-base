@@ -1,0 +1,71 @@
+<div class="material-body">
+    <div class="loading materialLoading" ng-if="materialLoading" ng-include="'/inc/loading.html'"></div>
+    <div class="material-content">
+        <div class="title col-lg-12">
+            <div class="material-title pull-left">
+                我的文稿 <span class="material-num">（共<i>{{aLLNum}}</i>条）</span>
+            </div>
+            <div class="pull-right conditions">
+                <div class="pull-right">
+                    <div class="input-group input pull-left input-search">
+                        <input type="text" class="form-control pul-right" ng-model="keyWord" placeholder="输入与内容标题相关的关键字" maxlength="20">
+                    </div>
+                    <span ng-click="materialState()" class="input-btn pull-right"></span>
+                </div>
+                <div class="pull-right">
+                    <label class="pull-left">同步状态</label>
+                    <div class="pull-left">
+                        <select class="pull-left bootstrap-select form-control site-industry col-lg-3 col-md-3 col-xs-3" ng-model="siteType" ng-change="materialState()">
+                            <option value="0">全部</option>
+                            <option ng-repeat="x in materialType" value="{{x.value}}" >{{x.materialType}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <label class="pull-left">发布状态</label>
+                    <div class="pull-left">
+                        <select class="pull-left bootrightstrap-select form-control site-industry col-lg-3 col-md-3 col-xs-3" ng-model="publicType" ng-change="materialState()">
+                            <option value="0">全部</option>
+                            <option ng-repeat="x in materialPublishType" value="{{x.value}}" >{{x.publishType}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="material--module col-lg-12">
+                <div class="material-word">
+                    <ul class="ul">
+                        <li ng-repeat="item in materials">
+                            <div class="news-hot-item pull-left">
+                                <img src={{item.picUrl}}>
+                            </div>
+                            <div class="news-hot-item news-hot pull-left">
+                                <a class="news-hot-title bjj-ellipsis-2" href="/compile/material.html?materialId={{item.id}}" target="_blank">{{item.title}}</a>
+                                <div class="clearfix"></div>
+                                <div class="news-hot-sign">
+                                    <div ng-if="item.isReleased" class="pull-left sign success-publice">已发布</div>
+                                    <div ng-if="!item.isReleased" class="pull-left sign un-publice">未发布{{item.releasedTime}}</div>
+                                    <div ng-hide="{{item.releasedTime==''}}" class="material-time pull-left col-lg-offset-1">{{item.releasedTime | date:"yyyy-MM-dd HH:mm"}} </div>
+                                    <div ng-show="{{item.releasedTime=='' || item.releasedTime == undefined}}" class="material-time pull-left col-lg-offset-1">{{item.updateTime | date:"yyyy-MM-dd HH:mm"}} </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="contentAbstract bjj-ellipsis-3">{{item.contentAbstract}}</div>
+                            </div>
+                            <span class="pull-right weibo-data">
+                                <span class="listEdit" ui-sref="editor({materialId:item.id})">编辑</span>
+                                <span ng-click="deleteMaterialListData(item.id)">删除</span>
+                            </span>
+                            <div class="clearfix"></div>
+                        </li>
+                        <div class="clearfix"></div>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <list-empty ng-if="materials.length<=0"></list-empty>
+         </div>
+        <div class="clearfix"></div>
+    </div>
+    <back-to-top container="bjj-content"></back-to-top>
+</div>

@@ -1,0 +1,61 @@
+.field { margin: 75px auto; text-align: center; }
+.area { width: 1220px; }
+.area,
+.identity { margin: 115px auto; text-align: center;}
+.field { font-size: 18px; color: #333; }
+.field .introduce { font-size: 14px; margin-top: 15px; }
+.field .field-classify { margin-top: 20px; text-align: center;margin:0 auto }
+.field .field-classify .classify-title { font-size: 14px; color: #333; margin-bottom: 10px; }
+.field .field-classify .field-handle .skip,
+.area .field-classify .field-handle .skip { color: #999; margin-left: -15px; }
+.field .field-classify .field-handle .firstNext,
+.field .field-classify .field-handle .firstPrev,
+.area .field-classify .field-handle .firstPrev,
+.area .field-classify .field-handle .secondNext,
+.identity .field-classify .field-handle .secondPrev { padding: 10px 30px; margin-right: 40px; }
+.area .field-classify .fields { margin-bottom: 50px; }
+.field .field-classify .field-container { width: 100%; }
+.field .field-classify .field-container .fields { margin:0 auto; max-width: 895px;}
+.field .field-classify .fields,
+.area .field-classify .fields { min-height: 300px; text-align: justify; margin-top: 20px; padding-left: 10px; }
+.field .field-classify .fields .fields-btn { padding: 15px 65px; margin: 0 17px 20px 0; background: #fff; }
+.field .field-classify .fields .field-btn { display: inline-block; position: relative; }
+.field .field-classify .fields .field-btn:active { background: #fff; position: relative; }
+.field .field-classify .fields .field-btn .fa-check-circle { position: absolute; right: 40px; margin-top: 17px; color: #fff; }
+.field .field-classify .fields .fields-btn:hover { background: #fff; }
+.field .field-classify .fields .field-btn.active .fields-btn { border: 1px solid #2494f2; }
+.field .field-classify .fields .field-btn.active i { color: #6bc00e; }
+.field .field-classify .fields .btn-1-1 { color: #1265c9; border: 1px solid #1265c9; }
+.field .field-classify .fields .btn-1-2 { color: #2b5aad; border: 1px solid #2b5aad; }
+.field .field-classify .fields .btn-1-3 { color: #5e519a; border: 1px solid #53519a; }
+.field .field-classify .fields .btn-1-4 { color: #a054b3; border: 1px solid #a054b3; }
+.field .field-classify .fields .btn-1-5 { color: #3b5c92; border: 1px solid #3b5c92; }
+.field .field-classify .fields .btn-2-1 { color: #2b5aad; border: 1px solid #2b5aad; }
+.field .field-classify .fields .btn-2-2 { color: #5e519a; border: 1px solid #53519a; }
+.field .field-classify .fields .btn-2-3 { color: #a054b3; border: 1px solid #a054b3; }
+.field .field-classify .fields .btn-2-4 { color: #eb5c92; border: 1px solid #eb5c92; }
+.field .field-classify .fields .btn-2-5 { color: #f15a48; border: 1px solid #f15a48; }
+.field .field-classify .fields .btn-3-1 { color: #5e519a; border: 1px solid #53519a; }
+.field .field-classify .fields .btn-3-2 { color: #a054b3; border: 1px solid #a054b3; }
+.field .field-classify .fields .btn-3-3 { color: #eb5c92; border: 1px solid #eb5c92; }
+.field .field-classify .fields .btn-3-4 { color: #f15a48; border: 1px solid #f15a48; }
+.field .field-classify .classify-title .sign { color: #999; }
+
+/*地区*/
+.area .field-classify .fields .fields-btn { padding: 10px 30px; margin-right: 15px; width: 115px; }
+.area .field-classify .fields .fields-btn:hover { background: #fff; color: #333; }
+.area .field-classify .fields .fields-btn:last-child { margin-right: 0; }
+.area .field-classify .fields .fields-item { text-align: justify; }
+.area .field-classify .fields .active { background: #fff; color: #2494f2; border: 1px solid #2494f2; }
+.area .field-classify .fields .range { color: #999; width: 50px; }
+.area, .identity { display: none; }
+
+/*身份*/
+.identity .field-classify .fields { min-width: 1230px; min-height: 300px; margin-top: 20px; margin-bottom: 50px; }
+.identity .field-classify .fields .fields-btn { width: 140px; padding: 10px 30px; margin-right: 15px; }
+.identity .field-classify .fields .fields-btn:hover { background: #fff; color: #2494f2; }
+.identity .field-classify .fields .active { border: 1px solid #2494f2; color: #2494f2; background: #fff; }
+.identity .field-classify .field-handle .finished { padding: 10px 30px; margin-right: 40px; width: 104px; }
+.identity .field-classify .field-handle .skip { margin-left: -14px; }
+.identity .field-classify .fields .active { background: #fff; color: #2494f2; border: 1px solid #2494f2; }
+

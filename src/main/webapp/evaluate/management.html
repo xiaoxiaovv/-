@@ -1,0 +1,60 @@
+<div class="loading evaluateListLoading" ng-if="evaluateListLoading" ng-include="'/inc/loading.html'"></div>
+<div class="bjj-cont-page">
+    <div class="evaluate-body-managemente">
+        <div class="management-header">
+            <p class="pull-left">测评管理</p>
+            <div class="evaluate-management pull-right">
+                <label>报告状态</label>
+                <button type="button" class="btn btn-primary create-evaluate pull-right" ui-sref="evaluateReport">创建测评</button>
+                <div class="input-group">
+                    <input ng-model="evaluateName" ng-keyup="myKeyup($event)" type="text" class="form-control pull-left" placeholder="请输入任务名称" maxlength="20">
+                <span class="input-group-btn">
+                    <button ng-click="searchClick($event)" class="btn btn-default pull-left" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </span>
+                </div>
+                <select class="pull-right bootstrap-select form-control" ng-model="status" ng-init="status = ''" ng-change="changeStatus()">
+                    <option value="">全部</option>
+                    <option ng-repeat="x in statusList" value="{{x.status}}" >{{x.desc}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="evaluate-management-box">
+            <table class="table table-condensed table-striped table-hover" ng-if="!evaluateListEmptyView">
+                <thead>
+                <tr>
+                    <td class="index">序号</td>
+                    <td class="title">测评名称</td>
+                    <td>创建时间</td>
+                    <td>报告状态</td>
+                    <td class="operation">操作</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat = "item in dataList">
+                    <td class="index">{{$index+1}}</td>
+                    <td class="title">
+                        {{item.evaluateName}}
+                        <span ng-if="$index == 0">展示中</span>
+                    </td>
+                    <td>{{item.createTime | date: 'yyyy-MM-dd HH:mm'}}</td>
+                    <td ng-show="item.status == 1" class="generating">处理中</td>
+                    <td ng-show="item.status == 2" class="be-generated">待生成</td>
+                    <td ng-show="item.status == 3" class="generated">已生成</td>
+                    <td ng-show="item.status == 4" class="generated-fail">处理失败</td>
+                    <td class="operate operation">
+                        <span ng-click="retry()" ng-if="item.status == 4">重试</span>
+                        <span ng-if="item.status == 2" ng-click="operateEvaluate()">生成报告</span>
+                        <span ng-if="item.status == 3" ng-click="downLoadEvaluate()">下载报告</span>
+                        <span ng-click="deleteEvaluate()" ng-class="{true:'no-delete',false:''}[item.status == 1]">删除</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <list-empty ng-if="evaluateListEmptyView" msg="{{evaluateListEmptyMsg}}"></list-empty>
+        </div>
+    </div>
+</div>
+
+<div class="management-echarts-box" id="trend"></div>
+<div class="management-echarts-box" id="keyWords"></div>
+<div class="management-echarts-box" id="read-and-like"></div>

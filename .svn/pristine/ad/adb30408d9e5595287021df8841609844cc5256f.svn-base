@@ -1,0 +1,30 @@
+.subject-Page { padding-bottom: 80px; width: 100%; height: auto; overflow-y: auto; }
+.subject-Page .new-site-body .subject-container form { margin: 30px 0; padding: 0 15px; }
+.subject-Page .new-site-body .subject-container form .site-type { font-weight: 400; margin-bottom: 15px; color: #999; }
+.subject-Page .new-site-body .subject-container form .form-group { display: flex; }
+.subject-Page .new-site-body .subject-container form .title-explain { float: right; width: 320px; height: auto; line-height: 20px; border-radius: 4px; background: #fdf8e4; border: 1px solid #f9ebd0; top: 30px; right: -45px; padding: 10px; font-size: 14px; color: #947755; position: absolute; }
+.subject-Page .new-site-body .subject-container form .title-explain:after { content: ' '; width: 20px; height: 20px; border: 1px solid #f9ebd0; position: absolute; top: -10px; right: 40px; transform: rotate(45deg); display: inline-block; border-right-width: 0; border-bottom-width: 0; background: #fdf8e4;}
+.subject-Page .new-site-body .subject-container form .form-group .fa-question-circle { margin-left: 5px; color: #999; position: relative; }
+.subject-Page .new-site-body .subject-container form .form-group .navigation b{ color: red; margin-left: 15px; }
+.subject-Page .new-site-body .subject-container form input,
+.subject-Page .new-site-body .subject-container form textarea { width: 80%; }
+.subject-container .textarea-keyword { width: 80%; height: auto; min-height: 134px; }
+.subject-container .textarea-keyword div { margin: 5px; line-height: 22px; font-size: 12px; color: #fff; text-align: center; cursor: pointer; display: inline-block; }
+.subject-container .textarea-keyword div.item { position: relative; }
+.subject-container .textarea-keyword div.add-btn,
+.subject-container .textarea-keyword div.item input,
+.subject-container .textarea-keyword div.item span { padding: 0 10px; min-width: 80px; border-radius: 15px; display: inline-block; }
+.subject-container .textarea-keyword div.item input { width: 100%; color: #333; border: 1px solid #ddd; outline: none; }
+.subject-container .textarea-keyword div.item i { position: absolute; top: -3px; right: -3px; padding-left: 1px; color: #ff0000; display: none; }
+.subject-container .textarea-keyword div.item:hover i { display: block; }
+.subject-container .textarea-keyword div.opt { }
+.subject-container .textarea-keyword div.opt span { width: 20px; line-height: 20px; border-radius: 50%; display: inline-block; }
+.subject-container .textarea-keyword div.add-btn { background: #c4c4c4; }
+.subject-container .textarea-keyword .and { background: #2494F2; }
+.subject-container .textarea-keyword .or { background: #ff9900; }
+.subject-container label .and { color: #2494F2; }
+.subject-container label .or { color: #ff9900; }
+.subject-Page .new-site-body .subject-container form input.newKeywordsTag { width: 160px; height: 22px; margin: 5px; padding: 0 10px; display: inline-block; border: 1px solid #ddd; border-radius: 11px; outline: none; }
+
+/*删除后view*/
+.subject-deleted-view { margin-top: 30%; text-align: center; }

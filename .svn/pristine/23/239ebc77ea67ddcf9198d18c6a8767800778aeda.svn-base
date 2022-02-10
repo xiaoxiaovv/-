@@ -1,0 +1,127 @@
+.bjj-cont-page { height: 100%; }
+.bjj-statistics { width: calc(100% - 30px); background: #ffffff; overflow: hidden; margin: 15px; padding-top: 15px; }
+.bjj-statistics .statistics-title { padding-left: 0; }
+.bjj-statistics .list-type { height: 40px; position: relative; margin-bottom: 15px; }
+.bjj-statistics .statistics-body .conditions-content { min-height: 810px; height: auto !important; }
+.bjj-statistics .list-type .input-group { position: absolute; right: 0; bottom: 10px; }
+.bjj-statistics .statistics-title span { margin-left: 15px; color: #999999; }
+.bjj-statistics .nav-tabs { border-bottom: 1px solid #ededed; margin-bottom: 15px; }
+.bjj-statistics .nav-tabs li { height: 40px; border: 1px solid #eeeeee; background: #f9f9f9; }
+.bjj-statistics .nav-tabs li.analysisBtn { border-left: none; }
+.bjj-statistics .nav-tabs li a { color: #333; }
+.bjj-statistics .nav-tabs .nav>li>a:focus,
+.bjj-statistics .nav-tabs .nav>li>a:hover{ background: #fff; }
+.bjj-statistics .nav-tabs li a { border: none; margin-right: 0; }
+.bjj-statistics .nav-tabs li a:hover { color: #2494f2; }
+.bjj-statistics .nav>li>a:focus { background: #fff; }
+.bjj-statistics .nav-tabs li.on { border-top: 2px solid #2494f2; border-bottom: none; border-radius: 2px; background: #fff; }
+.bjj-statistics .publish-box { width: 49.5%; height: 234px; border: 1px solid #eeeeee; margin-bottom: 15px; }
+.bjj-statistics .publish-box.publish-box-left { margin-right: 1%; }
+.bjj-statistics .publish-box .publish-today { width: 100%; }
+.bjj-statistics .publish-box .publish-today .publish-today-title { height: 35px; width: 100%; background: #f9f9f9; text-align: center; line-height: 35px; border-bottom: 1px solid #eeeeee; }
+.bjj-statistics .publish-box .publish-today .publish-all { width: 100%; padding: 20px 0; }
+.bjj-statistics .publish-box .publish-today .publish-all .publish-left { width: calc(50% - 3px); border-right: 1px solid #eeeeee; text-align: center; height: 133px; }
+.bjj-statistics .publish-box .publish-today .publish-all .publish-left div { margin: 45px auto; }
+.bjj-statistics .publish-box .publish-today .publish-all .publish-left div .publish-num { font-size: 30px; color: #4d90fd;}
+.bjj-statistics .publish-box .publish-today .publish-all .publish-right { width: calc(50% - 3px);}
+.bjj-statistics .publish-box .publish-today .publish-all .publish-right div.icon-box { width: 22px; margin: 0 25px 0 20px;  }
+.bjj-statistics .publish-box .publish-today .publish-all .publish-right div.publish-num-icon p { margin: 1px 0 8px;}
+.bjj-statistics .publish-box .publish-today .publish-all .publish-right div.publish-num-icon p span { margin-right: 15px; }
+.bjj-statistics .publish-box .publish-today .publish-right span.image{ display: inline-block; width: 22px; height: 22px; margin:0 -30px 0 20px; background-image: url(/theme/default/images/publish-icon.png); background-repeat: no-repeat; background-size: cover; }
+.bjj-statistics .publish-box .publish-today .publish-right span.cms { background-position: 0 0px; }
+.bjj-statistics .publish-box .publish-today .publish-right span.weibo { background-position: 0 -35px; }
+.bjj-statistics .publish-box .publish-today .publish-right span.wechat { background-position: 0 -70px;}
+.bjj-statistics .publish-box .publish-today .publish-right span.toutiao { background-position: 0 -105px;}
+.bjj-statistics .publish-box .publish-today .publish-right span.qqom { background-position: 0 -140px;}
+/*发布趋势*/
+.bjj-statistics .statistics-body .publish-trend { width: 100%; margin-top: 35px; clear: both;  }
+.bjj-statistics .statistics-body .publish-trend .publish-trend-title { height: 50px; line-height: 50px; margin: 0 }
+.bjj-statistics .statistics-body .publish-trend .publish-trend-title i { color: #999; font-style: normal; }
+.bjj-statistics .statistics-body .publish-trend .publish-trend-title select { width: 120px; margin: 10px 0 0 10px; }
+.bjj-statistics .statistics-body .publish-trend .publish-trend-title label { color: #999999; }
+.bjj-statistics .statistics-body .publish-trend .publish-trend-echarts { height: 305px; padding-top: 15px; border: 1px solid #eeeeee; clear: both;  }
+/*统计列表*/
+.bjj-statistics .statistics-list { margin: 20px 0 300px 0; color: #333; }
+.bjj-statistics .statistics-list.empty-list { margin: 20px 0 15px 0; min-height: 300px; }
+.bjj-statistics .statistics-list-title { width: 100%; height: 30px; margin-top: 30px; }
+.bjj-statistics .statistics-list-title select { width: 10%; min-width: 100px; margin: 0 10px 15px 10px; }
+.bjj-statistics .statistics-list-title .input-group { width: 20%; }
+.bjj-statistics .statistics-list-title label { margin-top: 8px; }
+.bjj-statistics .statistics-list-title .title { margin-top: 9px; }
+.bjj-statistics .laydateTime { width: 140px; height: 35px; padding-left: 5px; border:1px solid #ddd; border-radius: 4px; margin: 0 10px; }
+.bjj-statistics .statistics-list .box-condensed { border: 1px solid #ededed; }
+.bjj-statistics .statistics-list .box-condensed ol li{ color: #999; font-size: 12px; height: 40px; float: left; line-height: 40px; }
+.bjj-statistics .statistics-list .box-condensed ol li.account { width: 30%; padding-left: 38px; }
+.bjj-statistics .statistics-list .box-condensed ol li.publishNum { width: 10%; }
+.bjj-statistics .statistics-list .box-condensed ol li.manualPush { width: 10%; }
+.bjj-statistics .statistics-list .box-condensed ol li.autoPush { width: 10%; }
+.bjj-statistics .statistics-list .box-condensed ol li.weibo { width: 10%; }
+.bjj-statistics .statistics-list .box-condensed ol li.wechat { width: 10%; }
+.bjj-statistics .statistics-list .box-condensed ol li.toutiao { width: 10%; }
+.bjj-statistics .statistics-list .box-condensed ol li.qqom { width: 10%; }
+.bjj-statistics .statistics-list .everyGroup { width: 100%; }
+.bjj-statistics .statistics-list .everyGroup .toggleGroup { float: right; width: 40px; height: 40px; text-align: center; border-left: 1px solid #ededed; cursor: pointer; }
+.bjj-statistics .statistics-list .everyGroup .toggleGroup:hover { background: #ededed;}
+.bjj-statistics .statistics-list .groupMember .toggleGroup { border-left: none; }
+.bjj-statistics .statistics-list .toggleGroup b { cursor: pointer; }
+.bjj-statistics .statistics-list ul { border: 1px solid #ededed; border-bottom: none; border-top: none; margin-bottom: 0px; clear: both; }
+.bjj-statistics .statistics-list ul li { height: 50px; line-height: 50px; border-bottom: 1px solid #ededed;}
+.bjj-statistics .statistics-list .groupMember li {  font-size: 12px; clear: both; position: relative; }
+.bjj-statistics .statistics-list ul li.everyGroup { height: 40px; line-height: 40px; background: #f9f9f9; }
+.bjj-statistics .statistics-list ul li.everyGroup .line { float:left; width: 3px; height: 40px; background: #777788; margin-right: 20px; }
+.bjj-statistics .statistics-list ul li.everyGroup.team-flag { background: #ffffff; }
+.bjj-statistics .statistics-list ul li.everyGroup.team-flag .line { background: #ffffff; }
+.bjj-statistics .statistics-list ul li .account-people{ float: left; width: calc(30% - 25px); margin-bottom: 0; }
+.bjj-statistics .statistics-list ul .groupMember .account-people { float: left; width: calc(30% - 2px);}
+.bjj-statistics .statistics-list ul li .push-count{ float: left; width: 10%; font-size: 12px;  margin-bottom: 0;}
+.bjj-statistics .statistics-list ul li .account-people .spanTeamName { margin-left: 15px; }
+.bjj-statistics .statistics-list ul li .account-people b { font-weight: normal; margin-right: 12px; margin-left: 39px; }
+.bjj-statistics .statistics-list ul li .ismanager { display: inline-block; padding:0 2px; height: 14px; background: #ff9900; position: absolute; top: 19px; font-size: 12px; font-weight: 400; }
+.bjj-statistics .statistics-list ul li .account-phone { display: inline-block; width: 15%; }
+.bjj-statistics .statistics-list ul li .account-name { display: inline-block; width: 15%; text-align: left; }
+.bjj-statistics .statistics-list ul li .account-name b { font-weight: normal; width: 135px; height: 31px; }
+.bjj-statistics .statistics-list ul li .account-really { display: inline-block; text-align: left; cursor: pointer; }
+.bjj-statistics .statistics-list ul li .account-edit { display: inline-block; width: 15%; }
+/*明细查询列表*/
+.bjj-statistics .list-conditions { min-height: 40px; margin: 20px 0 10px 5px;}
+.bjj-statistics .list-conditions .title { color: #333; line-height: 35px; }
+.bjj-statistics .list-conditions .conditions { width: 90%; text-align: right; }
+.bjj-statistics .list-conditions .conditions .conditions-title { margin: 0 10px; }
+.bjj-statistics .list-conditions .conditions .laydateTime { margin: 0; }
+.bjj-statistics .list-conditions .conditions>span { line-height: 34px; display: inline-block; }
+.bjj-statistics .list-conditions .conditions>span.item-span { margin: 0 10px; }
+.bjj-statistics .list-conditions .conditions>input,
+.bjj-statistics .list-conditions .conditions>select{ width: 10%; display: inline-block; }
+.bjj-statistics .list-conditions .conditions>input { width: 175px; }
+.bjj-statistics .conditions-content { margin: 10px 0 15px 0; }
+.bjj-statistics .conditions-content .table>tbody>tr>td,
+.bjj-statistics .conditions-content .table>tbody>tr>th,
+.bjj-statistics .conditions-content .table>tfoot>tr>td,
+.bjj-statistics .conditions-content .table>tfoot>tr>th,
+.bjj-statistics .conditions-content .table>thead>tr>td,
+.bjj-statistics .conditions-content .table>thead>tr>th { vertical-align: middle; }
+.bjj-statistics .conditions-content table { width: 100%; border: 1px solid #ededed; table-layout: fixed; }
+.bjj-statistics .conditions-content table thead tr td { line-height: 30px!important; padding-left: 30px; }
+.bjj-statistics .conditions-content table tbody tr { height: 50px; line-height: 50px; }
+.bjj-statistics .conditions-content table tbody tr td { padding-left: 30px; }
+.bjj-statistics .conditions-content table tbody tr td.title { width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bjj-statistics .conditions-content table tbody tr td .defaultImage { width: 155px; height: 30px; background-position: 0 -30px; }
+.bjj-statistics .conditions-content table tbody tr td .defaultImage>span { background-image: url(/theme/default/images/channelImage.png); width: 30px; height: 30px; display: inline-block; margin-right: -4px; }
+.bjj-statistics .conditions-content table tbody tr td .defaultImage>span.item{ width: 30px; height: 30px; display: inline-block; background-image: url(/theme/default/images/channelImage.png); }
+.bjj-statistics .conditions-content table tbody tr td .defaultImage>span.item.itemCms { background-position: 0 -30px; }
+.bjj-statistics .conditions-content table tbody tr td .defaultImage>span.cms { background-position: 0 0; }
+.bjj-statistics .conditions-content table tbody tr td span.title { max-width: 440px; }
+.bjj-statistics .conditions-content table tbody tr td .defaultImage>span.item.itemWeibo { background-position: -30px -30px; }
+.bjj-statistics .conditions-content table tbody tr td .defaultImage>span.weibo { background-position: -30px 0; }
+.bjj-statistics .conditions-content table tbody tr td .defaultImage>span.item.itemWeiChat { background-position: -60px -30px; }
+.bjj-statistics .conditions-content table tbody tr td .defaultImage>span.weiChat { background-position: -60px 0; }
+.bjj-statistics .conditions-content table tbody tr td .defaultImage>span.item.itemToutiao { background-position: -90px -30px; }
+.bjj-statistics .conditions-content table tbody tr td .defaultImage>span.toutiao { background-position: -90px 0; }
+.bjj-statistics .conditions-content table tbody tr td .defaultImage>span.item.itemQqom { background-position: -120px -30px; }
+.bjj-statistics .conditions-content table tbody tr td .defaultImage>span.qqom { background-position: -120px 0; }
+.bjj-statistics .conditions-content .table-striped>tbody>tr:nth-of-type(odd) { background-color: #fcfcfd; }
+.bjj-statistics .conditions-content .empty-table { position: relative; margin-top: 10%; text-align: center; }
+.bjj-statistics .conditions-content .empty-table i { color: #e5e5e5; }
+.bjj-statistics .conditions-content .empty-table>div { color: #999; margin-top: 10px; }
+
+.maintenanceListLoading { width: calc(100% - 220px); }

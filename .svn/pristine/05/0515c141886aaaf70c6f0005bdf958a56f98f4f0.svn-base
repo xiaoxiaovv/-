@@ -1,0 +1,63 @@
+<div class="loading pushLogListLoading" ng-if="pushLogListLoading" ng-include="'/inc/loading.html'"></div>
+<div class="bjj-cont-page">
+    <div class="bjj-ellipsis bjj-page-title">推送历史</div>
+    <div class="container-fluid push-count">
+        <div class="news-condition container-fluid">
+            <div class="title">今日推送</div>
+            <div class="push-count">
+                <span class="pull-left col-lg-6 col-md-6 col-xs-6 total-group {{teamPushCount == undefined? 'un-show-group': ''}}"><span class="all-push-count"><i class="fa fa-users" aria-hidden="true"></i></span><span class="all-group-title">全组推送 <span class="count">{{teamPushCount}}</span>篇</span></span>
+                <span class="pull-left col-lg-6 col-md-6 col-xs-6 own-group {{teamPushCount == undefined? 'group': ''}}"><span class="own-push-count"><i class="fa fa-user" aria-hidden="true"></i></span><span class="own-group-title">我的推送 <span class="count">{{userPushCount}}</span>篇</span> </span>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="view-news-list">
+            <div class="type-choice-title">
+                <span class="type">推送人</span>
+                <select class="bootstrap-select form-control" ng-model="pushUser" ng-change="pushNewsListDataClick()">
+                    <option selected value="">全部</option>
+                    <option ng-repeat="x in pushUsers" value={{x.id}}>{{x.userName}}</option>
+                </select>
+                <span class="type">来源</span>
+                <select class="bootstrap-select form-control" ng-model="pushChannel" ng-change="pushNewsListDataClick()">
+                    <option selected value="">全部</option>
+                    <option ng-repeat="x in channels" value={{x.value}}>{{x.channel}}</option>
+                </select>
+                <span class="type">推送方式</span>
+                <select class="bootstrap-select form-control" ng-model="autoPushType" ng-change="pushNewsListDataClick()">
+                    <option selected value="">全部</option>
+                    <option value="0">手动推送</option>
+                    <option value="1">自动推送</option>
+                </select>
+                <span class="type">时间:</span>
+                <input type="text" name="date" class='laydateTime form-control' id="siteStartTime" value="{{startTime | date: 'yyyy-M-dd HH:mm:ss'}}"/>
+                <span class="from-to">至</span>
+                <input type="text" name="date" class='laydateTime form-control' id="siteEndTime" value="{{endTime | date: 'yyyy-M-dd HH:mm:ss'}}"/>
+            </div>
+            <div class="push-count-title">找到{{count}}条推送记录<i class="fa fa-times pull-right" aria-hidden="true" ng-click="closeTitle()"></i></div>
+            <div class="pushNewsList">
+                <div class="push-list-table">
+                    <ul>
+                        <li ng-repeat="item in dataList" class="account-push-list clearfix">
+                            <div class="push-list-item pull-left news-list bjj-ellipsis-2">
+                                <a class="push-news-title bjj-ellipsis" ng-click="gotoNewsDetail(item.id)">{{item.title}}</a>
+                                <div class="pull-right push-status {{item.status==1? 'push-status-1': 'push-status-2'}}">{{item.status == 1? '待推送' : '已推送'}}</div>
+                                <div class="push-news-contentAbstract bjj-ellipsis-2">{{item.contentAbstract}}</div>
+                                <div class="lists-item">
+                                    <span class="first-website" ng-hide="{{item.siteName==''}}">来源网站: {{item.siteName}}</span>
+                                    <span ng-hide="{{item.reprintCount==''}}" class="heat">转载数:{{item.reprintCount}}</span>
+                                    <span ng-hide="{{item.reprintCount==''}}" class="time">发布时间: {{item.publishTime | date: 'yyyy-M-dd HH:mm:ss'}}</span>
+                                    <span class="push-user" ng-hide="{{item.realName==''&& item.userName == ''}}">推送人：{{item.realName? item.realName : item.userName }}</span>
+                                    <span class="time">推送时间: {{item.createTime | date: 'yyyy-M-dd HH:mm:ss'}}</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <div ng-show="dataListBottomFinalView" ng-include="'/inc/data_list_bottom_final_view.html'"></div>
+                </div>
+                <list-empty ng-if="dataListEmptyView" msg="{{listEmptyMsg}}"></list-empty>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+    <back-to-top container="bjj-cont-page"></back-to-top>
+</div>

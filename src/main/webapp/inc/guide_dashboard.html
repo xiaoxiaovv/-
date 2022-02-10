@@ -1,0 +1,85 @@
+<div class="out-guide">
+    <!--最新资讯-->
+    <div class="in-guide tips">
+        <div class="information">最新资讯</div>
+        <span class="information-tips">
+            <p><i ng-click="closeDialog()" class="fa fa-times" aria-hidden="true"></i></p>
+            <div class="title">
+                <span class="content">在这里搜站点查看采集内容</span>
+                <div class="step">
+                    <span class="circle main"></span>
+                    <span class="circle"></span>
+                    <span class="circle"></span>
+                    <span class="circle"></span>
+                </div>
+            </div>
+            <div class="information-btn">
+                <button ng-click="informationPrev()" type="button" class="btn btn-primary pull-left prev-btn disabled"><i class="fa fa-long-arrow-left" aria-hidden="true"></i>上一步</button>
+                <button ng-click="informationNext()" type="button" class="btn btn-primary pull-right">下一步<i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
+            </div>
+        </span>
+    </div>
+    <!--全网监控-->
+    <div class="in-guide monitor">
+        <div class="information">全网监控</div>
+        <span class="information-tips">
+            <p><i ng-click="closeDialog()" class="fa fa-times" aria-hidden="true"></i></p>
+            <div class="title">
+                <span class="content">在这里设置你关注的事件或话题</span>
+                <div class="step">
+                    <span class="circle"></span>
+                    <span class="circle main"></span>
+                    <span class="circle"></span>
+                    <span class="circle"></span>
+                </div>
+            </div>
+            <div class="information-btn">
+                <button ng-click="monitorPrev()" type="button" class="btn btn-primary pull-left"><i class="fa fa-long-arrow-left" aria-hidden="true"></i>上一步</button>
+                <button ng-click="monitorNext()" type="button" class="btn btn-primary pull-right">下一步<i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
+            </div>
+        </span>
+    </div>
+    <!--智能组稿-->
+    <div class="in-guide intelligent-organization">
+        <div class="information">智能组稿</div>
+        <span class="information-tips">
+            <p><i ng-click="closeDialog()" class="fa fa-times" aria-hidden="true"></i></p>
+            <div class="title">
+                <span class="content">在这里编辑发布稿件。</span>
+                <div class="step">
+                    <span class="circle"></span>
+                    <span class="circle"></span>
+                    <span class="circle main"></span>
+                    <span class="circle"></span>
+                </div>
+            </div>
+            <div class="information-btn">
+                <button ng-click="intelligentOrganizationPrev()" type="button" class="btn btn-primary pull-left"><i class="fa fa-long-arrow-left" aria-hidden="true"></i>上一步</button>
+                <button ng-click="intelligentOrganizationNext()" type="button" class="btn btn-primary pull-right">下一步<i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
+            </div>
+        </span>
+    </div>
+    <!--设置站点同步账号-->
+    <div class="in-guide set-account pull-right">
+        <div class="guide-nick-name"><span>{{userName}}</span></div>
+        <div class="sit-settings">
+            <img src="/theme/default/images/default-avatar.png" alt="">
+        </div>
+        <span class="information-tips set-account-tips">
+            <p><i ng-click="closeDialog()" class="fa fa-times" aria-hidden="true"></i></p>
+            <div class="title">
+                <span class="content">{{appInfo.appKey == 'default' ? "在这里设置站点和同步账号。" : "在这里设置站点。"}}</span>
+                <div class="step">
+                    <span class="circle"></span>
+                    <span class="circle"></span>
+                    <span class="circle"></span>
+                    <span class="circle main"></span>
+                </div>
+            </div>
+            <div class="information-btn">
+                <button ng-click="setAccountPrev()" type="button" class="btn btn-primary pull-left"><i class="fa fa-long-arrow-left" aria-hidden="true"></i>上一步</button>
+                <button ng-click="setAccountFinished()" type="button" class="btn btn-primary pull-right">完成</button>
+            </div>
+        </span>
+    </div>
+</div>

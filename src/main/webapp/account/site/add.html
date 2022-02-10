@@ -1,0 +1,188 @@
+<div class="siteAddPage">
+    <div class="bjj-page-title new-add-site">新建站点</div>
+    <div class="new-site-body">
+        <ul class="nav nav-tabs">
+            <li class="on site-import-li"><a href="javascript:;" ng-click="choiceType()">分类选择</a></li>
+            <li class="site-import-li"><a href="javascript:;">手动输入</a></li>
+            <li class="site-import-li import"><a href="javascript:;">批量导入</a></li>
+        </ul>
+        <div class="site-container">
+            <!--分类选择-->
+            <div class="type-choice type">
+                <div class="type-choice-title">
+                    <span>行业</span>
+                    <select class="bootstrap-select form-control site-industry" ng-model="classificationType" ng-change="getData()">
+                        <option ng-repeat="x in classification" value={{x.value}}>{{x.value}}</option>
+                        <div ng-repeat="x in classification"></div>
+                    </select>
+                    <span class="type-choice-span">地域</span>
+                    <select class="bootstrap-select form-control site-industry" ng-model="areaType" ng-change="getData()">
+                        <option selected value="">全部</option>
+                        <option ng-repeat="x in area" value={{x.value.value}}>{{x.value.value}}</option>
+                    </select>
+                    <span class="type-choice-span">级别</span>
+                    <select class="bootstrap-select form-control site-industry" ng-model="attrType" ng-change="getData()">
+                        <option value="">全部</option>
+                        <option ng-repeat="x in attr" value={{x.value}}>{{x.value}}</option>
+                    </select>
+                    <span class="type-choice-span">网站类别</span>
+                    <select class="bootstrap-select form-control site-industry" ng-model="sitesType" ng-change="getData()">
+                        <option selected="selected" value="">全部</option>
+                        <option value='网站'>网站</option>
+                        <option value='微信公众号'>微信公众号</option>
+                        <option value='微博'>微博</option>
+                    </select>
+                    <button class="pull-right btn btn-primary" ng-click="addSite()">加入站点</button>
+                </div>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th class="siteAllName">
+                            <div class="pull-left bjj-checkbox checkboxAll {{ active ? 'active' : '' }}" ng-click="toggleAllSites()">
+                                <i class="fa fa-square-o fa-lg" aria-hidden="true"></i>
+                            </div>
+                            <div class="siteSortMain siteSortMainAllName" ng-click="nameSort()">
+                                <div class="pull-left">名称</div>
+                                <div class="pull-left siteSort triangle ">
+                                    <span class="caret"></span><span class="caretTop"></span>
+                                </div>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="siteSortMain" ng-click="areaSort()">
+                                <div class="pull-left">地域</div>
+                                <div class="pull-left areaSort triangle ">
+                                    <span class="caret"></span><span class="caretTop"></span>
+                                </div>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="siteSortMain" ng-click="attrSort()">
+                                <div class="pull-left">级别</div>
+                                <div class="pull-left subClassificationSort triangle ">
+                                    <span class="caret"></span><span class="caretTop"></span>
+                                </div>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="siteSortMain" ng-click="siteTypeSort()">
+                                <div class="pull-left">类别</div>
+                                <div class="pull-left siteTypeSort triangle ">
+                                    <span class="caret"></span><span class="caretTop"></span>
+                                </div>
+                            </div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat = "item in choiceType">
+                        <td class="site-name">
+                            <div class="pull-left bjj-checkbox {{ item.active ? 'active' : '' }} {{item.isHave == true? 'disabled' : ''}}" ng-click="toggleSites();">
+                                <i class="fa fa-square-o fa-lg site-name-{{item.isHave}} {{item.active ? 'active' : ''}}" aria-hidden="true"></i>
+                            </div>
+                            {{item.siteName}}
+                        </td>
+                        <td class="site-area">{{item.area}}</td>
+                        <td class="site-subClassification">{{item.attr}}</td>
+                        <td class="site-siteType">{{item.siteType}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--手动输入-->
+            <div class="self-write write">
+                <form>
+                    <label for="exampleInputEmail1" class="site-type">类型</label>
+                    <select class="bootstrap-select form-control self-write-type" ng-change="typeChange()" id="exampleInputEmail1" ng-model="siteType" ng-init="siteType='1'">
+                        <option value="1">网站</option>
+                        <option value="2">公众号</option>
+                        <option value="3">微博</option>
+                    </select>
+                    <div ng-show="siteFlag">
+                        <label for="site-url" class="site-type basic-label">站点域名</label>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon3">http(s)://</span>
+                            <input type="text" class="form-control input-site" placeholder="输入站点域名" id="site-url" aria-describedby="basic-addon3" ng-model="websiteDomain">
+                        </div>
+                        <div class="form-group">
+                            <label for="siteInputName" class="site-type">站点名称</label>
+                            <input type="text" class="form-control" placeholder="输入站点名称" id="siteInputName" placeholder="" ng-model="websiteName" maxlength="20">
+                        </div>
+                        <div class="form-group">
+                            <label for="siteInputShowName" class="site-type">显示名称</label>
+                            <input type="text" class="form-control" name="siteName" id="siteInputShowName" placeholder="输入导航栏的显示名称" ng-model="siteName" maxlength="20">
+                        </div>
+                    </div>
+                    <div ng-show="sitePublic">
+                        <div class="form-group">
+                            <label for="exampleInputName" class="site-type">站点名称</label>
+                            <input type="text" class="form-control" placeholder="输入站点名称" id="exampleInputName" placeholder="" ng-model="webPublicName" maxlength="20">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputShowName" class="site-type">显示名称</label>
+                            <input type="text" class="form-control" name="publicName" id="exampleInputShowName" placeholder="输入导航栏的显示名称" ng-model="webPublicDomain" maxlength="20">
+                        </div>
+                    </div>
+
+                    <div ng-show="weiboSite">
+                        <div class="form-group">
+                            <label for="exampleInputWeiboName" class="site-type">微博名称</label>
+                            <input type="text" class="form-control" placeholder="输入微博名称" id="exampleInputWeiboName" placeholder="" ng-model="weiboPublicName" maxlength="20">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputShowWeiboName" class="site-type">显示名称</label>
+                            <input type="text" class="form-control" name="weiboName" id="exampleInputShowWeiboName" placeholder="输入导航栏的显示名称" ng-model="weiboPublicDomain" maxlength="20">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--导入-->
+            <div class="site-import">
+                <p>模板使用说明：</p>
+                <ol>
+                    <li>请先下载模板，填充完成后，点击选择文件，浏览上传文件；</li>
+                    <li>站点信息请按模板中提供的举例格式填写；</li>
+                    <li>导入的站点信息如与已有站点信息相同，则导入的信息将覆盖已有信息；</li>
+                    <li>可导入的站点数量与您购买的产品版本中信源限制数量相关模板使用说明；</li>
+                </ol>
+                <ul class="nav nav-pills site-module">
+                    <li role="presentation" class="site-import-li"><a href="javascript:;" ng-click="downLoadClick()">下载模板</a></li>
+                    <input type="text" class="hidden" id="avatar" ng-model="siteIds"/>
+                    <input type="file" class="hidden" id="exportFile" name="file" value=""/>
+                    <li role="presentation" class="site-import-li"><a href="javascript:;" onclick="$('#exportFile').val('').click()">选择文件</a></li>
+                    <div class="more-module">
+                        <img src="" alt="">
+                        <span></span>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="bjj-account-save-view add-btn-view">
+    <div><button class="btn btn-primary" ng-click="saveSite()">保存</button></div>
+</div>
+<script src="/lib/jquery/jquery.ajaxfileupload.js"></script>
+<script>
+    $(function() {
+        //点击切换
+        $(".nav-tabs li").click( function() {
+            var index=$(this).index();
+            if($(this).text() != "手动输入") {
+                $(".add-opt").hide();
+                $('.bjj-account-save-view').hide();
+            }else{
+                $('.bjj-account-save-view').show();
+                $(".add-opt").show();
+            }
+            $(this).addClass("on").siblings().removeClass("on");
+            $(".site-container").children().eq(index).show().siblings().hide();
+        })
+
+    })
+
+</script>
+
+
+
+

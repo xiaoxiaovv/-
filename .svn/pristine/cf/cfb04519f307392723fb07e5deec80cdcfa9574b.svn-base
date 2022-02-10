@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="bjjApp" ng-controller="appCtrl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="keywords" content="编++, 编佳佳, 智慧星光, 传媒, zhihuibian.com, zhihuibian, 智慧编" />
+    <meta name="description" content="告别繁琐 创造便是快乐。智能内容创作辅助工具，基于大数据·人工智能技术，轻松完成素材采集、智能选题、机器组稿、多端发布，为内容编辑分忧。" />
+    <title ng-bind="appInfo.appName"></title>
+    <link rel="icon" ng-href="{{appInfo.icon}}">
+    <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/viewerjs/0.9.0/viewer.min.css">
+    <link rel="stylesheet" href="/lib/umeditor/1.2.3/themes/default/css/umeditor.min.css">
+    <link rel="stylesheet" href="/theme/default/css/ui.css?1108">
+    <link rel="stylesheet" ng-href="{{'/theme/' + appInfo.appKey + '/css/diy.css'}}">
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="bjj-header" ng-include="'/inc/header.html?1108'"></div>
+    <div class="bjj-main {{minBar ? 'min-bar' : ''}}">
+        <div class="bjj-menu" ng-include="'/inc/menu.html?1108'"></div>
+        <div class="bjj-content" data-ui-view=""></div>
+    </div>
+    <audio id="audio" src="/theme/default/audio/prompt.mp3"></audio>
+    <script src="//cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="//cdn.bootcss.com/angular.js/1.6.5/angular.js"></script>
+    <script src="//cdn.bootcss.com/angular-sanitize/1.6.5/angular-sanitize.min.js"></script>
+    <script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//cdn.bootcss.com/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="//cdn.bootcss.com/lodash.js/4.17.4/lodash.min.js"></script>
+    <script src="//cdn.bootcss.com/clipboard.js/2.0.1/clipboard.min.js"></script>
+    <script src="//cdn.bootcss.com/echarts/3.8.5/echarts.min.js"></script>
+    <script src="//cdn.bootcss.com/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+    <script src="/lib/angular-ui-router/0.4.2/angular-ui-router.min.js"></script>
+<script src="/lib/lazyload/1.0.10/ocLazyLoad.min.js"></script>
+<script src="/lib/umeditor/1.2.3/third-party/template.min.js"></script>
+<script src="/lib/umeditor/1.2.3/umeditor.config.js"></script>
+<script src="/lib/umeditor/1.2.3/umeditor.js"></script>
+<script src="/lib/umeditor/1.2.3/lang/zh-cn/zh-cn.js"></script>
+<script src="/lib/Sortable/1.6.0/Sortable.js"></script>
+<script src="/lib/jquery/jquery.autocomplete.min.js"></script>
+<script src="/lib/echarts/china.js"></script>
+<script src="/lib/echarts/echarts-wordcloud.min.js"></script>
+<script src="/lib/common.js?1108"></script>
+<script src="/theme/default/js/router.js?1108"></script>
+<script>
+    var _hmt = _hmt || [];
+    app.controller('appCtrl', function($rootScope, $scope, $http){
+        bjj.http.ng.get($scope, $http, '/api/app/info', {}, function (res) {
+            $rootScope.appInfo = $scope.appInfo = res.appInfo;
+            if($scope.appInfo.appKey == 'default') {
+                initBaiduKeFu('fee60541844f8a0fe42fd03431ffb3d7')
+            }else if($scope.appInfo.appKey == 'ghms') {
+                initBaiduKeFu('20554c0f7194193f3881c153f1cb1bf1')
+            }
+        });
+    });
+    app.controller('headerCtrl', function($rootScope, $scope, $http, $interval){
+        $rootScope.minBar = false;
+        $rootScope.btnEnum = {
+            'normal'    : '',
+            'disabled'  : 'disabled',
+            'loading'   : 'bjj-btn-loading'
+        };
+        $rootScope.dashboardModules = {
+            'highlightNews' : '头条推荐',
+            'hotNews' : '热点新闻',
+            'subjectNews' : '全网监控',
+            'weiboNews' : '最新微博',
+            'wechatNews' : '最新微信',
+            'riseRateMonitor' : '上升最快',
+            'reprintMediaMonitor' : '热点预测',
+            'ppcNews' : '政协动态'
+        };
+        $rootScope.toggleMinBar = function () {
+            $rootScope.minBar = !$rootScope.minBar;
+            $('.bjj-main').toggleClass('min-bar');
+            if($rootScope.minBar) {
+                $('.title-group-normal').slideUp();
+            }
+        };
+        $rootScope.logout = function () {
+            bjj.http.jq.post('/api/account/logout', {
+                loginSource: $.cookie('loginSource')
+            }, function (res) {
+                goto('/');
+            }, function (res) {
+                goto('/');
+            });
+        };
+        $rootScope.collectUserBehavior = function (type, module, func, action) {
+            bjj.http.ng.post($scope, $http, '/api/user/behavior', {
+                type: type, module: module, func: func, action: action
+            }, function (res) {});
+        };
+
+        if($.cookie('sid') == undefined) { goto('/'); }
+        var userName = $.cookie('userName'), nickName = $.cookie('nickName'), avatar = $.cookie('avatar');
+        $rootScope.user = {
+            nickname: (nickName == 'null' || nickName == '') ? userName : nickName,
+            avatar  : avatar == 'null' ? '/theme/default/images/default-avatar.png' : avatar,
+            userName: userName
+        };
+        getMessagesCount($scope, $http);
+        $interval(function () {
+            getMessagesCount($scope, $http);
+            if(userName != $.cookie('userName')) {
+                goto('/');
+            }
+        }, 300000);
+        getGroup($rootScope, $scope, $http);
+        /*/!*
+         * LocalStorage
+         * *!/*/
+        $rootScope.writeNewsId = function(username, newsId, module) {
+            var key = username + "_" + module;
+            var newsIds = JSON.parse(localStorage.getItem(key));
+            if(newsIds) {
+                newsIds.push(newsId);
+            }else {
+                newsIds = [newsId];
+            }
+            localStorage.setItem(key, JSON.stringify(newsIds));
+        }
+        $rootScope.readNewsId = function(username, module, list) {
+            var key = username + "_" + module;
+            var newsIds = JSON.parse(localStorage.getItem(key));
+            if(newsIds) {
+                _.forEach(newsIds,function(v) {
+                    _.forEach(list,function(value) {
+                        if(v == value.id) {
+                            value.isRead = true;
+                        }
+                    })
+                })
+            }
+        }
+
+    });
+    app.controller('menuCtrl', function($rootScope, $scope, $http, $rootScope){ 
+        var formUrl = document.referrer;
+        $rootScope.formPortal = false;
+        if(formUrl.indexOf("portal") != -1){
+            var thisUrl = window.location.href;
+            var flag;
+            $rootScope.formPortal = true;
+            if(thisUrl.indexOf("evaluateSummary") != -1){
+                flag = '1';
+            }
+            if(thisUrl.indexOf("compile/editor") != -1){
+                flag = '2';
+            }
+            if(thisUrl.indexOf("capture/site") != -1){
+                flag = '3';
+            }
+            if(thisUrl.indexOf("account/site") != -1){
+                flag = '4';
+            }
+            if(thisUrl.indexOf("manage") != -1){
+                flag = '5';
+            }
+             bjj.http.ng.get($scope, $http, '/api/account/menu', {flag:flag}, function (res) {
+                    $scope.menuList = res.msg["1"];
+                    $rootScope.accountMenuList = res.msg["2"];
+                }, function (res) {
+                    bjj.dialog.alert('warning', res.msg);
+                    $rootScope.logout();
+                });
+        }else{
+             bjj.http.ng.get($scope, $http, '/api/account/menu', {}, function (res) {
+                    $scope.menuList = res.msg["1"];
+                    $rootScope.accountMenuList = res.msg["2"];
+                }, function (res) {
+                    bjj.dialog.alert('warning', res.msg);
+                    $rootScope.logout();
+                });
+        }
+       
+
+        $scope.toggleSubMenu = function () {
+            if($rootScope.minBar) {
+                $('.title-group-normal').slideUp();
+            }else {
+                var _dom = $('.title-group-normal.sub-menu-' + this.menu.id);
+                if(_dom.is(':visible')){
+                    _dom.slideUp();
+                } else {
+                    $('.title-group-normal').slideUp();
+                    _dom.slideDown();
+                }
+            }
+        };
+    });
+    var getMessagesCount = function ($scope, $http) {
+        bjj.http.ng.get($scope, $http, '/api/system/messages/newCount', { }, function (res) {
+            $scope.messageCount = res.count;
+            if($scope.messageCount == 0) {
+                $('#message-amount').hide();
+            }else {
+                $('#message-amount').fadeIn('slow');
+            }
+        });
+    };
+    var getGroup = function($rootScope, $scope, $http) {
+        bjj.http.ng.get($scope, $http, '/api/favorite/group/list', {}, function (res) {
+            $rootScope.allGroup = res.list;
+            $rootScope.normalGroup = _.filter($rootScope.allGroup, {'groupType' : "0"});
+        }, function (res) {
+            bjj.dialog.alert('warning', res.msg);
+        });
+    };
+    var initBaiduKeFu = function(id) {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?"+id;
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    };
+</script>
+</body>
+</html>

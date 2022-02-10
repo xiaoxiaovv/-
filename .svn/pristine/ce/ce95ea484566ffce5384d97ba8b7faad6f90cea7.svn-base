@@ -1,0 +1,39 @@
+.evaluate-header{position: absolute;background: #fef7c3; width: 100%;height: 40px;line-height: 40px;text-align: center;z-index: 9999;}
+.evaluate-header>span{color:#4351b3;}
+.evaluate-body { padding: 48px 40px 80px 40px; background: #fff; }
+.evaluate-body .evaluate-index .evaluate-channel { height: 60px; }
+.evaluate-body .evaluate-index .evaluate-channel p .channels-name { font-size: 21px; margin-right: 24px;}
+.evaluate-body .evaluate-index .evaluate-channel p .summary-time { color: #a4a4a4; margin-right: 24px; font-size: 13px; }
+.evaluate-body .evaluate-index .evaluate-channel p .summary-name { color: #a4a4a4; font-size: 13px; }
+.evaluate-body .evaluate-content-box { padding-bottom: 22px; border-bottom: 1px solid #eceff8; margin-bottom: 40px; }
+.evaluate-body .evaluate-content-box:last-child { border: none; }
+.evaluate-body .evaluate-content-box .module-name { font-size: 15px; color: #191919; }
+.evaluate-body .evaluate-content-box select { width: 112px; height: 30px; float: left; margin-left: 20px; }
+.evaluate-body .evaluate-content-box ul.list-ul li { padding-right: 35px; color: #6f6f6f; float: left; cursor: pointer; margin: 8px 0 20px 0; font-size: 13px; }
+.evaluate-body .evaluate-content-box ul.list-ul li:hover { color: #2494f2; }
+.evaluate-body .evaluate-content-box ul.list-ul li.active { color: #2494f2; }
+.evaluate-body .evaluate-content-box ul.list-ul li { padding-right: 35px; color: #6f6f6f; float: left; cursor: pointer; margin: 8px 0 20px 0; }
+.evaluate-body .evaluate-content-box ul.list-ul li:hover { color: #2494f2; }
+.evaluate-body .evaluate-content-box ul.list-ul li.active { color: #2494f2; }
+.evaluate-body .evaluate-content-box #content-keywords { width: 100%; height: 300px; }
+.evaluate-body .evaluate-content-box #content-read-and-like { width: 100%; height: 430px;}
+.evaluate-body .evaluate-content-box .table { border: 1px solid #eceff8; }
+.evaluate-body .evaluate-content-box .table .pagination li { margin-right: 10px; }
+.evaluate-body .evaluate-content-box .table thead tr { width: 100%; height: 49px; }
+.evaluate-body .evaluate-content-box .table>tbody>tr>td { vertical-align: middle; }
+.evaluate-body .evaluate-content-box .table thead tr td { line-height: 38px; border-bottom: 1px solid #eceff8; text-align: right;}
+.evaluate-body .evaluate-content-box .table tbody tr td { border-bottom: 1px solid #eceff8; text-align: right;}
+.evaluate-body .evaluate-content-box .table thead tr td.index,.evaluate-body .evaluate-content-box .table tbody tr td.index { text-align: center; min-width: 60px; }
+.evaluate-body .evaluate-content-box .table thead tr td.count-num,.evaluate-body .evaluate-content-box .table tbody tr td.count-num { min-width: 100px; }
+.evaluate-body .evaluate-content-box .table thead tr td.type,.evaluate-body .evaluate-content-box .table tbody tr td.type { min-width: 100px; }
+.evaluate-body .evaluate-content-box .table thead tr td.operation,.evaluate-body .evaluate-content-box .table tbody tr td.operation { text-align: right; padding-right: 15px; min-width: 100px; }
+.evaluate-body .evaluate-content-box .table thead tr td.time,.evaluate-body .evaluate-content-box .table tbody tr td.time { min-width: 125px;}
+.evaluate-body .evaluate-content-box .table thead tr td.title,.evaluate-body .evaluate-content-box .table tbody tr td.title { text-align: left; width: 40%;}
+.evaluate-body .evaluate-content-box .table thead tr td.content-poster,.evaluate-body .evaluate-content-box .table tbody tr td.content-poster { min-width: 100px;}
+.evaluate-body .evaluate-content-box .table thead tr td.content-siteName,.evaluate-body .evaluate-content-box .table tbody tr td.content-siteName { min-width: 100px;}
+.evaluate-body .evaluate-content-box .table tbody tr td.title span {float: left; height: 38px; overflow: hidden; line-height: 38px; }
+@media (min-width: 768px) {
+    .evaluate-body .evaluate-content-box .table thead tr td.title,.evaluate-body .evaluate-content-box .table tbody tr td.title { text-align: left; width: 25%; overflow: hidden; }
+}
+.evaluate-body .evaluate-content-box .table-striped>tbody>tr:nth-of-type(odd),.evaluate-content-box .table-striped>tbody>tr:nth-of-type(odd):hover { background: #fff; }
+.evaluate-body .evaluate-content-box .bjj-list-empty { height: 200px; }

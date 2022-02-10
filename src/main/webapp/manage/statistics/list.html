@@ -1,0 +1,225 @@
+<div class="loading maintenanceListLoading" ng-if="maintenanceListLoading" ng-include="'/inc/loading.html'"></div>
+<div class="bjj-cont-page">
+    <div class="bjj-ellipsis bjj-page-title">
+        数据统计 <span>{{orgName}}</span>
+    </div>
+    <div class="bjj-statistics container-fluid">
+        <div class="list-type">
+            <ul class="nav nav-tabs">
+                <li class="newsBtn on" ng-click="listClick()" class="on"><a href="javascript:;">统计信息</a></li>
+                <li class="analysisBtn" ng-click="getMonitorIdReprintData()"><a href="javascript:;">明细查询</a></li>
+            </ul>
+            <div ng-show="isShowSpecificationList" class="input-group pull-right col-lg-3 col-md-3">
+                <input ng-model="publisher" type="text" class="form-control" ng-keyup="myKeyup($event)" placeholder="请输入发布人" maxlength="20">
+                <span class="input-group-btn">
+                      <button class="btn btn-default" ng-click="searchPublisher()" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </span>
+            </div>
+        </div>
+        <div  ng-hide="isShowSpecificationList" class="statistics-body">
+            <div class="pull-left publish-box publish-box-left">
+                <div class="pull-left publish-today">
+                    <p class="publish-today-title">今日发布</p>
+                    <div class="publish-all">
+                        <div class="pull-left publish-left">
+                            <div>
+                                <span>发布总数</span>
+                                <p class="publish-num"><span count-up  start-val="0" end-val="publishNumber" ng-click="countUp($event)">{{publishNumber}}</span></p>
+                            </div>
+                        </div>
+                        <div class="pull-left publish-right">
+                            <div class="pull-left icon-box">
+                                <span class="image cms"></span>
+                                <span class="image weibo"></span>
+                                <span class="image wechat"></span>
+                                <span class="image toutiao"></span>
+                                <span class="image qqom"></span>
+                            </div>
+                            <div class="pull-left publish-num-icon">
+                                <p><span>CMS</span>{{cmsCount}}</p>
+                                <p><span>微博</span>{{weiboCount}}</p>
+                                <p><span>微信</span>{{weixinCount}}</p>
+                                <p><span>头条号</span>{{toutiaoCount}}</p>
+                                <p><span>企鹅号</span>{{qqomCount}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pull-left publish-box">
+                <div class="pull-left publish-today">
+                    <p class="publish-today-title">昨日发布</p>
+                    <div class="publish-all">
+                        <div class="pull-left publish-left">
+                            <div>
+                                <span>发布总数</span>
+                                <p class="publish-num"><span count-up  start-val="0" end-val="yesterdayPublishNumber" ng-click="yesterdayCountUp($event)">{{yesterdayPublishNumber}}</span></p>
+                            </div>
+                        </div>
+                        <div class="pull-left publish-right">
+                            <div class="pull-left icon-box">
+                                <span class="image cms"></span>
+                                <span class="image weibo"></span>
+                                <span class="image wechat"></span>
+                                <span class="image toutiao"></span>
+                                <span class="image qqom"></span>
+                            </div>
+                            <div class="pull-left publish-num-icon">
+                                <p><span>CMS</span>{{yesterdayCmsCount}}</p>
+                                <p><span>微博</span>{{yesterdayWeiboCount}}</p>
+                                <p><span>微信</span>{{yesterdayWeixinCount}}</p>
+                                <p><span>头条号</span>{{yesterdayToutiaoCount}}</p>
+                                <p><span>企鹅号</span>{{yesterdayQqomCount}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="publish-trend">
+                <p class="publish-trend-title">
+                    <span>发布趋势</span><i>（CMS推送数据不含自动推送）</i>
+                    <select class="bootstrap-select form-control site-industry ng-pristine ng-untouched ng-valid ng-not-empty pull-right" ng-model="trendType" ng-init="trendType='7'" ng-change="getData()">
+                        <option value="7" selected="selected">最近7天</option>
+                        <option value="15">最近15天</option>
+                        <option value="30">最近30天</option>
+                    </select>
+                    <label class="pull-right">时间</label>
+                </p>
+                <div class="publish-trend-echarts" id="publish-trend"></div>
+            </div>
+            <div class="statistics-list-title">
+                <span class="pull-left title">发布统计</span>
+                <div class="input-group pull-right">
+                    <input ng-model="pushUserWords" type="text" class="form-control  ng-pristine ng-untouched ng-valid ng-empty ng-valid-maxlength" ng-keyup="publisherKeyup($event)" placeholder="请输入账号" maxlength="20">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-click="getPublisher()"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </span>
+                </div>
+                <select class="bootstrap-select form-control site-industry ng-pristine ng-untouched ng-valid ng-not-empty pull-right" ng-model="pushTeamName" ng-change="getPushTeamName()">
+                    <option value="" selected="selected" >全部</option>
+                    <option ng-repeat="x in teamNames" value={{x}}>{{x}}</option>
+                </select>
+                <label class="pull-right">组别</label>
+                <input type="text" name="date" class='laydateTime form-control pull-right' id="endDate" value="{{ pushEndDate | date: 'yyyy-MM-dd'}}"/>
+                <label class="pull-right">至</label>
+                <input type="text" name="date" class='laydateTime form-control pull-right' id="startDate" value="{{ pushStartDate | date: 'yyyy-MM-dd'}}"/>
+                <label class="pull-right">发布时间</label>
+            </div>
+            <div class="statistics-list" ng-class="{true:'empty-list',false:''}[teamList.length <= 0]">
+                <div class="box-condensed clearfix" ng-show="teamList.length > 0">
+                    <ol class="list-unstyled">
+                        <li class="account">账号</li>
+                        <li class="publishNum">发布总数</li>
+                        <li class="manualPush">手动推送</li>
+                        <li class="autoPush">自动推送</li>
+                        <li class="weibo">微博</li>
+                        <li class="wechat">微信</li>
+                        <li class="toutiao">头条号</li>
+                        <li class="qqom">企鹅号</li>
+                    </ol>
+                </div>
+                <div>
+                    <ul class="list-unstyled" ng-repeat="team in teamList">
+                        <li class="everyGroup" ng-class="{true:'',false:'team-flag'}[team.teamFlag]">
+                            <span class="line"></span>
+                            <p class="account-people bjj-ellipsis"><span class="spanTeamName" ng-hide="team.editName">{{team.accountName}}</span></p>
+                            <p class="push-count">{{team.publishNumber}}</p>
+                            <p class="push-count">{{team.manualPushCount}}</p>
+                            <p class="push-count">{{team.autoPushCount}}</p>
+                            <p class="push-count">{{team.weiboCount}}</p>
+                            <p class="push-count">{{team.wechatCount}}</p>
+                            <p class="push-count">{{team.toutiaoCount}}</p>
+                            <p class="push-count">{{team.qqomCount}} <span class="toggleGroup" ng-show="team.teamFlag"><b class="caret"></b></span></p>
+                        </li>
+                        <div class="groupMember {{team.id}}">
+                            <li ng-repeat="account in team.userList">
+                                    <p class="account-people"><b>{{account.publisher}}</b>
+                                        <small class="label label-warning ismanager" ng-show='account.isManager'>管理</small>
+                                    </p>
+                                <p class="push-count">{{account.publishNumber}}</p>
+                                <p class="push-count">{{account.manualPushCount}}</p>
+                                <p class="push-count">{{account.autoPushCount}}</p>
+                                <p class="push-count">{{account.weiboCount}}</p>
+                                <p class="push-count">{{account.wechatCount}}</p>
+                                <p class="push-count">{{account.toutiaoCount}}</p>
+                                <p class="push-count">{{account.qqomCount}}</p>
+                            </li>
+                        </div>
+                    </ul>
+                </div>
+                <list-empty ng-if="teamList.length<=0"></list-empty>
+            </div>
+        </div>
+        <div ng-show="isShowSpecificationList" class="statistics-body">
+            <div class="list-conditions">
+                <div class="pull-left title">发布文章列表</div>
+                <div class="pull-right conditions">
+                    <span class="item-span">发布时间</span>
+                    <input type="text" name="date" class='laydateTime form-control' id="detailStartTime" value="{{startDate | date: 'yyyy-MM-dd HH:mm:ss'}}"/>
+                    <span class="item-span">至</span>
+                    <input type="text" name="date" class='laydateTime form-control' id="detailEndTime" value="{{endDate | date: 'yyyy-MM-dd HH:mm:ss'}}"/>
+                    <span class="item-span" for="">渠道</span>
+                    <select class="bootstrap-select form-control site-industry" ng-model="channelType" ng-change="getTeamName()">
+                        <option value="" selected="selected">全部</option>
+                        <option value="wechatChannel">微信</option>
+                        <option value="weiboChannel">微博</option>
+                        <option value="toutiaoChannel">头条</option>
+                        <option value="qqomChannel">企鹅号</option>
+                        <option value="pushChannel">推送</option>
+                    </select>
+                    <span class="item-span" for="">组别</span>
+                    <select class="bootstrap-select form-control site-industry" ng-model="teamName" ng-change="getTeamName()">
+                        <option value="" selected="selected">全部</option>
+                        <option ng-repeat="x in teamNames" value={{x}}>{{x}}</option>
+                    </select>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="conditions-content bs-example"  data-example-id="condensed-table">
+                <table class="table table-condensed table-striped active">
+                    <thead>
+                    <tr>
+                        <td width="200" class="analysis-title">标题</td>
+                        <td width="100">组别</td>
+                        <td width="100">发布人</td>
+                        <td width="200" align="center" class="channelType">渠道</td>
+                        <td width="150" align="center">发布时间</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat = "item in dataList">
+                        <td class="title">{{item.news.title}}</td>
+                        <td>{{item.teamName}}</td>
+                        <td class="analysis-date">{{item.publisher}}</td>
+                        <td align="center" class="channelType">
+                            <div class="defaultImage">
+                                <span ng-show="item.operationType ==1" class="cms"></span>
+                                <span ng-hide="item.operationType ==1" class="item itemCms"></span>
+                                <span ng-show="item.weiboChannel !=0" class="weibo"></span>
+                                <span ng-hide="item.weiboChannel !=0" class="item itemWeibo"></span>
+                                <span ng-show="item.wechatChannel !=0" class="weiChat"></span>
+                                <span ng-hide="item.wechatChannel !=0" class="item itemWeiChat"></span>
+                                <span ng-show="item.toutiaoChannel!=0" class="toutiao"></span>
+                                <span ng-hide="item.toutiaoChannel!=0" class="item itemToutiao"></span>
+                                <span ng-show="item.qqomChannel!=0" class="qqom"></span>
+                                <span ng-hide="item.qqomChannel!=0" class="item itemQqom"></span>
+                            </div>
+                        </td>
+                        <td align="center">{{item.createTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <list-empty ng-if="dataList.length<=0"></list-empty>
+            </div>
+        </div>
+        <back-to-top container="bjj-cont-page"></back-to-top>
+    </div>
+</div>
+<script>
+    $('.bjj-statistics .nav-tabs li').click(function(){
+        $(this).addClass('on').siblings().removeClass('on');
+    })
+    $(".statistics-list").on('click','.toggleGroup',function() {
+        $(this).parents('.everyGroup').next(".groupMember").slideToggle();
+    })
+</script>

@@ -1,0 +1,26 @@
+<style>
+    .article-page { line-height: 3rem; word-wrap: break-word; }
+    .article-page .breadcrumb-nav { border-top: 1px solid #ddd; }
+    .article-page .abstract { text-indent: 28px; }
+    .article-page .cover { text-align: center; }
+    .article-page .content div{ color: #333!important; }
+    .article-page .cover img, .article-page .content img { max-width: 100%; }
+    .article-page .footer { padding: 15px 0; text-align: center; border-top: 1px solid #ddd; }
+    .article-page .footer img { width: 160px; height: 160px; }
+</style>
+<div class="bjj-main container-fluid">
+    <div class="article-page col-md-8 col-lg-6 col-md-offset-2 col-lg-offset-3">
+        <h2>{{data.title}}</h2>
+        <div class="help-block breadcrumb-nav">
+            <span>文 | {{data.author || '匿名'}} </span>
+            <span> {{data.updateTime | date : 'yyyy-MM-dd HH:mm'}}</span>
+        </div>
+        <div class="abstract help-block">{{data.contentAbstract}}</div>
+        <div class="cover"><img ng-src="{{data.picUrl}}" alt="{{data.title}}" title="{{data.title}}" ng-if="data.picUrl? 'true': 'false'"></div>
+        <div class="content" ng-bind-html="data.content"></div>
+        <div class="footer">
+            <img ng-src="{{appInfo.qrcode || '/theme/default/images/qrcode.png'}}">
+            <div class="">文章由{{appInfo.appName}}生成</div>
+        </div>
+    </div>
+</div>

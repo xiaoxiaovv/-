@@ -1,0 +1,54 @@
+<div class="handles">
+    <div class="leftHandle pull-left">
+        <div class="pull-left bjj-checkbox checkboxAll {{ active ? 'active' : '' }}"  ng-click="toggleAllNewsList()">
+            <i class="fa fa-square-o fa-lg" aria-hidden="true"></i>
+        </div>
+        <span ng-click="downLoad()" class="handleItem on btn-primary">下载</span>
+        <span ng-click="delete()" class="handleItem deleteItem">删除</span>
+    </div>
+    <div>
+        <div class="pull-right">
+            <div class="btn-group news-condition-line">
+                <button type="button" class="btn btn-default dropdown-toggle time-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="order">{{monitorListQuery}}</span><span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a ng-click="getMonitorNewsList($event)" data-query-type="0" href="javascript:;">全部</a></li>
+                    <li><a ng-click="getMonitorNewsList($event)" data-query-type="2" href="javascript:;">重点监控</a></li>
+                    <li><a ng-click="getMonitorNewsList($event)" data-query-type="3" href="javascript:;">疑似侵权</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="monitor-list-content">
+    <div class="monitorList"  ng-if="monitorList.length > 0">
+        <div class="monitor-list-table">
+            <ul>
+                <li ng-repeat="item in monitorList">
+                    <div class="monitor-list-item monitorCheckbox">
+                        <div class="pull-left bjj-checkbox {{ item.active ? 'active' : '' }}" ng-click="toggleNewsList();">
+                            <i class="fa fa-square-o fa-lg" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="monitor-list-item monitor-list-news">
+                        <div class="news-list-title">
+                            <a class="monitor-list-title bjj-ellipsis" href="{{item.url}}" target="_blank">{{item.title}}>{{item.title}}</a>
+                            <span class="isShow">
+                                <span ng-show="item.isTort&&(!item.isWhite)&&(!item.isBlack)" class="tort">疑似侵权</span><span ng-show="item.isBlack&&item.isTort" class="keyMonitor">重点监控</span>
+                            </span>
+                        </div>
+                        <div class="monitor-list-contentAbstract bjj-ellipsis-2">{{item.contentAbstract}}</div>
+                        <div class="lists-item">
+                            <span class="first-website">转载媒体:{{item.source}} </span>
+                            <span class="time">转载时间: {{item.ctime|date:'yyyy-MM-dd'}}</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div ng-show="dataListBottomFinalView" ng-include="'/inc/data_list_bottom_final_view.html'"></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <list-empty ng-if="monitorList.length<=0"></list-empty>
+</div>

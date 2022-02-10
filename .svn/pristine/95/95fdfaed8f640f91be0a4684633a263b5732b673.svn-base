@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="applyApp" ng-controller="applyCtrl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, shrink-to-fit=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>注册 - {{appInfo.appName}}</title>
+    <link rel="icon" ng-href="{{appInfo.icon}}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/default/css/ui.css">
+    <link rel="stylesheet" ng-href="{{'/theme/' + appInfo.appKey + '/css/diy.css'}}">
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .bjj-apply { width: 1000px; height: 650px; margin: 0 auto; margin-top: 60px; border: 1px solid #eeeeee; box-shadow: 0px 0px 10px 0px #ccc; }
+        .bjj-apply h3 { height: 95px; line-height: 75px; color: #555555; border-bottom: 1px solid #eeeeee; margin-bottom: 65px;}
+        .bjj-apply h3 i { float: left; width: 75%; font-style: normal; text-align: center; padding-left: 20%; }
+        .bjj-apply h3 span { width: 25%; float: left; font-size: 12px; }
+        .bjj-apply h3 span a { cursor: pointer; }
+        .bjj-apply .form-group{ margin-bottom: 22px; position: relative; }
+        .bjj-apply .form-group input { height: 36px; }
+        .bjj-apply .form-group .control-input { width: 320px; margin-left: 320px; }
+        .bjj-apply .form-group .dangerPassword { display: none; }
+        .bjj-apply .form-group .formatPassword { display: none; }
+        .bjj-apply .form-group .samePassword { display: none; }
+        .bjj-apply .form-group .control-input .btn-primary { width: 100%; }
+        .bjj-apply .form-group .control-input .isPassword { height: 7px; margin-top: 10px; margin-bottom: -10px; }
+        .bjj-apply .form-group .control-input .isPassword span { width: 33%; height: 7px; background: #f3f3f3; float: left; margin-right: 0.33%;}
+        .bjj-apply .form-group .control-input .isPassword span.weak { background: #f15533; }
+        .bjj-apply .form-group .control-input .isPassword span.middle { background: #ff9900; }
+        .bjj-apply .form-group .control-input .isPassword span.strong { background: #5cb70e; }
+        .bjj-apply .form-group .verifyCode { width: 320px; margin-left: 320px; float: left; }
+        .bjj-apply .form-group .verifyCode input { width: 180px; float: left; }
+        .bjj-apply .form-group .verifyCode .verify-code-btn { width: 130px; height: 36px; line-height: 36px; float: left; margin-left: 10px; border: none; color: #4b4b4b; background: #ececec; }
+        .bjj-apply .form-group span.pull-left { margin-top: 9px; margin-left: 10px; color: red; }
+        .bjj-apply .form-group p{ float: left; margin-left: 15px; margin-top: 6px; color: red; }
+        .tip1{width: 300px; height: auto; display: none; right: 53px; line-height: 33px; background: #fff; box-shadow: 0px 0px 10px 0px #ccc; padding: 10px; font-size: 12px; font-family: "Microsoft YaHei"; color: #666; border-radius: 4px; padding-left: 15px; position: absolute; z-index: 1000; }
+        .tip1:after{ content: ' '; width: 15px; height: 15px; box-shadow: -4px 4px 4px -3px #ccc; position: absolute; top: 10px; left: -5px; transform: rotate(45deg); display: inline-block; border-right-width: 0; border-bottom-width: 0; background: #fff;}
+        .tip1 span { position: relative; top: -3px; right: 2px; width: 2px; height: 2px; display: inline-block; }
+        .footer {width: 1000px; line-height: 1.5; margin: 0 auto; margin-top: 100px; color: #999;}
+    </style>
+</head>
+<body>
+<div class="bjj-header" ng-include="'/inc/header_pure_gray.html'"></div>
+<div class="bjj-main">
+    <div ng-cloak class="bjj-apply">
+        <h3>
+            <i>注册</i>
+            <span>已有账号，去 <a href="javascript:;" ng-click="goToIndex()">登录</a></span>
+        </h3>
+        <form class="form-horizontal" ng-cloak >
+            <div class="form-group">
+                <div class="pull-left control-input">
+                    <input type="text" class="pull-left form-control" placeholder="请输入登录名" ng-model="userName" maxlength="30" required>
+                </div>
+                <span class="pull-left">*</span>
+                <p ng-cloak ng-show="userNameShow">登录名不能为空</p>
+                <p ng-cloak ng-show="checkUserShow">1-30个字符，支持英文、数字、下划线</p>
+                <div class="tip1"><span>.</span> 1-30个字符，支持英文、数字、下划线</div>
+            </div>
+            <div class="form-group">
+                <div class="pull-left control-input">
+                    <input type="password" class="form-control" id="password" placeholder="请输入密码" ng-model="password" maxlength="18" required>
+                </div>
+                <span class="pull-left">*</span>
+                <p ng-cloak ng-show="passwordShow">密码不能为空</p>
+                <p class="formatPassword">密码格式错误，请重新输入</p>
+                <p class="dangerPassword">密码安全级别过低</p>
+                <div class="tip1"><span>.</span> 6-18个字符，支持英文、数字、下划线</div>
+                <div class="pull-left control-input">
+                    <div class="isPassword">
+                        <span class="weakPassword"></span>
+                        <span class="middlePassword"></span>
+                        <span class="strongPassword"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="pull-left control-input">
+                    <input type="password" class="form-control" placeholder="请再次输入密码" id="confirmPassword" ng-model="confirmPassword" maxlength="18" required>
+                </div>
+                <span class="pull-left">*</span>
+                <p ng-cloak ng-show="confirmPasswordShow">密码不能为空</p>
+                <p ng-cloak class="samePassword">两次输入的密码不一致</p>
+            </div>
+            <div class="form-group">
+                <div class="pull-left control-input">
+                    <input type="text" class="form-control" placeholder="请输入单位或媒体名称" ng-model="company" maxlength="30" required>
+                </div>
+                <p ng-cloak ng-show="checkCompanyShow">2-30个字符，支持英文、数字、汉字</p>
+                <div class="tip1"><span>.</span> 2-30个字符，支持英文、数字、汉字</div>
+            </div>
+            <div class="form-group">
+                <div class="pull-left control-input">
+                    <input type="text" class="form-control" placeholder="请输入手机号" ng-model="phoneNumber" maxlength="11" required>
+                </div>
+                <span class="pull-left">*</span>
+                <p ng-cloak ng-show="phoneNumberShow">手机号不能为空</p>
+                <p ng-cloak ng-show="TruephoneShow">手机号格式错误 请重新输入</p>
+            </div>
+            <div class="form-group">
+                <label class="verifyCode">
+                    <input name="verifyCode" ng-model="verifyCode" class="form-control reg_pro" type="text" placeholder="请输入4位验证码" maxlength="4" pattern="^\d{4,4}$" required/>
+                    <input ng-click="getVerifyCode()" id="verifyCode" name="verifyCode" ng-model="verifyCodeText" class="reg_value verify-code-btn" type="button" value="{{verifyCodeText || '获取验证码'}}"/>
+                </label>
+                <p class="showPoint" ng-show="verifyCodeShow">请输入验证码</p>
+                <p class="showPoint" ng-show="hasVerifyCodeShow">请输入正确的验证码</p>
+            </div>
+            <div class="form-group">
+                <div class="pull-left control-input">
+                    <button type="button" class="btn btn-primary" ng-click="applySubmit()" id="preservation">提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="text-center footer">
+        <p ng-bind-html="appInfo.footer"></p>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.10.8/umd/popper.min.js"></script>
+<script src="/lib/common.js"></script>
+<script>
+    var app = angular.module("applyApp", []);
+    app.controller('applyCtrl', function($scope, $http, $interval, $sce){
+        $scope.userNameShow = false;
+        $scope.checkUserShow = false;
+        $scope.passwordShow = false;
+        $scope.confirmPasswordShow = false;
+        $scope.checkCompanyShow = false;
+        $scope.phoneNumberShow = false;
+        $scope.TruephoneShow = false;
+        $scope.verifyCodeShow = false;
+        $scope.hasVerifyCodeShow = false;
+        getAppInfo($scope, $http, $sce);
+        $scope.goToIndex = function() {
+            window.location = "http://"+ window.location.host +'/index.html';
+        }
+        $("input").focus(function() {
+            $(this).parent().nextAll(".tip1").show()
+        })
+        $("input").blur(function() {
+            $(this).parent().nextAll(".tip1").hide();
+            $scope.userNameShow = false;
+            $scope.passwordShow = false;
+            $scope.confirmPasswordShow = false;
+            $scope.phoneNumberShow = false;
+            $scope.TruephoneShow = false;
+            $scope.verifyCodeShow = false;
+            $scope.hasVerifyCodeShow = false;
+        })
+        $('#password').keyup(function() {
+            if($scope.password == '' || $scope.password == undefined) {
+                $(".weakPassword").removeClass('weak');
+                $(".middlePassword").removeClass('middle');
+                $(".strongPassword").removeClass('strong');
+            }
+            if(isPassword($scope.password) == 1) {
+                $(".weakPassword").addClass('weak');
+                $(".middlePassword").removeClass('middle');
+                $(".strongPassword").removeClass('strong');
+            }
+            if(isPassword($scope.password) == 2) {
+                $(".weakPassword").addClass('weak');
+                $(".middlePassword").addClass('middle');
+                $(".strongPassword").removeClass('strong');
+            }
+            if(isPassword($scope.password) == 3) {
+                $(".weakPassword").addClass('weak');
+                $(".middlePassword").addClass('middle');
+                $(".strongPassword").addClass('strong');
+            }
+            if(isPassword($scope.password) == -1 || isPassword($scope.password) == 0) {
+                $(".formatPassword").show();
+                $scope.passwordShow = false;
+                $(".dangerPassword").hide();
+                $scope.formatPasswordShow = true;
+                $(".weakPassword").removeClass('weak');
+                $(".middlePassword").removeClass('middle');
+                $(".strongPassword").removeClass('strong');
+            }
+        });
+        $('#password').blur(function() {
+            if(isPassword($scope.password) == 1) {
+                $(".dangerPassword").show();
+                $(".formatPassword").hide();
+                $scope.passwordShow = false;
+                $scope.dangerPasswordShow = true;
+            }else if(isPassword($scope.password) == -1 || isPassword($scope.password) == 0 && $scope.password != undefined) {
+                $(".formatPassword").show();
+                $scope.passwordShow = false;
+                $(".dangerPassword").hide();
+                $scope.formatPasswordShow = true;
+            }else {
+                $(".dangerPassword").hide();
+                $(".formatPassword").hide();
+                $scope.dangerPasswordShow = false;
+                $scope.formatPasswordShow = false;
+            }
+            if($scope.confirmPassword && $scope.password) {
+                if($scope.confirmPassword != $scope.password) {
+                    $(".samePassword").show();
+                    $scope.confirmPasswordShow = false;
+                    $scope.samePasswordShow = true;
+                }else {
+                    $(".samePassword").hide();
+                    $scope.samePasswordShow = false;
+                }
+            }
+        })
+        $("#confirmPassword").focus(function() {
+            $(".samePassword").hide();
+            $scope.confirmPasswordShow = false;
+        })
+        $("#confirmPassword").blur(function() {
+            if($scope.confirmPassword && $scope.password) {
+                if($scope.confirmPassword != $scope.password) {
+                    $(".samePassword").show();
+                    $scope.samePasswordShow = true;
+                    $scope.confirmPasswordShow = false;
+                }else {
+                    $(".samePassword").hide();
+                    $scope.samePasswordShow = false;
+                }
+            }
+        })
+        $scope.applySubmit = function() {
+            if( $scope.userName == undefined || $scope.userName == '' ) {
+                $scope.userNameShow = true;
+                $scope.checkUserShow = false;
+                return;
+            }
+            $scope.userNameShow = false;
+            var userName = /^[0-9a-zA-Z_]{1,}$/;
+            if($scope.userName != "" && !userName.test($scope.userName)) {
+                $scope.checkUserShow = true;
+                $scope.userNameShow = false;
+                return;
+            }
+            $scope.checkUserShow = false;
+            if($scope.password == '' || $scope.password == undefined) {
+                $scope.passwordShow = true;
+                $(".samePassword").hide();
+                $(".formatPassword").hide();
+                $(".dangerPassword").hide();
+                return;
+            }
+            $scope.passwordShow = false;
+            if($scope.dangerPasswordShow || $scope.samePasswordShow || $scope.formatPasswordShow) {
+                return;
+            }
+            if($scope.confirmPassword == '' || $scope.confirmPassword == undefined) {
+                $scope.confirmPasswordShow = true;
+                return;
+            }
+            $scope.confirmPasswordShow = false;
+            var companyReg = /^[a-zA-Z0-9\u4e00-\u9fa5]+$/;
+            if($scope.company) {
+                if($scope.company != "" && !companyReg.test($scope.company) || $scope.company.length < 2 ) {
+                    $scope.checkCompanyShow = true;
+                    return;
+                }
+            }
+            $scope.checkCompanyShow = false;
+            var phoneNumbers = /^1[345678]\d{9}$/;
+            if($scope.phoneNumber != "" && !phoneNumbers.test($scope.phoneNumber)) {
+                if( $scope.phoneNumber == undefined ) {
+                    $scope.phoneNumberShow = true;
+                    return;
+                }else {
+                    $scope.phoneNumberShow = false;
+                    $scope.TruephoneShow = true;
+                    return;
+                }
+            }
+            $scope.phoneNumberShow = false;
+            $scope.TruephoneShow = false;
+            if($scope.verifyCode == '' || $scope.verifyCode == undefined) {
+                $scope.verifyCodeShow = true;
+                return;
+            }
+            bjj.http.ng.post($scope, $http, '/api/account/registry?_method=post', {
+                userName        : $scope.userName,
+                password        : $scope.password,
+                confirmPassword : $scope.confirmPassword,
+                phoneNumber     : $scope.phoneNumber,
+                company         : $scope.company ? $scope.company : "",
+                verifyCode      : $scope.verifyCode
+            }, function (res) {
+                $scope.hasVerifyCodeShow = false;
+                bjj.dialog.alert('success', '注册成功',{
+                    callback : function() {
+                        goto('/')
+                    }
+                });
+            }, function (res) {
+                if(res.msg == '验证码不正确') {
+                    $scope.hasVerifyCodeShow = true;
+                }else {
+                    bjj.dialog.alert('warning', res.msg )
+                }
+            });
+        };
+        /*获取验证码*/
+        $scope.getVerifyCode = function () {
+            var userName    = $scope.userName;
+            var phoneNumber = $scope.phoneNumber;
+            var phoneNumbers = /^1[345678]\d{9}$/;
+            if(phoneNumber != "" && !phoneNumbers.test(phoneNumber)) {
+                if( phoneNumber == undefined ) {
+                    $scope.phoneNumberShow = true;
+                    return;
+                }else {
+                    $scope.phoneNumberShow = false;
+                    $scope.TruephoneShow = true;
+                    return;
+                }
+            }
+            if(phoneNumber == undefined){
+                $scope.phoneNumberShow = true;
+                return;
+            }else{
+                $scope.phoneNumberShow = false;
+            }
+            $scope.verifyCodeBtnStatus = false;
+            if($scope.verifyCodeText != undefined) {
+                return;
+            }
+            bjj.http.ng.get($scope, $http, '/api/account/verifyCode?phoneNumber='+ phoneNumber, {}, function (res) {
+                bjj.dialog.alert('success', '发送成功');
+                $(".reg_value").css('color','#999');
+                var _verifyCodeTimeSpace = 60;
+                setTimeout(function () {
+                    $scope.verifyCodeText = _verifyCodeTimeSpace + 's';
+                    _verifyCodeTimeSpace--;
+                    $("#verifyCode").attr("disabled","disabled");
+                }, 0);
+                var timer = $interval(function () {
+                    $scope.verifyCodeText = _verifyCodeTimeSpace + 's';
+                    if (_verifyCodeTimeSpace == 0) {
+                        $interval.cancel(timer);
+                        $scope.verifyCodeText = undefined;
+                        $("#verifyCode").removeAttr("disabled");
+                        return;
+                    }
+                    _verifyCodeTimeSpace--;
+                }, 1000);
+            }, function(res){
+                bjj.dialog.alert('warning', res.msg, {
+                    callback : function () {
+                    }
+                });
+            });
+        };
+    });
+    var getAppInfo = function ($scope, $http, $sce) {
+        bjj.http.ng.get($scope, $http, '/api/app/info', {}, function (res) {
+            $scope.appInfo = res.appInfo;
+            $scope.appInfo.footer = $sce.trustAsHtml($scope.appInfo.footer);
+        });
+    }
+</script>
+</body>
+</html>

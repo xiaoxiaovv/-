@@ -1,0 +1,17 @@
+<div class="bjj-cont-sidebar account-subscription-nav">
+    <div class="loading accountSubscriptionLoading" ng-if="accountSubscriptionLoading" ng-include="'/inc/loading.html'"></div>
+    <div class="nav bjj-nav">
+        <span>订阅设置</span>
+        <b><a ui-sref="subscription">返回</a></b>
+    </div>
+    <div class="account-subscription-list">
+        <div class="new-add-site" ui-sref="accountSubscription.modify({subjectId: '0'})">
+            <i class="fa fa-plus" aria-hidden="true"></i> 新建主题
+        </div>
+        <ul class="nav-list">
+            <li ng-repeat="item in subscriptionSubjectList" role="presentation"><a class="bjj-ellipsis"  ui-sref="accountSubscription.modify" data-site-id="{{item.subjectId}}" ng-click="editSite($event)">{{item.subjectName}}</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="bjj-cont-page bjj-bg-white" data-ui-view=""></div>

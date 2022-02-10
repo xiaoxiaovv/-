@@ -1,0 +1,53 @@
+<div class="bjj-cont-sidebar capture-site-nav">
+    <div class="loading captureSiteLoading" ng-if="captureSiteLoading" ng-include="'/inc/loading.html'"></div>
+    <ul class="nav bjj-nav">
+        <li role="presentation" class="{{data.current == 1 ? 'active' : ''}}"><a href="javascript:;" ng-click="setSiteClick(1);">网站</a></li>
+        <li role="presentation" class="{{data.current == 2 ? 'active' : ''}}"><a href="javascript:;" ng-click="setSiteClick(2);">公众号</a></li>
+        <li role="presentation" class="{{data.current == 3 ? 'active' : ''}}"><a href="javascript:;" ng-click="setSiteClick(3);">微博</a></li>
+        <b><a href="javascript:;" ng-click="goAccountSite();"><i ng-if="siteList.length > 0" class="fa fa-cog" aria-hidden="true"></i></a></b>
+    </ul>
+    <div class="clearfix"></div>
+    <div class="{{siteList.length > 0? 'site-left-cont': 'un-site-list'}} ">
+        <div class="capture-list">
+            <ul ng-if="data.current == 1" class="nav-list capture-site-list siteList">
+                <li ng-repeat="site in siteList | filter: { siteType : 1, siteName : siteName }" class="presentation site-{{site.siteId}}" role="presentation">
+                    <a class="bjj-ellipsis site-{{site.siteId}}" href="javaScript:;" ng-click="siteClick(site.siteId, site.siteName, site.isAutoPush)">{{site.siteName}}</a>
+                    <span ng-if="site.siteId == -1" class="count">{{webCount}}/{{allowWeb}}</span>
+                    <span ng-if="site.siteId != -1" class="badge pull-right">{{(site.count > 9999 ? '1w+' : site.count) || ''}}</span>
+                </li>
+            </ul>
+            <ul ng-if="data.current == 2" class="nav-list wechat-list siteList">
+                <li ng-repeat="site in siteList | filter: { siteType : 2, siteName : siteName }" class="presentation site-{{site.siteId}}" role="presentation">
+                    <a class="bjj-ellipsis site-{{site.siteId}}" href="javaScript:;" ng-click="siteClick(site.siteId, site.siteName, site.isAutoPush)">{{site.siteName}}</a>
+                    <span ng-if="site.siteId == -2" class="count">{{weChatCount}}/{{allowWeChat}}</span>
+                    <span ng-if="site.siteId != -2" class="badge pull-right">{{(site.count > 99 ? '99+' : site.count) || ''}}</span>
+                </li>
+            </ul>
+            <ul ng-if="data.current == 3" class="nav-list weibo-site-list siteList">
+                <li ng-repeat="site in siteList | filter: { siteType : 3, siteName : siteName }" class="presentation site-{{site.siteId}}" role="presentation">
+                    <a class="bjj-ellipsis site-{{site.siteId}}" href="javaScript:;" ng-click="weiboSiteClick(site.siteId, site.siteName, site.isAutoPush)">{{site.siteName}}</a>
+                    <span ng-if="site.siteId == -3" class="count">{{weiBoCount}}/{{allowWeiBo}}</span>
+                    <span ng-if="site.siteId != -3" class="badge pull-right">{{(site.count > 999 ? '999+' : site.count) || ''}}</span>
+                </li>
+            </ul>
+        </div>
+        <div class="col-lg-12 search-input">
+            <div class="input-group">
+                <input ng-model="siteName" type="text" class="form-control" placeholder="请输入站点名称" maxlength="20">
+                <span class="input-group-btn">
+                    <button ng-click="searchClick()" class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div ng-if="!captureSiteLoading" class="{{siteList.length > 0? 'un-show-site-list': 'empty-site-list'}} ">
+        <button ui-sref="accountSite.modify" type="button" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> 新建站点</button>
+    </div>
+</div>
+<div class="bjj-cont-page" data-ui-view="">
+    <div class="help-null">
+        <i class="fa fa-3x fa-exclamation-circle" aria-hidden="true"></i>
+        <div>暂无站点数据</div>
+    </div>
+</div>
+<div class="clearfix"></div>

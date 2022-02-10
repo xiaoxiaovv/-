@@ -1,0 +1,59 @@
+<div class="list-conditions">
+    <div class="pull-left title">发布文章列表</div>
+    <div class="pull-right conditions">
+        <span class="">发布时间:</span>
+        <input type="text" name="date" class='laydateTime form-control' id="detailStartTime" value="{{startDate | date: 'yyyy-M-dd HH:mm:ss'}}"/>
+        <span class="time">至</span>
+        <input type="text" name="date" class='laydateTime form-control' id="detailEndTime" value="{{endDate | date: 'yyyy-M-dd HH:mm:ss'}}"/>
+        <span class="" for="">渠道</span>
+        <select class="bootstrap-select form-control site-industry" ng-model="channelType" ng-change="getTeamName()">
+            <option value="" selected="selected">全部</option>
+            <option value="wechatChannel">微信</option>
+            <option value="weiboChannel">微博</option>
+            <option value="toutiaoChannel">头条</option>
+            <option value="qqomChannel">企鹅号</option>
+            <option value="pushChannel">cms</option>
+        </select>
+        <span class="" for="">组别</span>
+        <select class="bootstrap-select form-control site-industry" ng-model="teamName" ng-change="getTeamName()">
+            <option value="" selected="selected">全部</option>
+            <option ng-repeat="x in teamNames" value={{x}}>{{x}}</option>
+        </select>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<div class="conditions-content bs-example"  data-example-id="condensed-table">
+    <table class="table table-condensed table-striped active">
+        <thead>
+            <tr>
+                <td class="analysis-title">标题</td>
+                <td>组别</td>
+                <td>发布人</td>
+                <td class="channelType">渠道</td>
+                <td align="center">发布时间</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat = "item in dataList | orFilter: ['userName','realName']: publisher ">
+                <td class="ellipsis"><span>{{item.news.title}}</span></td>
+                <td>{{item.teamName}}</td>
+                <td class="analysis-date">{{item.publisher}}</td>
+                <td class="channelType">
+                    <div class="defaultImage">
+                        <span ng-show="item.operationType ==1" class="cms"></span>
+                        <span ng-hide="item.operationType ==1" class="item itemCms"></span>
+                        <span ng-show="item.weiboChannel !=0" class="weibo"></span>
+                        <span ng-hide="item.weiboChannel !=0" class="item itemWeibo"></span>
+                        <span ng-show="item.wechatChannel !=0" class="weiChat"></span>
+                        <span ng-hide="item.wechatChannel !=0" class="item itemWeiChat"></span>
+                        <span ng-show="item.toutiaoChannel!=0" class="toutiao"></span>
+                        <span ng-hide="item.toutiaoChannel!=0" class="item itemToutiao"></span>
+                        <span ng-show="item.qqomChannel!=0" class="qqom"></span>
+                        <span ng-hide="item.qqomChannel!=0" class="item itemQqom"></span>
+                    </div>
+                </td>
+                <td align="center">{{item.createTime | date: 'yyyy-M-dd hh:mm:ss'}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

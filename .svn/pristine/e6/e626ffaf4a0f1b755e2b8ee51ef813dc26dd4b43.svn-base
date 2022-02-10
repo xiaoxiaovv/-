@@ -1,0 +1,158 @@
+package com.istar.mediabroken.service.qqom
+
+import com.istar.mediabroken.api.QqomErrorEnum
+import com.mashape.unirest.http.Unirest
+import groovy.util.logging.Slf4j
+import org.apache.commons.lang3.StringUtils
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Service
+
+import javax.servlet.http.HttpServletRequest
+
+import static com.istar.mediabroken.api.ShareResult.shareFailure
+import static com.istar.mediabroken.api.ShareResult.shareSuccess
+
+/**
+ * Author : YCSnail
+ * Date   : 2017-09-11
+ * Email  : liyancai1986@163.com
+ */
+@Service
+@Slf4j
+class QqomShareService {
+
+    @Autowired
+    private QqomOAuthService qqomOAuthSrv
+
+    public static final int QQOM_TITLE_MIN_LENGTH = 10
+    public static final int QQOM_TITLE_MAX_LENGTH = 30
+
+    def create(HttpServletRequest request, String uid, def shareContent) {
+
+        String accessToken = qqomOAuthSrv.getAccessTokenFromMongo(request, uid)
+        if(!accessToken) {
+            return [
+                    status  : 0,
+                    msg     : 'token不存在，或是授权已过期！'
+            ]
+        }
+
+        if(shareContent?.title?.length() < QQOM_TITLE_MIN_LENGTH){
+            return shareFailure('文章标题不能小于10个字！', 0)
+        }
+
+        // 发表图文后，生成一个事务Id, 最终的发布状态是查询该事务的状态
+        def res = this.addQqomNews(accessToken, uid, shareContent)
+        if(res.status == 1) {
+            Thread.sleep(4000)
+            def transactionRes = this.queryTransactionInfo(accessToken, uid, res.data.transaction_id as String)
+
+            if(transactionRes.status == 1) {
+                if(['成功', '处理中'].contains(transactionRes.data.transaction_status as String)){
+                    return shareSuccess()
+                } else {
+                    return shareFailure()
+                }
+            } else {
+                return shareFailure()
+            }
+        } else {
+            return res
+        }
+    }
+
+    /**
+     * 发表图文
+     * @param accessToken
+     * @param openId
+     * @param shareContent
+     * @return
+     */
+    def addQqomNews(String accessToken, String openId, def shareContent) {
+
+        if(shareContent?.title?.length() < QQOM_TITLE_MIN_LENGTH){
+            return shareFailure('文章标题不能小于10个字！', 0)
+        }
+
+        try {
+            String url = "https://api.om.qq.com/article/authpubpic?access_token=${accessToken}&openid=${openId}"
+
+            def params = [
+                    title       : StringUtils.substring((shareContent.title?:'') as String, 0, QQOM_TITLE_MAX_LENGTH),
+                    content     : shareContent.content as String,
+                    cover_pic   : shareContent.thumbUrl as String
+            ]
+            def res = Unirest.post(url).fields(params as Map<String, String>).asJson()
+            def result = res.body.object
+            log.info(['qqom', '新增图文接口', result].join(':::') as String)
+
+//    {
+//        "code":"0",
+//        "msg": "success",
+//        "data": {
+//        "transaction_id":TRANSACTION_ID
+//    }
+            if((result.code as int) == 0) {
+                return [
+                        status  : 1,
+                        msg     : result.msg,
+                        data    : result.data
+                ]
+            } else {
+                return shareFailure(QqomErrorEnum.getErrorMsg(result.code as int), result.code as int)
+            }
+        } catch (Exception e) {
+
+            log.error(['qqom', '新增图文接口', e.message].join(':::') as String)
+            log.error('qqom:::', e)
+            return shareFailure('接口请求异常！', 0)
+        }
+    }
+
+    /**
+     * 查询媒体状态
+     * @param accessToken
+     * @param openId
+     * @param transactionId
+     * @return
+     */
+    def queryTransactionInfo(String accessToken, String openId, String transactionId) {
+
+        try {
+            String url = "https://api.om.qq.com/transaction/infoauth?access_token=${accessToken}&openid=${openId}"
+
+            def res = Unirest.get(url).queryString('transaction_id', transactionId).asJson()
+            def result = res.body.object
+            log.info(['qqom', '查询事物状态接口', result].join(':::') as String)
+
+
+//            "msg":"SUCCESS",
+//            "code":0,
+//            "data":{
+//                "transaction_id":"7265967822210302510",
+//                "transaction_status":"成功",
+//                "transaction_ctime":"2017-09-12 09:56:09",
+//                "transaction_type":"文章",
+//                "article_info":Object{...}
+//            }
+
+            if((result.code as int) == 0) {
+                return [
+                        status  : 1,
+                        msg     : '',
+                        data    : result.data
+                ]
+            }else {
+                return [
+                        status  : 0
+                ]
+            }
+        } catch (Exception e) {
+
+            log.error(['qqom', '查询事物状态接口', e.message].join(':::') as String)
+            log.error('qqom:::', e)
+            return shareFailure('接口请求异常！', 0)
+        }
+    }
+
+}

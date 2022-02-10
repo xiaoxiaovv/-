@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="icon">
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        body { width: 100%; height: 100%; min-height: 600px; position: absolute; margin: 0;padding: 0;min-width: 1190px; color: #fff;}
+        body::-webkit-scrollbar { width: 0; }
+        .outer{
+            width: 100%;
+            height: 100%;
+            background: url('theme/default/images/portal/mediaBg.jpg');
+            background-size: 100% 100%;
+            background-repeat:no-repeat;
+            overflow: hidden;
+        }
+        .headerNav{
+            position: absolute;
+            width: 100%;
+            height: 109px;
+            background: url('theme/default/images/portal/mediaNav.png');
+            background-size: 100% 100%;
+            background-repeat:no-repeat;
+        }
+        .absolute{
+            position: absolute;
+        }
+        .showlogo{
+            left: 7%;
+            top: 14px;
+        }
+        .showtext{
+            left: 10%;
+            height: 61px;
+            line-height: 61px;
+            font-size: 18px;
+            margin-left: 12px;
+        }
+        .hoverthis{
+            cursor: pointer;
+        }
+        .cont{
+            width: 1073px;
+            margin: 0 auto;
+            margin-top: 160px;
+        }
+        .card{
+            width:300px;
+            cursor: pointer;
+            float: left;
+            margin-bottom: 71px;
+        }
+        .card .cardImage{
+            width: 300px;
+            height: 148px;
+            position: relative;
+        }
+        .card .cardImage>img{
+            width: 100%;
+            height:100%;
+        }
+        .card .addcard{
+            text-align: center;
+            color: #2CFDED;
+            font-size: 65px;
+            line-height: 143px;
+            border: 2px solid rgba(44, 253, 237, 1);
+        }
+        .card .cardText{
+            width: 300px;
+            font-size: 18px;
+            color: #2CFDED;
+            text-align: center;
+            margin-top: 22px;                                         
+        }
+        .margin-right-75{
+            margin-right: 75px;
+        }
+        .card .hoverImage{
+            position: absolute;
+            height: 180px;
+            width: 340px;
+            top: -16px;
+            left: -20px;
+        }
+        .card:hover .cardImage{
+            box-shadow: 0 0 22px #2CFDED;
+        }
+        .card:hover .hoverImage{
+            background-image: url(theme/default/images/portal/hover.png);
+            background-size: 100% 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="outer">
+    <div class="headerNav">
+        <img src="theme/default/images/portal/productLogo.png" class="absolute showlogo">
+        <div class="absolute showtext">监控中心系统</div>
+    </div>
+    <div class="cont">
+        <div class="card margin-right-75 wzyyssjc">
+            <div class="cardImage"><img src="theme/default/images/portal/bigfive.png"><div class="hoverImage"></div></div>
+            <div class="cardText">网站运营实时监测</div>
+        </div>
+        <div class="card margin-right-75 sjmttjjc">
+            <div class="cardImage"><img src="theme/default/images/portal/bigfour.png"><div class="hoverImage"></div></div>
+            <div class="cardText">社交媒体统计监测</div>
+        </div>
+        <div class="card cbxgfxjc">
+            <div class="cardImage"><img src="theme/default/images/portal/bigone.png"><div class="hoverImage"></div></div>
+            <div class="cardText">传播效果分析监测</div>
+        </div>
+        <div class="card margin-right-75 nrtjfxjc">
+            <div class="cardImage"><img src="theme/default/images/portal/bigtwo.png"><div class="hoverImage"></div></div>
+            <div class="cardText">内容统计分析监测</div>
+        </div>
+        <div class="card margin-right-75 rwzhddjc">
+            <div class="cardImage"><img src="theme/default/images/portal/bigthree.png"><div class="hoverImage"></div></div>
+            <div class="cardText">任务指挥调度监测</div>
+        </div>
+        <div class="card">
+            <div class="cardImage addcard">+</div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    document.getElementsByClassName('wzyyssjc')[0].onclick=function(){
+        window.open('http://datav.aliyun.com/share/7acf33c5f20550cc778dd0a786119503');
+    }
+    document.getElementsByClassName('sjmttjjc')[0].onclick=function(){
+        window.open('http://datav.aliyun.com/share/a0bfc1faee4a632ab975206482e89940');
+    }
+    document.getElementsByClassName('cbxgfxjc')[0].onclick=function(){
+        window.open('http://datav.aliyun.com/share/88494a4e8f7a54a60010b7c66de45ef2');
+    }
+    document.getElementsByClassName('nrtjfxjc')[0].onclick=function(){
+        window.open('http://datav.aliyun.com/share/2d2f77ce77e58d22a9f4b736ef3b918c');
+    }
+    document.getElementsByClassName('rwzhddjc')[0].onclick=function(){
+        window.open('http://datav.aliyun.com/share/52a77822b07cc7ee18660bdbf6986f2f');
+    }
+</script>
+</body>
+</html> 

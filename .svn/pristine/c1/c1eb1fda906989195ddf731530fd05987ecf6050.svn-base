@@ -1,0 +1,26 @@
+.capture-site-nav .bjj-nav { height: 80px; }
+.capture-site-nav .bjj-nav li > a { padding: 29px 5px; }
+.capture-site-nav .bjj-nav li:nth-child(1) { width: 26%; }
+.capture-site-nav .bjj-nav li:nth-child(2) { width: 28%; }
+.capture-site-nav .bjj-nav li:nth-child(3) { width: 26%; }
+
+.bjj-cont-sidebar .site-left-cont { height: calc(100% - 85px); }
+.bjj-cont-sidebar .un-site-list { display: none; }
+.bjj-cont-sidebar .site-left-cont .capture-list { height: calc(100% - 60px); overflow-y: auto; overflow-x: hidden; }
+.bjj-cont-sidebar .site-left-cont .capture-list::-webkit-scrollbar { width: 0; }
+.bjj-cont-sidebar .site-left-cont .capture-list .nav-list { padding-left: 0; }
+.bjj-cont-sidebar .site-left-cont .capture-list .nav-list li { width: 100%; height: 40px; line-height: 40px; position: relative; }
+.bjj-cont-sidebar .site-left-cont .capture-list .nav-list li:hover { background: #eee; }
+.bjj-cont-sidebar .site-left-cont .capture-list .nav-list li.active { background: #eee; }
+.bjj-cont-sidebar .site-left-cont .capture-list .nav-list li a { max-width: 150px; padding-left: 15px; color: #333; display: inline-block; border-radius: 0; }
+.bjj-cont-sidebar .site-left-cont .capture-list .nav-list li .badge { margin: 12px 10px 12px 0; padding: 1px 7px 3px 7px; font-weight: normal; background-color: #F76260; transform: scale(.875); -webkit-transform: scale(.875); }
+.bjj-cont-sidebar .site-left-cont .capture-list .nav-list li .count { position: absolute; color: #999; top: 0; right: 15px; }
+.bjj-cont-sidebar .site-left-cont .capture-list .nav-list .presentation a i.fa-cog{ color: #2494f2; }
+.bjj-cont-sidebar .empty-site-list { margin: 200px auto; text-align: center; }
+.bjj-cont-sidebar .un-show-site-list { display: none; }
+.bjj-cont-sidebar .search-input { height: 60px; border-top: 1px solid #ededed; padding: 13px 15px; }
+.bjj-cont-sidebar .cont-sidebar { height: 45px; line-height: 45px; text-align: center; }
+.bjj-cont-sidebar .cont-sidebar .item-li { font-size: 16px; padding: 18px 16px; }
+
+/*loading*/
+.captureSiteLoading { width: 220px; }

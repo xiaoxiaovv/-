@@ -1,0 +1,17 @@
+<div class="bjj-cont-sidebar account-subject-nav">
+    <div class="loading accountSubjectLoading" ng-if="accountSubjectLoading" ng-include="'/inc/loading.html'"></div>
+    <div class="nav bjj-nav">
+        <span>全网监控设置</span>
+        <b><a ui-sref="captureSubject({type: 'list'})">返回</a></b>
+    </div>
+    <div class="account-subject-list">
+        <div class="new-add-site" ui-sref=".modify({subjectId: '0'})">
+            <i class="fa fa-plus" aria-hidden="true"></i> 新建主题
+        </div>
+        <ul class="nav-list">
+            <li ng-repeat="item in subjectList | filter: { keywords : keywords }" role="presentation"><a class="bjj-ellipsis" ui-sref=".modify" data-site-id="{{item.subjectId}}" ng-click="transmit($event)">{{item.subjectName }}</a></li>
+        </ul>
+    </div>
+</div>
+
+<div class="bjj-cont-page bjj-bg-white container-fluid" data-ui-view=""></div>

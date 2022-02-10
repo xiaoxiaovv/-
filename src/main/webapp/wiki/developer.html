@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="developerApp" ng-controller="developerCtrl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="format-detection" content="telephone=no">
+    <title ng-bind="appInfo.appName"></title>
+    <link rel="icon" ng-href="{{appInfo.icon}}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/default/css/ui.css">
+    <link rel="stylesheet" ng-href="{{'/theme/' + appInfo.appKey + '/css/diy.css'}}">
+    <style>
+        body { position: relative; height: 100%; }
+        .api-header { height: 350px; background-image: url(/theme/default/images/banner.jpg); position: relative; background-position: 50% 50%; }
+        .api-header>div { position: absolute; width: 100%; height: 50px; }
+        .api-header .container-fluid img { width: 90px; height: 30px; margin: 10px 0; }
+        .api-demo { width: 100%; }
+        .api-demo .api{ height: 765px; background: #fff; padding: 0 15%; }
+        .api-demo .frequently-questions { min-height: 385px; background: #f5f5f6; padding: 0 15%; }
+        .api-demo .frequently-questions .title { font-size: 30px; text-align: center; padding: 80px 0 50px 0; }
+        .api-demo .frequently-questions .question .left-question {  margin-bottom: 35px; }
+        .api-demo .frequently-questions .question .right-question { padding-bottom: 15px; }
+        .item-first>div,
+        .item-second>div { word-break: break-all; line-height: 30px; font-size: 16px; }
+        .api-demo .footer { height: 140px; background: #1a1c10; width: 100%; line-height: 1.5; }
+        .api-demo .footer p { color: #bebebe; font-size: 12px; padding: 40px 0 0; }
+        .api table { width: 100%; margin-top: 50px; }
+        .api .question-title { font-size: 30px; color: #333; margin: 80px 0 50px; text-align: center; }
+        .api .steps { width: 100%; height: 418px; position: relative; bottom: -54px; }
+        .api .steps .left-steps { float: left; height: 418px; border-left: 1px dashed #ddd; }
+        .api .steps .left-steps .step1 { position: relative; }
+        .api .steps .left-steps .step2,
+        .api .steps .left-steps .step3 { margin-top: 40px; }
+        .api .steps .left-steps .step1 .step1-circle,
+        .api .steps .left-steps .step1 .step2-circle,
+        .api .steps .left-steps .step1 .step3-circle { width: 30px; height: 50px; background-image: url(/theme/default/images/apiStepIcon.png); background-position: -230px 0; position: absolute; left: -17px; top: -22px; }
+        .api .steps .left-steps .step1 .step1-sign,
+        .api .steps .left-steps .step1 .step2-sign,
+        .api .steps .left-steps .step1 .step3-sign { width: 65px; height: 65px; position: absolute; left: -32px; top: -15px; background-image: url(/theme/default/images/apiStepIcon.png); display: none; }
+        .api .steps .left-steps .step1 .step1-sign { background-position: -2px 0;  }
+        .api .steps .left-steps .step1 .step2-sign { background-position: -80px 0; }
+        .api .steps .left-steps .step1 .step3-sign { background-position: -155px 0; }
+        .api .steps .left-steps .step1:hover .step1-circle{ display: block; }
+        .api .steps .left-steps .step1:hover .step1-sign { display: block; }
+        .api .steps .left-steps .step1:hover .step1-circle { display: none; }
+        .api .steps .left-steps .step2:hover .step2-circle{ display: none; }
+        .api .steps .left-steps .step2:hover .step2-sign { display: block; }
+        .api .steps .left-steps .step3:hover .step3-circle{ display: none; }
+        .api .steps .left-steps .step3:hover .step3-sign { display: block; }
+        .api .steps .left-steps .step1 .step1-sign,
+        .api .steps .left-steps .step1 .step1-circle,
+        .api .steps .left-steps .step1 .steps-one,
+        .api .steps .left-steps .step1 .step1-title,
+        .api .steps .left-steps .step1 .online-check { float: left; }
+        .api .steps .left-steps .step1 .steps-one,
+        .api .steps .left-steps .step1 .step1-title { font-size: 20px; color: #333; }
+        .api .steps .left-steps .step1 .steps-first { margin-left: 50px; }
+        .api .steps .left-steps .step1 .steps-first .steps-first-header { margin-bottom: 10px; }
+        .api .steps .left-steps .step1 .steps-first .steps-first-footer { color: #999; margin-bottom: 20px; }
+        .api .steps .left-steps .step1 .steps-first .steps-footer { color: #666; margin-bottom: 10px; }
+        .api .steps .left-steps .step1 .step1-title { margin: 0 18px 0 15px; }
+        .api .steps .left-steps .step1 .online-check { line-height: 28px; color: #2494f2; }
+        .api .steps .right-image { float: right; width: 400px; height: 420px; background-image: url(/theme/default/images/iphone.png); position: relative; }
+        .api .steps .right-image img { position: absolute; width: 305px; height: 328px; top: 91px; left: 49px; }
+        .api .api-box .api-item { width: calc(100%/3 - 16px); height: 120px; padding: 15px 0; display: inline-block; transition: .7s; background-size: cover; background-position: 50%; display: inline-block; box-shadow: 0 2px 10px 0 rgba(0,0,0,.15)!important; cursor: pointer; }
+        .api .api-box .api-item:hover { transform: scale(1.05); }
+        .api .api-box .api-center { margin: 0 20px; }
+        .api .api-box .api-item .api-left-item { float: left; width: 145px; height: 100%; border-right: 1px solid #ddd; }
+        .api .api-box .api-item .api-left-item>span { width: 50px; height: 47px; display: inline-block; background-image: url(/theme/default/images/apiIcon.png); float: right; margin-right: 20px; margin-top: 20px; }
+        .api .api-box .api-item .api-left-item .develop-documents { background-position: 0 0; }
+        .api .api-box .api-item .api-left-item .OEMO { background-position: -58px 0; }
+        .api .api-box .api-item .api-left-item .frequent-questions { background-position: 48px 0; }
+        .api .api-box .api-item .api-right-item { float: left; margin-left: 35px; font-size: 20px; color: #6f7479; line-height: 90px; }
+        @media (max-width: 1350px) {
+            .api-demo .api { padding: 0 100px; }
+            .api-demo .frequently-questions { padding: 0 100px; }
+        }
+        @media (min-width: 768px) and (max-width: 992px){
+            .api .steps .right-image { width: 380px; height: 420px; }
+        }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="api-header">
+        <div class="container-fluid nav-view-content">
+            <img ng-src="{{appInfo.logo}}" ng-title="{{appInfo.appName}}">
+        </div>
+    </div>
+    <div class="api-demo">
+        <div class="api">
+            <table>
+                <tbody>
+                    <tr class="api-box">
+                        <td class="api-item">
+                            <span class="api-left-item"><span class="develop-documents"></span></span>
+                            <span class="api-right-item" ng-click="apiDownLoad()">开发文档下载</span>
+                            <div class="clearfix"></div>
+                        </td>
+                        <td class="api-item api-center">
+                            <span class="api-left-item"><span class="OEMO"></span></span>
+                            <span class="api-right-item" ng-click="demoDownLoad()">DEMO下载</span>
+                            <div class="clearfix"></div>
+                        </td>
+                        <td class="api-item" ng-click="checkQuestionClick()">
+                            <span class="api-left-item"><span class="frequent-questions"></span></span>
+                            <span class="api-right-item">常见问题</span>
+                            <div class="clearfix"></div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+             <div class="question-title">API对接说明</div>
+             <div class="steps">
+                 <div class="left-steps">
+                     <div class="step1">
+                         <span class="step1-sign"></span>
+                         <span class="step1-circle"></span>
+                         <div class="steps-first">
+                             <div class="steps-first-header">
+                                 <span class="steps-one">step.1</span>
+                                 <span class="step1-title">下载开发文档</span>
+                                 <a class="online-check" target="_blank" href="/wiki/api-docking-instructions.html">在线查看</a>
+                                 <div class="clearfix"></div>
+                             </div>
+                             <div class="steps-first-footer">依据开发文档实例对接业务关系</div>
+                         </div>
+                     </div>
+                     <div class="clearfix"></div>
+                     <div class="step1 step2">
+                         <span class="step2-sign"></span>
+                         <span class="step2-circle"></span>
+                         <div class="steps-first">
+                             <div class="steps-first-header">
+                                 <span class="steps-one">step.2</span>
+                                 <span class="step1-title">对接测试</span>
+                                 <div class="clearfix"></div>
+                             </div>
+                             <div class="steps-first-footer">请按照开发文档进行接口测试</div>
+                             <div class="steps-footer">APPID：bjjapidemo</div>
+                             <div class="steps-footer">SECRET：53173b5e-eda0-4a42-8c41-913a3b812f8a</div>
+                         </div>
+                     </div>
+                     <div class="step1 step3">
+                         <span class="step3-sign"></span>
+                         <span class="step3-circle"></span>
+                         <div class="steps-first">
+                             <div class="steps-first-header">
+                                 <span class="steps-one">step.3</span>
+                                 <span class="step1-title">获取正式账号</span>
+                                 <div class="clearfix"></div>
+                             </div>
+                             <div class="steps-first-footer">联系客服获取正式账号：客服电话：010-83021272</div>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="right-image">
+                     <img src="/theme/default/images/carouselImg.jpg" alt="">
+                 </div>
+             </div>
+        </div>
+        <div class="frequently-questions">
+            <div class="title">常见问题</div>
+            <div class="question">
+                <div class="left-question">
+                    <div class="item-first col-md-6 col-xs-6">
+                        <div>Q1:测试账号使用有什么限制？</div>
+                        <div>A1:测试账号用于自助进行API接口对接测试，暂不支持推送内容的实时更新。</div>
+                    </div>
+                    <div class="item-second col-md-offset-7 col-xs-offset-7">
+                        <div>Q2:为什么推送的新闻里会有两个站点推送的内容相同的新闻？</div>
+                        <div>A2:用推送账户登录编++，查看这两个站点是否设置了自动推送，是否有站点间转发相同新闻并同时推送的情况。</div>
+                    </div>
+                </div>
+                <div class="right-question">
+                    <div class="item-first col-md-6 col-xs-6">
+                        <div>Q3:为什么调用接口传值会有乱码？</div>
+                        <div>A3:需要使用URLEncoder进行转码，请参照ApiDemo。</div>
+                    </div>
+                    <div class="item-second col-md-offset-7 col-xs-offset-7">
+                        <div>Q4:为什么加密参数后调用接口出现校验失败？</div>
+                        <div>A4:请参照接口文档对参数进行加密，使用ApiDemo中的Md5Util进行加密。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center footer">
+            <p ng-bind-html="appInfo.footer"></p>
+        </div>
+    </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.6.5/angular-sanitize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.10.8/umd/popper.min.js"></script>
+<script src="/lib/common.js"></script>
+<script>
+    var app = angular.module("developerApp", ["ngSanitize"]);
+    app.controller('developerCtrl', function($scope, $http, $sce){
+        getAppInfo($scope, $http);
+        $scope.checkQuestionClick = function() {
+            var scrollTopHeight = $(".frequently-questions").scrollTop();
+            $('body,html').animate({'scrollTop':scrollTopHeight+1115},500);
+        };
+        $scope.apiDownLoad = function() {
+            window.location.href = '/api/wiki/download/apiPdf';
+        };
+        $scope.demoDownLoad = function() {
+            window.location.href = 'http://test.zhihuibian.com/upload/apidockinginstruction/apidemo.zip';
+        };
+    });
+    var getAppInfo = function ($scope, $http) {
+        bjj.http.ng.get($scope, $http, '/api/app/info', {}, function (res) {
+            $scope.appInfo = res.appInfo;
+        });
+    }
+</script>
+</body>
+</html>

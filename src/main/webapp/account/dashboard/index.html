@@ -1,0 +1,34 @@
+<div class="bjj-cont-page bjj-bg-white container-fluid">
+    <div class="bjj-page-title">首页设置</div>
+    <div class="bjj-page-container account-dashboard-modules">
+        <div class="container-fluid ">
+            <div class="row">
+                <h5>我的首页 <small> (拖动更改顺序)</small></h5>
+            </div>
+            <div class="row" id="account-modules">
+                <span class="btn" ng-repeat="item in accountModuleList" data-module="{{item.dashboard}}">
+                    {{dashboardModules[item.dashboard]}}
+                    <i class="fa fa-times-circle" ng-if="accountModuleList.length > 2" ng-click="removeModule();"></i>
+                </span>
+            </div>
+        </div>
+        <h5></h5>
+        <div class="container-fluid">
+            <div class="row">
+                <h5>推荐频道 <small> (点击添加频道)</small></h5>
+            </div>
+            <div class="row">
+                <span class="btn"
+                      ng-repeat="item in dashboardModuleList | filter: { isShow: false}"
+                      ng-click="addModule();"
+                >
+                    <i class="fa fa-plus" aria-hidden="true"></i> {{dashboardModules[item.dashboard]}}
+                </span>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="bjj-account-save-view dashborad-view">
+    <div><button class="btn btn-primary" ng-click="save();">保存</button></div>
+</div>

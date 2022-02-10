@@ -1,0 +1,32 @@
+import com.istar.mediabroken.service.baidu.BaiduOAuthService
+import org.springframework.context.support.ClassPathXmlApplicationContext
+
+/**
+ * @author YCSnail
+ * @date 2018-07-12
+ * @email liyancai1986@163.com
+ * @company SnailTech
+ */
+
+def ctx = new ClassPathXmlApplicationContext("classpath*:spring*.xml");
+def srv = ctx.getBean(BaiduOAuthService)
+
+
+
+//def res = srv.getAccessToken()
+
+//println res
+
+
+String cont = '''
+本届世界杯上，年轻的英格兰队已经给球迷带来了太多惊喜。但在今天凌晨的半决赛中，虽然三狮军团保持了一个多小时的领先，他们最终还是被来自佩里西奇和曼朱基奇的两粒精彩进球挡在了决赛门外。英国媒体记录了聚集在全国各地公共场所观看转播的球迷从满怀希望到心碎莫斯科的过程，其中著名的海德公园一地就容纳了超过三万人。
+本届世界杯上，年轻的英格兰队已经给球迷带来了太多惊喜。但在今天凌晨的半决赛中，虽然三狮军团保持了一个多小时的领先，他们最终还是被来自佩里西奇和曼朱基奇的两粒精彩进球挡在了决赛门外。英国媒体记录了聚集在全国各地公共场所观看转播的球迷从满怀希望到心碎莫斯科的过程，其中著名的海德公园一地就容纳了超过三万人。
+本届世界杯上，年轻的英格兰队已经给球迷带来了太多惊喜。但在今天凌晨的半决赛中，虽然三狮军团保持了一个多小时的领先，他们最终还是被来自佩里西奇和曼朱基奇的两粒精彩进球挡在了决赛门外。英国媒体记录了聚集在全国各地公共场所观看转播的球迷从满怀希望到心碎莫斯科的过程，其中著名的海德公园一地就容纳了超过三万人。
+本届世界杯上，年轻的英格兰队已经给球迷带来了太多惊喜。但在今天凌晨的半决赛中，虽然三狮军团保持了一个多小时的领先，他们最终还是被来自佩里西奇和曼朱基奇的两粒精彩进球挡在了决赛门外。英国媒体记录了聚集在全国各地公共场所观看转播的球迷从满怀希望到心碎莫斯科的过程，其中著名的海德公园一地就容纳了超过三万人。
+'''
+
+String token = "24.8487207f1e1de69be4371f96feacb366.2592000.1533967079.282335-11494107"
+
+def url = srv.getVideoUrl(cont, token)
+
+println url

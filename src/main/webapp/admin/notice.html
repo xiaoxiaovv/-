@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, shrink-to-fit=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>系统提示设置 - 编++</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/default/css/ui.css">
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        section { padding: 50px; background: #fff;}
+        section div { margin: 10px 0;}
+        section div input { width: 300px; }
+        label { width: 100px; display: inline-block;}
+        textarea { padding: 10px; width: 300px; height: 100px;}
+    </style>
+</head>
+<body ng-app="noticeApp">
+<div class="bjj-header" ng-include="'/inc/header_pure.html'"></div>
+<section ng-controller="noticeCtrl">
+    <h2>主页系统提示设置</h2>
+    <div>
+        <label>账号</label>
+        <input type="text" ng-model="username">
+    </div>
+    <div>
+        <label>密码</label>
+        <input type="password" ng-model="password">
+    </div>
+    <div>
+        <label>内容</label>
+        <textarea ng-model="cont"></textarea>
+    </div>
+    <div>
+        <label>过期时间</label>
+        <input type="datetime-local" ng-model="expireTime">
+    </div>
+    <div>
+        <label>&nbsp;</label>
+        <span class="btn btn-primary" ng-click="save();">添加</span>
+    </div>
+    <div>
+        <label>&nbsp;</label>
+        <span class="btn btn-primary" ng-click="del();">清除系统提示</span>
+    </div>
+</section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.6.5/angular-sanitize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.10.8/umd/popper.min.js"></script>
+<script src="/lib/common.js"></script>
+<script>
+    var app = angular.module("noticeApp", []);
+    app.controller('noticeCtrl', function ($scope, $http) {
+
+        $scope.save = function () {
+
+            var cont = $scope.cont;
+            if(cont == undefined || cont == '') {
+                bjj.dialog.alert('danger', '请输入提示内容！');
+                return;
+            }
+            while (cont.indexOf('\n') >= 0){
+                cont = cont.replace('\n', '<br>');
+            }
+
+            var time = $scope.expireTime
+            try {
+                time = time.Format('yyyy-MM-dd hh:mm:ss');
+            } catch (err){
+                bjj.dialog.alert('danger', '请选择完整的时间！');
+                return
+            }
+
+            bjj.http.ng.put($scope, $http, '/api/notice/addNotice', {
+                username    : $scope.username,
+                password    : $scope.password,
+                cont        : cont,
+                expireTime  : time
+            }, function (res) {
+                bjj.dialog.alert('success', '添加成功！');
+            }, function (res) {
+                bjj.dialog.alert('danger', res.msg);
+            });
+        };
+
+        $scope.del = function () {
+
+            bjj.http.ng.del($scope, $http, '/api/notice/currentNotice', {
+                username    : $scope.username,
+                password    : $scope.password
+            }, function (res) {
+                bjj.dialog.alert('success', '清除系统提示成功！');
+            }, function (res) {
+                bjj.dialog.alert('danger', res.msg);
+            });
+        };
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<nav class="navbar navbar-default navbar-fixed-top" ng-controller="headerCtrl">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only"></span>
+                <i class="fa fa-bars" aria-hidden="true"></i>
+            </button>
+            <a class="navbar-brand" href="/main.html"><img ng-src="{{appInfo.logo}}" alt="{{appInfo.appName}}"></a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right account-nav">
+                <li class="dropdown">
+                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <img ng-src="{{user.avatar || '/theme/default/images/default-avatar.png'}}" onerror="this.src='/theme/default/images/default-avatar.png'"/>
+                        <span class="nick-name">{{user.nickname}} </span>
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li ng-repeat="menu in accountMenuList" ng-if="$index < 2"><a href="#" ui-sref-active="active" ui-sref="{{menu.url}}"><i class="fa {{menu.icon}}" aria-hidden="true"></i>&nbsp;&nbsp;{{menu.name}}</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li ng-repeat="menu in accountMenuList" ng-if="$index >= 2"><a href="#" ui-sref-active="active" ui-sref="{{menu.url}}"><i class="fa {{menu.icon}}" aria-hidden="true"></i>&nbsp;&nbsp;{{menu.name}}</a></li>
+                        <li role="separator" class="divider" ng-if="user.userName.indexOf('ecloud_') != 0"></li>
+                        <li ng-if="user.userName.indexOf('ecloud_') != 0"><a href="javascript:;" ng-click="logout();"><i class="fa fa-sign-out" aria-hidden="true"></i>&nbsp;&nbsp;退出</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li ui-sref=".messageNotice" ui-sref-opts="{reload: true}" class="button"><a href="javascript:;"><span class="glyphicon glyphicon-bell" aria-hidden="true"></span></a><span id="message-amount" class="message-amount">{{messageCount}}</span></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+

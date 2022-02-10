@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="icon">
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        body { width: 100%; height: 100%; min-height: 600px; position: absolute; margin: 0;padding: 0;min-width: 1190px; color: #fff;}
+        body::-webkit-scrollbar { width: 0; }
+        input::-webkit-input-placeholder {
+               color:rgba(12,201,187,1);
+                opacity:0.3;
+                font-size: 13px;
+        }
+        .footer { width: 100%; line-height: 1.5; position: absolute; bottom: 15px; text-align: center;font-size: 14px;}
+        .outer{
+            width: 100%;
+            height: 100%;
+            background: url('theme/default/images/portal/loginbg.jpg');
+            background-size: 100% 100%;
+            background-repeat:no-repeat;
+        }
+        .headerNav{
+            position: absolute;
+            width: 100%;
+            height: 109px;
+            background: url('theme/default/images/portal/loginnav.png');
+            background-size: 100% 100%;
+            background-repeat:no-repeat;
+        }
+        .absolute{
+            position: absolute;
+        } 
+        .content-header{
+            padding-top: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        } 
+        .content-header>div{
+            text-indent: 20px;
+            font-size: 32px;
+            letter-spacing: 3px;
+        } 
+        .content-header>img{
+             transform: translateY(3px);
+        }   
+        .showtext{
+            right: 5%;
+            height: 61px;
+            line-height: 61px;
+            font-size: 16px;
+        }
+        .content-login{
+            width: 356px;
+            margin: 35px auto 0;
+            background:linear-gradient(100deg,rgba(16,23,43,1),rgba(36,45,60,1));
+            border:2px solid rgba(44,253,237,1);
+            opacity:0.8;
+            border-radius:4px;
+            box-shadow: 0 0 30px #2CFDED;
+        }
+        .content-login .login-text{
+            height: 33px;
+            width: 205px;
+            line-height: 31px;
+            background: url('theme/default/images/portal/mediaTextBg.png');
+            background-size: 100% 100%;
+            background-repeat:no-repeat;
+            margin: 20px auto;
+            text-align: center;
+            color: #0CC9BB;
+        }
+        .content-login .login-inputdiv{
+                width: 302px;
+                margin: 0 auto;
+                height: 35px;
+                margin-bottom: 10px;
+                position: relative;
+        }
+        .content-login .login-inputdiv>img{
+                position: absolute;
+                left: 13px;
+                top: 10px;
+        }
+        .content-login .login-inputdiv>input{
+                width: calc(100% - 40px);
+                height: 100%;
+                border-radius: 4px;
+                padding-left: 40px;
+                background:rgba(14,21,38,1);
+                border:1px solid rgba(44,253,237,1);
+                color: #fff;
+        }
+        .content-login .login-yzm{
+                width: 302px;
+                margin: 0 auto;
+                height: 35px;
+                padding-top: 10px;
+        }
+        .content-login .login-yzm>input{
+                width: 200px;
+                height: 100%;
+                border-radius: 4px;
+                padding-left: 20px;
+                background:rgba(14,21,38,1);
+                border:1px solid rgba(44,253,237,1);
+                color: #fff;  
+        }
+        .content-login .login-yzm>span{
+                display: inline-block;
+                height: 100%;
+                width: 68px;
+                line-height: 35px;
+                border-radius: 4px;
+                margin-left: 10px;
+                transform: translateY(2px);
+                text-align: center;
+                background:rgba(14,21,38,1);
+                border:1px solid rgba(44,253,237,1);
+        }
+        .content-login .login-wjmm{
+            width: 302px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
+            align-items: center;
+            color:rgba(12,201,187,1);
+            font-size: 13px;
+        }
+        .content-login .login-wjmm>div:first-of-type{
+            width: 16px;
+            height: 16px;
+            background:rgba(14,21,38,1);
+            border:1px solid rgba(12,201,187,1);
+            border-radius: 3px;
+            margin-right: 7px;
+            cursor: pointer;
+        }
+        .content-login .login-wjmm>div:nth-of-type(2){
+            flex: 1;
+            opacity:0.3;
+        }
+        .content-login .login-wjmm>div:nth-of-type(3){
+            opacity:0.3;
+            cursor: pointer;
+        }
+        .content-login .login-submit{
+                height: 39px;
+                line-height: 39px;
+                width: 302px;
+                text-align: center;
+                margin: 15px auto 40px;
+                background:rgba(12,201,187,1);
+                border-radius: 5px;
+                cursor: pointer;
+        }
+        #code{
+            cursor: pointer;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="outer">
+    <div class="headerNav">
+        <div class="absolute showtext">客服电话：010-83051272</div>
+    </div>
+    <div class="content-header">
+        <img src="theme/default/images/portal/productLogo.png">
+        <div>智慧星光融媒体中心</div>
+    </div>
+    <form autocomplete="off">
+    <div class="content-login">
+        <div class="login-text">系统登录</div>
+        <div class="login-inputdiv"><input type="text" placeholder="登录名" id='name' ><img src="theme/default/images/portal/username.png"></div>
+        <div class="login-inputdiv"><input type="password" placeholder="密码" id='pwd'><img src="theme/default/images/portal/password.png"></div>
+        <div class="login-yzm"><input type="text" placeholder="请输入验证码" id='input'><span id='code'></span></div>
+        <div class="login-wjmm">
+            <div></div>
+            <div>记住账号</div>
+            <div>忘记密码?</div>
+        </div>
+        <div class="login-submit">登录</div>
+    </div>
+    </form>
+    <p class="footer">北京智慧星光信息技术有限公司&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;地址：北京市海淀区北四环西路56号辉煌时代大厦15层<br>Copyright&nbsp;2001-2018&nbsp;istarshine.com&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All&nbsp;rights&nbsp;reserved.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;京ICP备12009876号-1&nbsp;&nbsp;京公网安备11010802008588号</p>
+</div>
+<script type="text/javascript">
+    window.onload=function(){
+       document.getElementById("input").value="";
+  var code=document.getElementById("code");
+  function change(){
+        // 验证码组成库
+      var arrays=new Array(  
+        '1','2','3','4','5','6','7','8','9','0',  
+        'a','b','c','d','e','f','g','h','i','j',  
+        'k','l','m','n','o','p','q','r','s','t',  
+        'u','v','w','x','y','z',  
+        'A','B','C','D','E','F','G','H','I','J',  
+        'K','L','M','N','O','P','Q','R','S','T',  
+        'U','V','W','X','Y','Z'               
+                  ); 
+          // 重新初始化验证码
+            codes ='';
+            // 随机从数组中获取四个元素组成验证码
+            for(var i = 0; i<4; i++){
+              // 随机获取一个数组的下标
+              var r = parseInt(Math.random()*arrays.length);
+              codes += arrays[r];
+            }
+        // 验证码添加到input里
+        code.innerText = codes;
+  }
+    change();//加载显示在页面上{}
+    code.onclick = change;//单击更换验证码
+
+//单击验证
+  var check = document.getElementsByClassName('login-submit')[0];
+   var input=document.getElementById("input");
+   var name=document.getElementById("name");
+   var pwd=document.getElementById("pwd");
+  check.onclick=function(){
+        if(name.value == ''){
+            alert("请输入登录名！");
+            return;
+        }
+        if(name.value != 'yanshi'){
+            alert("无此用户！");
+            return;
+        }
+        if(pwd.value == ''){
+            alert("请输入密码！");
+            return;
+        }
+        if(pwd.value != 'rmt123'){
+            alert("密码错误！");
+            return;
+        }
+          var inputCode = input.value.toUpperCase(); //取得输入的验证码并转化为大写      
+        if(inputCode.length==0) { //若输入的验证码长度为0
+          alert("请输入验证码！"); //则弹出请输入验证码
+        }  
+        else if(inputCode!=codes.toUpperCase()) { //若输入的验证码与产生的验证码不一致时
+          alert("验证码输入错误！请重新输入"); //则弹出验证码输入错误
+          change();//刷新验证码
+          input.value="";//清空文本框
+        }       
+        else{ //输入正确时
+          window.open('https://www.zhihuibian.com/portal.html','_self');
+        } 
+      }
+}
+document.onkeydown = function(event){//网页内按下回车触发
+        if(event.keyCode==13)
+        {
+               document.getElementsByClassName('login-submit')[0].click();                            
+        }
+    }
+</script>
+</body>
+</html>

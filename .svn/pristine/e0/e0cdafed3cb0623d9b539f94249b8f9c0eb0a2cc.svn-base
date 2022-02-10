@@ -1,0 +1,162 @@
+
+<div class="evaluate-report">
+    <div class="evaluate-report-title">
+        <p class="pull-left">渠道管理</p>
+        <span class="pull-left">测评时间：{{starTime | date: 'yyyy-MM-dd HH:mm' }}至{{endTime | date: 'yyyy-MM-dd HH:mm' }}</span>
+    </div>
+    <div class="evaluate-report-name">
+        <label>测评名称</label>
+        <input type="text" maxlength="20" ng-model="evaluateName" placeholder="输入测评名称">
+        <p ng-show="evaluateNameShow">输入测评名称</p>
+        <label>总渠道名称</label>
+        <input type="text" maxlength="20" ng-model="channelsName" placeholder="输入总渠道名称">
+        <p ng-show="channelsNameShow">输入总渠道名称</p>
+    </div>
+    <div class="evaluate-report-list">
+        <ul class="list-unstyled operationBtn">
+            <li role="presentation" class="pull-left operationBtn operationMoveBtn  moveBtn" ng-click="moveTeamClick($event)">移动到</li> <!--"-->
+            <div style="display: none; position: absolute; margin-left: 40px; margin-top: 45px; z-index: 10;" class="setTeamBox" >
+                <ol class="setTeam list-unstyled">
+                    <li ng-repeat="team in allTeam" class="bjj-ellipsis" ng-click="moveTeam($event, team.id)" data-news-id="{{team.id}}">{{team.teamName}}</li>
+                </ol>
+            </div>
+            <li role="presentation" class="pull-left operationBtn" ng-click="modifyChannel()">添加渠道</li>
+            <li role="presentation" class="pull-left operationBtn" ng-click="AddTeam()">新建分组</li>
+            <div class="input-group">
+                <input ng-model="siteName" ng-keyup="siteNameKeyup($event)" type="text" class="form-control " placeholder="请输入网站、公众号、微博名称" maxlength="20">
+                <select class="pull-right bootstrap-select form-control" ng-model="defaultSearchMediaSetting.siteType" ng-change="changeSiteType()">
+                    <option value="0">全部</option>
+                    <option ng-repeat="x in siteTypes" value="{{x.value}}" >{{x.siteType}}</option>
+                </select>
+                <span class="input-group-btn">
+                    <button ng-click="keywordsSearchClick($event)" class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </span>
+            </div>
+        </ul>
+        <div class="member-list">
+            <div class="box-condensed clearfix">
+                <ol class="list-unstyled">
+                    <li class="seize"></li>
+                    <li class="account">渠道名称</li>
+                    <li class="phone">渠道类型</li>
+                    <li class="name">网站域名</li>
+                    <li class="really">添加时间</li>
+                    <li class="edit pull-right">操作</li>
+                </ol>
+            </div>
+            <div>
+                <ul class="list-unstyled" ng-repeat="team in teamList">
+                    <li class="everyGroup">
+                        <span class="line"></span>
+                        <div class="pull-left bjj-checkbox {{ team.active ? 'active' : '' }}" ng-click="toggleAllUser(team.id)" >
+                            <i class="fa fa-square-o fa-lg" aria-hidden="true"></i>
+                        </div>
+                        <input type="text" class="inputTeamName" ng-model='team.teamName' ng-show="team.editName" ng-blur="blurTeamName(team)" maxlength="20">
+                        <span class="account-people bjj-ellipsis"><span class="spanTeamName" ng-hide="team.editName">{{team.teamName}}</span>（{{team.evaluateChannelList.length}}）</span>
+                        <span class="pull-right editMember">
+                            <span class="editTeam" ng-click="editTeamName()" ng-hide="team.id == 0">编辑</span>
+                            <span class="deleteTeam" ng-click="deleteTeam()" ng-hide="team.id == 0">删除</span>
+                            <span class="toggleGroup"><b class="caret"></b></span>
+                        </span>
+                    </li>
+                    <div class="groupMember {{team.id}}">
+                        <li ng-repeat="account in team.evaluateChannelList" class="{{account.id}}">
+                            <div class="pull-left bjj-checkbox {{ account.active ? 'active' : '' }}" ng-click="toggleUser()" >
+                                <i class="fa fa-square-o fa-lg" aria-hidden="true"></i>
+                            </div>
+                            <span class="account-people"><b>{{account.siteName}}</b></span>
+                            <span class="account-phone" ng-show="account.siteType == 1">网站</span>
+                            <span class="account-phone" ng-show="account.siteType == 2">公众号</span>
+                            <span class="account-phone" ng-show="account.siteType == 3">微博</span>
+                            <span class="account-name"><span>{{account.siteDomain}}</span></span>
+                            <span class="account-really">{{account.createTime | date: 'yyyy-MM-dd HH:mm'}}</span>
+                            <span class="pull-right editMember team{{account.teamId}} {{ account.isManager? 'isManager': ''}}" >
+                                <span class="editTeam" ng-click="editChannel()" ng-if="!account.isManager">编辑</span>
+                                <span class="deleteTeam deleteUser" ng-click="deleteChannel(account.id)" ng-if="!account.isManager">删除</span>
+                                <span class="moveTeam" ng-click="moveOutTeam(account.id)" ng-hide="account.evaluateTeamId == 0">移出组</span>
+                                <span class="toggleGroup"></span>
+                            </span>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="btn-box">
+        <button type="button" class="btn btn-primary" ng-click="creatEvaluate()">生成测评</button>
+        <button type="button" class="btn btn-default" ng-click="cancleEvaluate()">取消</button>
+    </div>
+</div>
+</div>
+<!-- 新建分组 -->
+<div class="modal fade" id="modifyTeamModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                &times;
+            </button>
+            <h5 class="modal-title" id="myModalLabel">
+                新建分组
+            </h5>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <p><label for="exampleInputName" class="site-type">分组名称</label></p>
+                <input type="text" class="form-control pull-left" id="exampleInputName" placeholder="输入分组名称" ng-model="teamName" maxlength="20">
+            </div>
+        </div>
+        <div class="modal-footer">
+            <span ng-click="listSaveTeam()" class="analysis-save btn btn-primary">&nbsp;&nbsp;保存&nbsp;&nbsp;</span>
+        </div>
+    </div>
+</div>
+</div>
+<!-- 添加渠道 -->
+<div class="modal fade" id="modifyChannelModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                &times;
+            </button>
+            <h5 class="modal-title" id="modifyChannel">
+                {{modifyChannelName}}
+            </h5>
+        </div>
+        <div class="modal-body">
+            <div class="modal-every evaluate-modal-every" >
+                <select ng-if="addChannelTime" class="pull-left bootstrap-select form-control site-select" ng-model="defaultMediaSetting.siteType" ng-init="defaultMediaSetting.siteType == '1'" ng-change="changeType()">
+                    <option ng-repeat="x in siteTypes" value="{{x.value}}">{{x.siteType}}</option>
+                </select>
+                <select ng-if="!addChannelTime" class="pull-left bootstrap-select form-control site-select" ng-model="editDefaultMediaSetting.siteType" ng-options="x.value as x.siteType for x in siteTypes" ng-change="editChangeType()">
+                </select>
+                <select class="pull-left bootstrap-select form-control team-select" ng-model="team">
+                    <option value="0" selected="selected">未分组</option>
+                    <option ng-repeat="x in allTeam" value="{{x.id}}">{{x.teamName}}</option>
+                </select>
+                <input ng-if="addChannelTime" class="pull-left form-control" type="text" ng-model="defaultMediaSetting.siteName" class="w160" value="{{defaultMediaSetting.siteName}}" placeholder="{{defaultMediaSetting.placeholder}}" maxlength="20">
+                <input ng-if="addChannelTime" class="pull-left form-control modal-website" type="text" ng-model="defaultMediaSetting.siteDomain" ng-show="defaultMediaSetting.siteType == 1 " class="w260" value="{{defaultMediaSetting.siteDomain}}" placeholder="{{defaultMediaSetting.placeholderDomain}}">
+                <input ng-if="!addChannelTime" class="pull-left form-control" type="text" ng-model="editDefaultMediaSetting.siteName" class="w160" value="{{editDefaultMediaSetting.siteName}}" placeholder="{{editDefaultMediaSetting.placeholder}}" maxlength="20">
+                <input ng-if="!addChannelTime" class="pull-left form-control modal-website" type="text" ng-model="editDefaultMediaSetting.siteDomain" ng-show="editDefaultMediaSetting.siteType == 1 " class="w260" value="{{editDefaultMediaSetting.siteDomain}}" placeholder="{{editDefaultMediaSetting.placeholderDomain}}">
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <span ng-click="listSaveChannel()" class="analysis-save btn btn-primary">&nbsp;&nbsp;保存&nbsp;&nbsp;</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(".member-list").on('click','.toggleGroup',function() {
+        $(this).parents('.everyGroup').next(".groupMember").slideToggle();
+        if($(this).children('.caret').css('border-top') == '4px dashed rgb(51, 51, 51)') {
+            $(this).children('.caret').css('border-top','none');
+            $(this).children('.caret').css('border-bottom','4px dashed rgb(51, 51, 51)')
+        }else {
+            $(this).children('.caret').css('border-bottom','none');
+            $(this).children('.caret').css('border-top','4px dashed rgb(51, 51, 51)')
+        }
+    })
+</script>

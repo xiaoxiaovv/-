@@ -1,0 +1,38 @@
+<div class="out-manuscripts">
+    <!--文稿-->
+    <div class="in-manuscripts tips">
+        <div class="manuscripts">文稿</div>
+        <span class="manuscripts-tips manuscripts-tips-box">
+            <p><i ng-click="closeDialog()" class="fa fa-times" aria-hidden="true"></i></p>
+            <div class="title">
+                <span class="content">收藏的文稿在这里，可以把全文或摘要放入编辑区</span>
+                <div class="step">
+                    <span class="circle main"></span>
+                    <span class="circle"></span>
+                </div>
+            </div>
+            <div class="manuscripts-btn">
+                <button ng-click="manuscriptsPrev()" type="button" class="btn btn-primary pull-left prev-btn disabled"><i class="fa fa-long-arrow-left" aria-hidden="true"></i>上一步</button>
+                <button ng-click="manuscriptsNext()" type="button" class="btn btn-primary pull-right">下一步<i class="fa fa-long-arrow-right" aria-hidden="true"></i></button>
+            </div>
+        </span>
+    </div>
+   <!-- 数据-->
+    <div class="in-manuscripts data">
+        <div class="manuscripts">数据</div>
+        <span class="manuscripts-tips">
+            <p><i ng-click="closeDialog()" class="fa fa-times" aria-hidden="true"></i></p>
+            <div class="title">
+                <span class="content">输入事件关键词，把生成的图表拖入编辑区</span>
+                <div class="step">
+                    <span class="circle"></span>
+                    <span class="circle main"></span>
+                </div>
+            </div>
+            <div class="manuscripts-btn">
+                <button ng-click="selectedTopPrev()" type="button" class="btn btn-primary pull-left"><i class="fa fa-long-arrow-left" aria-hidden="true"></i>上一步</button>
+                <button ng-click="finishedClick()" type="button" class="btn btn-primary pull-right">完成</button>
+            </div>
+        </span>
+    </div>
+</div>

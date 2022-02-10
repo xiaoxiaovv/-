@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="accountModifyPasswordApp" ng-controller="accountModifyPasswordCtrl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, shrink-to-fit=no">
+    <meta name="format-detection" content="telephone=no">
+    <title ng-bind="appInfo.appName"></title>
+    <link rel="icon" ng-href="{{appInfo.icon}}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/default/css/ui.css">
+    <link rel="stylesheet" href="/theme/default/css/account.alter.password.css">
+    <link rel="stylesheet" ng-href="{{'/theme/' + appInfo.appKey + '/css/diy.css'}}">
+
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="bjj-header" ng-include="'/inc/header_pure_gray.html'"></div>
+<div class="bjj-main-content">
+    <div class="modify-container">
+        <div class="modify-title">
+            <span>修改初始密码 </span>
+            <span ng-click="modifyPwdSkip()" class="skip">跳过</span>
+        </div>
+        <div class="reset-password">
+            <div class="form-group form-group-password">
+                <div class="pull-left control-input mb22">
+                    <input type="password" ng-keyup="checkPassword()" maxlength="18" class="form-control original-password" placeholder="请输入原密码" ng-model="oldPassword">
+                    <span ng-show="old">原密码不正确</span>
+                    <span ng-show="nullOld">密码不能为空</span>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group form-group-password">
+                <div class="pull-left control-input mb10">
+                    <input type="password" ng-keyup="checkNewPassword()" class="form-control new-password" placeholder="请输入新密码" ng-model="newPassword" maxlength="18">
+                    <div class="tip2"><span class="circle">.</span>6-18个字符，支持英文、数字、下滑线</div>
+                    <span ng-show="nullNew" class="null-new">新密码不能为空</span>
+                    <span ng-show="repeat">新密码和原密码不能一致</span>
+                    <span ng-show="errorPassword" class="error-password">密码格式错误，请重新输入</span>
+                    <span ng-show="passwordShort">密码安全级别过低</span>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group password-sign mb10">
+                <div class="password-color">
+                    <span class="sign {{weakColor}}"></span>
+                    <span class="sign {{middleColor}} {{middle}}"></span>
+                    <span class="sign {{strongColor}}"></span>
+                </div>
+            </div>
+            <div class="form-group form-group-password">
+                <div class="pull-left control-input mb22">
+                    <input type="password" ng-keyup="checkConfirmPwd()" class="form-control confirm-password" placeholder="请输入确认密码" ng-model="confirmPassword">
+                    <span ng-show="nullConfirm">确认密码不能为空</span>
+                    <span ng-show="passwordConfirm">两次输入的密码不一致</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <input class="passwordButton pull-right btn btn-primary" type="button" value="提交" ng-click="submitClick()">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="text-center footer">
+    <p ng-bind-html="appInfo.footer"></p>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.6.5/angular-sanitize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.10.8/umd/popper.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.min.js"></script>
+<script src="/lib/common.js"></script>
+<script>
+    var setting = { expires: 1000, path: '/' };
+    var app = angular.module( "accountModifyPasswordApp", [] );
+    app.controller('accountModifyPasswordCtrl', function($scope, $http, $sce) {
+        $scope.old = false;
+        $scope.nullOld = false;
+        $scope.nullNew = false;
+        $scope.nullConfirm = false;
+        $scope.passwordConfirm = false;
+        $scope.errorPassword = false;
+        $scope.passwordShort  = false;
+        $(".new-password").focus(function(){
+            $(".tip2").css("display","block");
+        });
+        $(".new-password").blur(function(){
+            $(".tip2").css("display","none");
+        });
+        $(".confirm-password").focus(function(){
+            $(".tip3").css("display","block");
+        });
+        $(".confirm-password").blur(function(){
+            $(".tip3").css("display","none");
+        });
+        getAppInfo($scope, $http, $sce);
+        $scope.checkPassword = function() {
+            $scope.old = false;
+            if($scope.oldPassword == undefined || $scope.oldPassword == '') {
+                $scope.nullOld = true;
+                $scope.nullNew = false;
+                $scope.nullConfirm = false;
+                $scope.passwordConfirm = false;
+                $scope.errorPassword = false;
+                return;
+            }else {
+                $scope.nullOld = false;
+            }
+        };
+        $scope.checkNewPassword = function() {
+            console.log(isPassword($scope.newPassword))
+            if($scope.oldPassword == undefined || $scope.oldPassword == '') {
+                $scope.nullOld = true;
+                return;
+            }else {
+                $scope.nullOld = false;
+            }
+            if($scope.newPassword == undefined || $scope.newPassword == '') {
+                $scope.nullNew = true;
+                $scope.errorPassword = false;
+                return;
+            }else {
+                $scope.nullNew = false;
+            }
+            if(isPassword($scope.newPassword) == -1) {
+                $scope.weakColor = '';
+                $scope.middleColor = '';
+                $scope.middle = '';
+                $scope.strongColor = '';
+                $scope.errorPassword = true;
+                $scope.passwordShort = false;
+                $scope.nullNew = false;
+                $scope.repeat = false;
+                $scope.nullConfirm = false;
+                $scope.passwordConfirm = false;
+                return;
+            }else {
+                $scope.errorPassword = false;
+            }
+            if(isPassword($scope.newPassword) == 0) {
+                $scope.errorPassword = true;
+                $scope.nullNew        = false;
+                $scope.passwordShort = false;
+                $scope.repeat = false;
+                $scope.nullConfirm = false;
+                $scope.passwordConfirm = false;
+                $scope.weakColor = '';
+                $scope.middle = '';
+                $scope.middleColor = '';
+                $scope.strongColor = '';
+                return;
+            }else {
+                $scope.errorPassword = false;
+            }
+            if(isPassword($scope.newPassword) == 1) {
+                $scope.passwordShort  = true;
+                $scope.errorPassword = false;
+                $scope.nullConfirm = false;
+                $scope.passwordConfirm = false;
+                $scope.weakColor = 'weak';
+                $scope.middleColor = '';
+                $scope.middle = '';
+                $scope.strongColor = '';
+                return;
+            }else {
+                $scope.weakColor = '';
+                $scope.passwordShort = false;
+            }
+            if(isPassword($scope.newPassword) == 2) {
+                $scope.weakColor = 'weak';
+                $scope.middleColor = 'middle';
+                $scope.middle = 'middle';
+                $scope.strongColor = '';
+            }else {
+                $scope.middle = '';
+                $scope.middleColor = '';
+            }
+            if(isPassword($scope.newPassword) == 3) {
+                $scope.weakColor = 'weak';
+                $scope.middleColor = 'middle';
+                $scope.strongColor = 'strong';
+            }else {
+                $scope.middleColor = '';
+                $scope.strongColor = '';
+            }
+        };
+        $scope.checkConfirmPwd = function() {
+            console.log(isPassword($scope.newPassword))
+            if($scope.oldPassword == undefined || $scope.oldPassword == '') {
+                $scope.nullOld = true;
+                return;
+            }else {
+                $scope.nullOld = false;
+            }
+            if($scope.newPassword == undefined || $scope.newPassword == '') {
+                $scope.nullNew = true;
+                $scope.errorPassword = false;
+                return;
+            }else {
+                $scope.nullNew = false;
+            }
+            if($scope.confirmPassword != $scope.newPassword) {
+                $scope.passwordConfirm = true;
+                $scope.errorPassword = false;
+            }else {
+                $scope.passwordConfirm = false;
+            }
+        };
+        $scope.modifyPwdSkip = function(){
+            getSkipData($scope, $http);
+        };
+        $scope.submitClick = function() {
+            var oldPassword = $scope.oldPassword;
+            var confirmPassword = $scope.confirmPassword;
+            var newPassword     = $scope.newPassword;
+            if(oldPassword == undefined || oldPassword == '') {
+                $scope.nullOld = true;
+                return;
+            }else {
+                $scope.nullOld = false;
+            }
+            if(newPassword == undefined || newPassword == '') {
+                $scope.nullNew = true;
+                $scope.errorPassword = false;
+                return;
+            }else {
+                $scope.nullNew = false;
+            }
+            if(isPassword($scope.newPassword) == -1) {
+                $scope.weakColor = '';
+                $scope.middleColor = '';
+                $scope.middle = '';
+                $scope.strongColor = '';
+                $scope.errorPassword = true;
+                $scope.passwordShort  = false;
+                $scope.nullNew = false;
+                $scope.repeat = false;
+                $scope.nullConfirm = false;
+                $scope.passwordConfirm = false;
+                return;
+            }else {
+                $scope.errorPassword = false;
+            }
+            if(isPassword($scope.newPassword) == 0) {
+                $scope.errorPassword = true;
+                $scope.nullNew        = false;
+                $scope.repeat = false;
+                $scope.nullConfirm = false;
+                $scope.passwordConfirm = false;
+                $scope.passwordShort  = false;
+                $scope.weakColor = '';
+                $scope.middle = '';
+                $scope.middleColor = '';
+                $scope.strongColor = '';
+                return;
+            }else {
+                $scope.errorPassword = false;
+            }
+            if(isPassword($scope.newPassword) == 1) {
+                $scope.passwordShort  = true;
+                $scope.errorPassword = false;
+                $scope.nullConfirm = false;
+                $scope.passwordConfirm = false;
+                $scope.weakColor = 'weak';
+                $scope.middleColor = '';
+                $scope.middle = '';
+                $scope.strongColor = '';
+                return;
+            }else {
+                $scope.weakColor = '';
+                $scope.errorPassword = false;
+            }
+            if(isPassword($scope.newPassword) == 2) {
+                $scope.weakColor = 'weak';
+                $scope.middleColor = 'middle';
+                $scope.middle = 'middle';
+                $scope.strongColor = '';
+            }else {
+                $scope.middle = '';
+                $scope.middleColor = '';
+            }
+            if(isPassword($scope.newPassword) == 3) {
+                $scope.weakColor = 'weak';
+                $scope.middleColor = 'middle';
+                $scope.strongColor = 'strong';
+            }else {
+                $scope.middleColor = '';
+                $scope.strongColor = '';
+            }
+            if(confirmPassword == undefined || confirmPassword == '') {
+                $scope.nullConfirm = true;
+                $scope.errorPassword = false;
+                $scope.passwordConfirm = false;
+                return;
+            }else {
+                $scope.nullConfirm = false;
+            }
+            if(oldPassword == newPassword) {
+                $scope.repeat = true;
+                $scope.errorPassword = false;
+                $scope.nullNew       = false;
+                $scope.errorPassword = false;
+                $scope.passwordConfirm = false;
+                $scope.nullConfirm = false;
+                return;
+            }else {
+                $scope.repeat = false;
+            }
+            modifyPassword($scope, $http, oldPassword, newPassword, confirmPassword);
+        };
+    });
+
+    var getAppInfo = function ($scope, $http, $sce) {
+        bjj.http.ng.get($scope, $http, '/api/app/info', {}, function (res) {
+            $scope.appInfo = res.appInfo;
+            $scope.appInfo.footer = $sce.trustAsHtml($scope.appInfo.footer);
+        });
+    };
+    var getSkipData = function($scope, $http) {
+        bjj.http.ng.put($scope, $http, '/api/account/passwordStatus', {}, function (res) {
+            if($.cookie('isSitesInited') == 'true'&&$.cookie('isPwdModified') == 'false') {
+                goto('/main.html');
+            };
+            $.cookie('isPwdModified', true,  setting);
+            if($.cookie('isSitesInited') == 'false'&&$.cookie('isPwdModified') =='true') {
+                goto('/account/init.html');
+                $('.navbar-default ').css({'background':'#5e5f62'});
+            }
+        });
+    };
+
+    var modifyPassword = function($scope, $http, oldPassword, newPassword, confirmPassword ) {
+        bjj.http.ng.put($scope, $http, '/api/account/password?_method=PUT', {
+            oldPassword     : getValue(oldPassword),
+            newPassword     : getValue(newPassword),
+            confirmPassword : getValue(confirmPassword)
+        },function(res) {
+            if($.cookie('isSitesInited') == 'true'&&$.cookie('isPwdModified') == 'false') {
+                goto('/main.html');
+            };
+            $.cookie('isPwdModified', true,  setting);
+            if($.cookie('isSitesInited') == 'false'&&$.cookie('isPwdModified') =='true') {
+                goto('/account/init.html');
+                $('.navbar-default ').css({'background':'#5e5f62'});
+            }
+        },function(res) {
+            if(res.status == 1) {
+                if(oldPassword == undefined || oldPassword == "") {
+                    $scope.nullOld = true;
+                }
+                if(newPassword == undefined || newPassword== "") {
+                    $scope.nullNew = true;
+                    $scope.errorPassword = false;
+                }
+                if(confirmPassword == undefined || confirmPassword == "") {
+                    $scope.nullConfirm = true;
+                    $scope.errorPassword = false;
+                }else {
+                    $scope.nullOld = true;
+                    $scope.nullNew = true;
+                    $scope.nullConfirm = true;
+                    if(typeof(oldPassword) == 'undefined'){
+                        $scope.nullNew = false;
+                        $scope.nullConfirm = false;
+                    }
+                }
+            }
+            if(res.status == 2) {
+                $scope.passwordConfirm = true;
+                $scope.nullConfirm = false;
+            }else {
+                $scope.passwordConfirm = false;
+            }
+            if(res.status == 3) {
+                $scope.old = true;
+                $scope.nullOld = false;
+                $scope.nullNew = false;
+                $scope.nullConfirm = false;
+                $scope.passwordConfirm = false;
+                $scope.errorPassword = false;
+            }else {
+                $scope.old = false;
+            }
+            if(res.status == 4 || res.status == 5 ) {
+                $scope.errorPassword = true;
+                $scope.repeat = false;
+                $scope.passwordShort  = true;
+                $scope.passwordConfirm = false;
+            }else {
+                $scope.errorPassword = false;
+            }
+        })
+    };
+    function getValue(value) {
+        return value == undefined ? "" : value
+    }
+</script>
+</body>
+</html>

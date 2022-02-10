@@ -1,0 +1,6 @@
+.subscription-exclusion-list { height: auto !important; min-height: calc(100% - 80px); background: #ffffff; margin: 10px 15px 15px; }
+.subscription-exclusion-list .exclusion-title { line-height: 34px; margin-top: 20px; color: #999; margin-left: 10px; }
+.subscription-exclusion-list .exclusion-save { width: calc(100% - 235px); }
+.subscription-exclusion-list textarea { width: 80%; margin-left: 10px; border: 1px solid #ddd; }
+.bjj-account-save-view.exclusion-save { width: calc(100% - 250px); margin-right: 15px; }
+.bjj-main.min-bar .exclusion-save { width: calc(100% - 80px); margin-right: 15px; }

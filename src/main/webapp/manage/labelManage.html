@@ -1,0 +1,52 @@
+<div class="bjj-cont-page bjj-bg-white">
+    <div class="label-title">标签管理</div>
+    <div class="label-content" ng-show="editPage">
+    	<div class="label-content-name">
+    		<span>标签名称</span>
+    		<input type="text" name="" placeholder="请输入内容" ng-model='labelName' maxlength="10">
+    	</div>
+    	<div class="label-content-type">
+    		<span>类型</span>
+    		<select ng-model='labelType' ng-change="typeChange()" >
+    			<option value="">请选择类型</option>
+    			<option value='checkbox'>多选</option>
+    			<option value='drop'>下拉</option>
+    			<option value='text'>文本</option>
+    			<option value='date'>时间(系统默认)</option>
+    			<option value='area'>地域(系统默认)</option>
+    		</select>
+    	</div>
+        <div ng-show="showInput" class="label-content-input">
+            <div class="label-content-rel" ng-repeat="item in checkList track by $index">
+               <input type="text" name="" placeholder="请输入内容" ng-model='item' ng-change="changeInput(this)" maxlength="20">
+               <span class="label-hover" ng-click="removeValue($index)">删除</span>
+               <span class="label-hover" ng-if='$index == checkList.length - 1' ng-click="addValue()">添加选项</span>
+            </div>
+        </div>
+    	<div class="label-content-button">
+    		<button class="btn btn-default" type="button" ng-click="cancelEdit()">取消</button>
+    		<button class="btn btn-default label-hover-bg" type="button" ng-click="addOrEdit()">确定</button>
+    	</div>
+    </div>
+    <div class="label-list" ng-show="!editPage">
+        <div class="label-build label-hover-bg" ng-click="editLabel()">创建自定义标签</div>
+    	<table class="table table-condensed table-striped table-hover">
+                <thead>
+                <tr>
+                    <td class="index">序号</td>
+                    <td class="title">标签名称</td>
+                    <td class="title">标签类型</td> 
+                    <td class="operation">操作</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in LabelList">
+                    <td class="index">{{$index + 1}}</td>
+                    <td class="title">{{item.tagName}}</td>
+                    <td class="title">{{item.tagType}}</td>
+                    <td class="operation"><span class="label-hover" ng-click="editLabelDetail(item.id)">编辑</span><span class="label-hover" ng-click="deleteLabel(item.id)">删除</span></td>
+                </tr>
+                </tbody>
+            </table>
+    </div>
+</div>

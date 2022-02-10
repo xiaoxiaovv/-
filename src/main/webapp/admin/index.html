@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, shrink-to-fit=no">
+    <meta name="format-detection" content="telephone=no">
+    <title>编++</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/default/css/ui.css">
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body ng-app="adminApp">
+<div class="bjj-header" ng-include="'/inc/header_pure.html'"></div>
+<div class="bjj-main" ng-controller="adminCtrl">
+
+    <ul>
+        <li><a class="btn btn-link" href="/admin/notice.html">系统提示设置</a></li>
+        <li><a class="btn btn-link" target="_blank" href="http://www.zhihuibian.com/api/account/verifyCode/query?phone=15210351071&username=liyc">找回密码-验证码-查询(online)</a></li>
+        <li><a class="btn btn-link" target="_blank" href="http://test.zhihuibian.com/api/account/verifyCode/query?phone=15210351071&username=liyc">找回密码-验证码-查询(test)</a></li>
+        <li><a class="btn btn-link" target="_blank" href="http://www.zhihuibian.com/api/account/verifyCode/query?phone=15210351071">注册-验证码-查询(online)</a></li>
+        <li><a class="btn btn-link" target="_blank" href="http://test.zhihuibian.com/api/account/verifyCode/query?phone=15210351071">注册-验证码-查询(test)</a></li>
+    </ul>
+
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.6.5/angular-sanitize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.10.8/umd/popper.min.js"></script>
+<script src="/lib/common.js"></script>
+<script>
+    var app = angular.module("adminApp", []);
+    app.controller('adminCtrl', function($scope, $http){
+
+
+    });
+</script>
+</body>
+</html>

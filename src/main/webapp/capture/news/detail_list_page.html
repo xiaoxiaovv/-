@@ -1,0 +1,53 @@
+<meta name="referrer" content="no-referrer" />
+<div class="bjj-page-title">
+    <a href="javascript:;" class="return" ng-click="back2NewsList();"><i class="fa fa-chevron-left" aria-hidden="true"></i> 返回 </a>
+</div>
+<div class="detail-body">
+    <div class="detail-title">
+        <div class="headerWidth">
+            <div class="page-header">
+                <h3 class=""><span class="title">{{news.title}}</span><small><a href={{news.url}} class="oldContent" target="_blank">原文链接</a></small></h3>
+                <span class="pull-right news-photo">
+                    <a href="javascript:;" class="deleteNews bjj-un-detail-select" ng-hide="fromWhere">
+                        <i class="fa fa-trash" aria-hidden="true" title="标为垃圾" ng-click="deleteNewsToRubbish(news.id)"></i>
+                    </a>
+                    <a href="javascript:;" class="detailEditor bjj-un-detail-select" ui-sref="editor({newsId: news.id})">
+                        <i class="fa fa-pencil" aria-hidden="true" title="编辑"></i>
+                    </a>
+                    <a href="javascript:;" class="detail-push {{news.isPush ? 'bjj-detail-select-square' : 'bjj-un-detail-select' }}">
+                        <i class="fa fa-share-square-o push-{{news.id}}" aria-hidden="true" ng-click="pushNews(news.id, news)" title="推送"></i>
+                    </a>
+                    <div class="pull-right favoriteDetail">
+                        <a href="javascript:;" class="detail-favourite {{ news.isCollection ? 'bjj-detail-star' : 'bjj-un-detail-select' }}">
+                            <i class="fa fa-star" aria-hidden="true" ng-click="favoriteNews($event, news.id, news)" title="收藏文稿"></i>
+                            <div style="display: none; position: absolute; margin-left: -60px;" class="detailFavorite">
+                                <ol class="list-unstyled detailSiteFavorite">
+                                    <li ng-repeat="group in normalGroup" class="bjj-ellipsis" ng-click="detailFavoriteGroup($event, news.id, group.id)" data-news-id="{{news.id}}">{{group.groupName}}</li>
+                                </ol>
+                            </div>
+                        </a>
+                    </div>
+                </span>
+            </div>
+        </div>
+        <div>
+            <p class="clearfix">
+                <span>发布时间: <i>{{news.publishTime | date:"yyyy年MM月dd日 HH:mm"}}</i></span>
+                <span>来源网站: <i>{{page == 'reprint'? news.firstPublishSiteName: news.siteName}}</i></span>
+                <span>转载数: <i>{{news.reprintCount}}</i></span>
+                <span>作者: <i>{{news.poster || news.siteName}}</i></span>
+            </p>
+            <p class="clearfix">
+                <span>采集时间: <i>{{news.captureTime | date:"yyyy年MM月dd日 HH:mm"}}</i></span>
+                <span>采集网站: <i>{{news.siteName}}</i></span>
+                <i class="fa fa-tags" aria-hidden="true"></i><b>{{news.keywords.join(" / ")}}</b>
+            </p>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="detail-line"></div>
+    <div class="detail-content">
+        <p ng-bind-html="news.content"></p>
+        <p ng-repeat="item in news.imgUrls track by $index" ng-if="!news.isHtmlContent"><img src={{item}}></p>
+    </div>
+</div>

@@ -1,0 +1,63 @@
+.subscription-Page { width: 100%; height: calc(100% - 60px); overflow-y: auto; }
+.subscription-Page .bjj-page-title .siteId { margin-left: 20px; color:#999; }
+.subscription-Page .bjj-page-title .delete-subscription { margin-right: 15px; }
+.subscription-Page .new-site-body .subscription-container form { margin: 30px 0; padding: 0 15px; }
+.subscription-Page .new-site-body .subscription-container form .site-type { font-weight: 400; margin-bottom: 15px; color: #999; }
+.subscription-Page .new-site-body .subscription-container form .site-type.sitePushTime { margin-top: 15px; }
+.subscription-Page .new-site-body .subscription-container form .site-type.site-border { margin-top: 5px;}
+.subscription-Page .new-site-body .subscription-container form .form-group { display: flex; }
+.subscription-Page .new-site-body .subscription-container form .title-explain { float: right; width: 320px; height: auto; line-height: 20px; border-radius: 4px; background: #fdf8e4; border: 1px solid #f9ebd0; top: 30px; right: -45px; padding: 10px; font-size: 14px; color: #947755; position: absolute; }
+.subscription-Page .new-site-body .subscription-container form .title-explain:after { content: ' '; width: 20px; height: 20px; border: 1px solid #f9ebd0; position: absolute; top: -10px; right: 40px; transform: rotate(45deg); display: inline-block; border-right-width: 0; border-bottom-width: 0; background: #fdf8e4;}
+.subscription-Page .new-site-body .subscription-container form .form-group .fa-question-circle { margin-left: 5px; color: #999; position: relative; }
+.subscription-Page .new-site-body .subscription-container form .form-group .navigation b{ color: red; margin-left: 15px; }
+.subscription-Page .new-site-body .subscription-container form .subscription-time .navigation b{ color: red; margin-left: 15px; }
+.subscription-Page .new-site-body .subscription-container form input{ width: 80%; }
+.subscription-Page .new-site-body .subscription-container form textarea { width: 80%; height: 100px; resize: none; border-color: #ddd; }
+.subscription-Page .new-site-body .subscription-container form input.siteStartTime,
+.subscription-Page .new-site-body .subscription-container form input.siteEndTime {width: 180px; height: 34px; padding-left: 5px; border: 1px solid #ddd; border-radius: 4px; margin: 0px 0px 15px 0;}
+.subscription-Page .new-site-body .subscription-container form .subscription-time span.pull-left { margin-right: 11px; margin-top: 3px; margin-left: 11px; }
+.subscription-container .textarea-keyword { width: 80%; height: auto; min-height: 134px; }
+.subscription-container .textarea-keyword div { margin: 5px; line-height: 22px; font-size: 12px; color: #fff; text-align: center; cursor: pointer; display: inline-block; }
+.subscription-container .textarea-keyword div.item { position: relative; }
+.subscription-container .textarea-keyword div.add-btn,
+.subscription-container .textarea-keyword div.item input,
+.subscription-container .textarea-keyword div.item span { padding: 0 10px; min-width: 80px; border-radius: 15px; display: inline-block; }
+.subscription-container .textarea-keyword div.item input { width: 100%; color: #333; border: 1px solid #ddd; outline: none; }
+.subscription-container .textarea-keyword div.item i { position: absolute; top: -3px; right: -3px; padding-left: 1px; color: #ff0000; display: none; }
+.subscription-container .textarea-keyword div.item:hover i { display: block; }
+.subscription-container .textarea-keyword div.opt { }
+.subscription-container .textarea-keyword div.opt span { width: 20px; line-height: 20px; border-radius: 50%; display: inline-block; }
+.subscription-container .textarea-keyword div.add-btn { background: #c4c4c4; }
+.subscription-container .textarea-keyword .and { background: #2494F2; }
+.subscription-container .textarea-keyword .or { background: #ff9900; }
+.subscription-container label .and { color: #2494F2; }
+.subscription-container label .or { color: #ff9900; }
+.subscription-container form .allSite { display: inline-flex; width: 100%; }
+.subscription-container form .allSite .siteType { width: 80px; color: #999; margin-top: 15px; margin-bottom: 0; }
+.subscription-container form .allSite .rightSite { width: calc(100% - 100px); margin-left: 10px; margin-bottom: 10px; }
+.subscription-container form .allSite .media { display: inline-flex; width: 150px; position: relative; }
+.subscription-container form .allSite .media:first-child { margin-top: 15px; }
+.subscription-container form .allSite .mediaType { width: 100px;}
+.subscription-container form .allSite .media:hover .fa-times { display: block; }
+.subscription-container form .allSite .media .fa-times { position: relative; top:2px; color: #ddd; display: none; cursor: pointer; }
+.subscription-Page { padding-left: 15px; }
+.subscription-Page .new-site-body .subscription-container form input.newKeywordsTag { width: 160px; height: 22px; margin: 5px; padding: 0 10px; display: inline-block; border: 1px solid #ddd; border-radius: 11px; outline: none; }
+#modifyModal .form-group .site-type { margin-top: 8px; color: #999;}
+#modifyModal .form-group .promptInfo { color: red; }
+#modifyModal .form-group .url-type { width: 35%; margin-right: 25px; }
+#modifyModal .form-group .toggle { width: 50px; height: 20px; display: inline-block; background: #6abc0e; border-radius: 15px; position: relative; cursor: pointer; }
+#modifyModal .form-group .toggle-item { width: 16px; height: 16px; border-radius: 50%; background: #fff; display: inline-block; position: absolute; top: 2px; }
+#modifyModal .form-group .toggle-OFF { background: #999; }
+#modifyModal .form-group .toggle-on { right: 2px; }
+#modifyModal .form-group .toggle-off { left: 2px; }
+#modifyModal .form-group .ON,
+#modifyModal .form-group .OFF { color: #fff; font-size: 12px; position: absolute; top: 2px; }
+#modifyModal .form-group .ON { left: 6px; }
+#modifyModal .form-group .OFF { right: 6px; }
+#modifyModal .form-group .match-type-title { position: relative; top: -4px; left: 2px; color: #999;}
+#modifyModal .form-group { margin-bottom: 0px; }
+#modifyModal .form-group input,#modifyModal .form-group select { width: 95%; margin-bottom: 5px; margin-top: -6px; }
+#modifyModal .everySite input{ width: 95%; margin-right: 15px;}
+#modifyModal .everySite span{ color: red; }
+/*删除后view*/
+.subscription-deleted-view { margin-top: 30%; text-align: center; }

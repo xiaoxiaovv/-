@@ -1,0 +1,35 @@
+<div class="editor-public">
+    <div class="bjj-editor-public-content">
+        <div class="bjj-page-title editor-page-title" ui-sref="materialList"><a href="javascript:;">< 返回我的文稿</a></div>
+        <div class="editor-public-content success-public-page">
+            <div class="status-sign">
+                <div class="pull-left success-img img"></div>
+                <div class="status-title pull-right">发布成功</div>
+                <div class="clearfix"></div>
+            </div>
+            <div ng-show="appInfo.appKey == 'default'|| appInfo.appKey == 'ghms'" class="share-img" id="share-img"></div>
+            <div ng-show="appInfo.appKey == 'default'|| appInfo.appKey == 'ghms'" class="code">扫描二维码</div>
+            <div class="editor-ipt-box">
+                <input id="urlAddress" type="text" class="form-control pull-left" ng-model="urlAddress">
+                <button class="btn btn-primary btn-default pull-right" ng-click="copyUrl()">复制链接</button>
+            </div>
+            <div class="public-line"></div>
+            <div class="public-preview"><span class="left"></span>发布预览<span class="right"></span></div>
+            <div class="editor-footer">
+                <div class="pull-left row col-lg-10 col-md-10 col-xs-10 col-sm-10">
+                    <div class="title bjj-ellipsis">{{data.material.title}}</div>
+                    <div class="abstract bjj-ellipsis-2">{{data.material.contentAbstract}}</div>
+                </div>
+                <img src="{{data.material.picUrl ? data.material.picUrl : appInfo.pureLogo}}" class="editor-footer-img pull-right">
+            </div>
+        </div>
+        <div class="editor-public-content fail-public-page bjj-hidden">
+            <div class="status-sign">
+                <div class="pull-left fail-img img"></div>
+                <div class="status-fail-title pull-right">发布失败</div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="annotation">请检查文章内容是否正确，并尝试重新发布</div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="bjj-cont-sidebar capture-subscription-nav">
+    <div class="loading subscriptSubjectLoading" ng-if="subscriptSubjectLoading" ng-include="'/inc/loading.html'"></div>
+    <div class="nav bjj-nav">
+        <span>订阅列表</span>
+        <b><a  href="#" ui-sref="accountSubscription"><i class="fa fa-cog" aria-hidden="true"></i></a></b>
+    </div>
+    <div class="clearfix"></div>
+    <div class="subscription-list">
+        <div ng-if="subscriptionSubjectList.length == 0" class="new-add-site" ui-sref="accountSubscription.modify({subjectId: '0'})">
+            <i class="fa fa-plus" aria-hidden="true"></i> 新建主题
+        </div>
+        <ul class="nav-list">
+            <li ng-click="subjectClick(item.subjectId, item.subjectName)" role="presentation" ui-sref="subscription.newList" ng-repeat="item in subscriptionSubjectList"><a class="bjj-ellipsis" href="javaScript:;">{{item.subjectName}}</a></li>
+        </ul>
+    </div>
+</div>
+<div class="bjj-cont-page" data-ui-view="">
+    <div class="help-null">
+        <i class="fa fa-3x fa-exclamation-circle" aria-hidden="true"></i>
+        <div>暂无订阅主题</div>
+    </div>
+</div>
+<div class="clearfix"></div>

@@ -1,0 +1,14 @@
+.password-main { width: calc(100% - 30px); min-height: calc(100% - 65px); position: relative; }
+.password-content { width: 415px; height: 240px; position: absolute; left: 40px; top: 50px; }
+.password-main .form-group { height: 34px; margin-bottom: 20px; position: relative; }
+.password-main .form-group label { width: 84px; margin-right: 35px; line-height: 35px; font-weight: normal; text-align: left; color: #666; }
+.password-main .form-group .inputPassword { width: 270px; margin-bottom: 2px; }
+.password-main .form-group .passwordButton { width: 270px; margin-right: 25px; margin-top: 20px; outline: none; }
+.password-main .form-group-password span { color: red; position: absolute; top: 5px; left: 400px; width: 210px; }
+
+.password-main .password-sign { margin: -15px 0 -5px; }
+.password-main .password-color { width: 270px; margin-left: 120px; }
+.password-main .password-color span.sign { display: inline-block; height: 6px; width: 87px; background: #f3f3f3; }
+.password-main .password-color span.middle { background: #ff9900; }
+.password-main .password-color span.weak { background: #f15533; }
+.password-main .password-color span.strong { background: #5cb70e; }

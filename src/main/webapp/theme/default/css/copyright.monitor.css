@@ -1,0 +1,76 @@
+.capture-news-page { height: 100%; }
+.containerMonitor { height: calc(100% - 80px); }
+.containerBox { margin-top: 15px; }
+.news-condition { margin: 0 0 15px 0; background: #ffffff; }
+.containerBox .news-condition .conditions { padding: 5px 10px;}
+.containerBox .news-condition .monitorNews { height: 40px; line-height: 40px; display: flex;}
+.containerBox .news-condition .monitor-contentAbstract { line-height: 20px; width: 100%; }
+.containerBox .news-condition .monitorNews span.containerTitle { font-size: 18px; color: #333; font-family: "Microsoft YaHei"; }
+.containerBox .news-condition .monitorNews span { color: #999; margin-right: 10px; }
+.containerBox .news-condition .monitorNews .contentAbstract { width: 96%; display: inline-block; }
+.containerBox .news-condition .monitorNews span.monitorUrl { cursor: pointer; margin-left: 28px; }
+.containerBox .news-condition .monitorNews .contentAbstractSpan { width: 6.5%; display: inline-block; }
+.monitor-list-content .monitorList .monitor-list-table ul li .monitor-list-item{ float: left; margin: 15px 5px 0 0; }
+.monitor-list-content .monitorList .monitor-list-table ul li .monitor-list-item .monitor-list-contentAbstract { margin: 10px 0 10px 0; color: #666666;}
+.handles { height: 60px; line-height: 60px; padding: 0 20px; background: #fff; }
+.handles .leftHandle i { width: 16px;}
+.handles .rightHandle { float: right; }
+.handles .rightHandle .selectBox { width: 95px; }
+.handles .handleItem {  margin-left: 5px; padding: 8px 10px; cursor: pointer; }
+.handles .deleteItem { border: 1px solid #ddd; }
+.emptyList { margin: 300px auto; text-align: center; }
+.newsListBox { height: calc(100% - 197px); }
+.monitor-list-content { height: auto; min-height: calc(100% - 60px); background: #fff; margin-bottom: 15px; border-top: 1px solid #ededed; position: relative; }
+.monitor-list-content .monitorList { margin-bottom: 15px; }
+.monitor-list-content .monitorList .monitor-list-table ul { padding: 0 20px;}
+.monitor-list-content .monitorList .monitor-list-table li { list-style: none; display: flex; border-bottom: 1px dashed #ededed; padding: 30px 0 30px 0;}
+.monitor-list-content .monitorList .monitor-list-table li .monitorCheckbox .bjj-checkbox i { width: 16px; }
+.monitor-list-content .monitorList .monitor-list-table li:last-child { border-bottom: none; }
+.monitor-list-content .monitorList .monitor-list-table ul li .monitorCheckbox { margin-right: 10px; }
+.monitor-list-content .monitorList .monitor-list-table ul li .monitor-list-news { width: 100%; }
+.monitor-list-content .monitorList .monitor-list-table ul li .monitor-list-item a { width: 85%; font-family: "Microsoft YaHei"; font-size: 16px; color: #333; display: inline-block; }
+.monitor-list-content .monitorList .monitor-list-table ul li .monitor-list-item a:hover { color: #2494f2; }
+.monitor-list-content .monitorList .monitor-list-table ul li .monitor-list-item .news-list-title .isShow span.tort{ width: 70px; float: right; margin: 0 0 5px 15px; padding: 0 5px; font-style: normal; border: 1px solid #f1af00; color: #f1af00; background: #fff; }
+.monitor-list-content .monitorList .monitor-list-table ul li .monitor-list-item .news-list-title .isShow span.keyMonitor { width: 70px; float: right; margin: 0 0 5px 15px; padding: 0 5px; font-style: normal; color: #fff; background: #fa5e57;}
+.monitor-list-content .monitorList .monitor-list-table ul li .monitor-list-item .monitor-list-contentAbstract { margin: 15px 0; color: #666; }
+.handles #screenMenu .input-group .group { width: 130px; height: 34px; text-align: center;}
+.handles .input-group .selectBox { float: right; }
+.handles #total { width: 85px; border-radius: 4px 0 0 4px;}
+.handles .form-control { margin-top: 12px; }
+.news-list-content .news-list-search .news-list-condition .news-condition { border: 1px solid #dddddd; padding: 0px 15px; }
+.handles .news-condition-line { margin: 0 5px 0 15px; color: #dddddd; }
+.handles .news-condition-line button { width: 100px; }
+.handles .news-condition-line:active,
+.handles .news-condition-line:hover { background-color: #f5f5f5; }
+.handles .time-btn { color: #333; border: 1px solid #ddd; background-color: #fff; }
+.handles .btn:hover { background-color: #fff;}
+.handles .btn-default.active,.handles .btn-default:active,.handles .open>.dropdown-toggle.btn-default { background-color: #fff; border-color: #ddd;}
+.handles .time-btn.active,
+.handles .time-btn.hover { background-color: #f5f5f5; }
+.handles .time-btn .order { display: block; text-align: left; }
+.handles .time-btn .caret { position: absolute; top:14px; right:8px;}
+.containerBox .nav-tabs { border: 1px solid #ededed; border-top: none; border-right: none; }
+.containerBox .nav-tabs li { height: 40px; }
+.containerBox .nav-tabs li a { color: #333; }
+.containerBox .nav-tabs .nav>li>a:focus,
+.containerBox .nav-tabs .nav>li>a:hover{ background: #fff; }
+.containerBox .nav-tabs li a { border: none; margin-right: 0; }
+.containerBox .nav-tabs li a:hover { color: #2494f2; }
+.containerBox .nav>li>a:focus { background: #fff; }
+.containerBox .nav-tabs li.on { border-top: 2px solid #2494f2; border-bottom: none; border-radius: 2px; background: #fff; }
+.containerBox ul .newsBtn { border-top: 1px solid #ededed; }
+.containerBox ul .analysisBtn { border-top: 1px solid #ededed; border-right: 1px solid #ededed; border-bottom: 1px solid #ededed;  background: #f5f5f5; }
+.main_box { background: #fff; }
+/*传播分析*/
+.monitor-analysis { margin-bottom: 15px; background: #fff; }
+.monitor-analysis .monitor-analysis-echarts { position: relative; }
+.monitor-analysis .monitor-analysis-echarts > div:first-child { height: 470px; padding: 15px 0; }
+.monitor-analysis .monitor-analysis-echarts:nth-child(2) > div:first-child { border-top: 1px solid #ededed; border-bottom: 1px solid #ededed; }
+
+.copyrightAnalysisLoading,
+.copyrightAnalysisTrendLoading,
+.copyrightAnalysisSummaryLoading { top: 0; }
+
+@media only screen and (max-width: 1380px) {
+    .monitor-list-content .monitorList .monitor-list-table ul li .monitor-list-item .news-list-title .isShow span.tort { margin: 0 25px 5px 15px; }
+}

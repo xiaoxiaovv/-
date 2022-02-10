@@ -1,0 +1,488 @@
+<div class="bjj-cont-sidebar pull-left editor-sidebar-left" ng-include="'/compile/editor/sidebar_left.html?1030'"></div>
+<div class="bjj-cont-sidebar pull-left editor-sidebar-right" ng-include="'/compile/editor/sidebar_right.html?1030'" ng-show="detailModal"></div>
+<div class="bjj-cont-page pull-left editor-cont-center editor-cont-center-width">
+    <div class="editor-page center-block">
+        <form role="form">
+        <div class="editor-page-top container-fluid">
+            <p class="row">
+                <input type="text" class="input-lg col-md-11" placeholder="请在这里输入标题" ng-model="material.title" required maxlength="64">
+                <span class="col-md-1">{{material.title.length || 0}}/64</span>
+            </p>
+            <p class="row">
+                <input type="text" class="col-md-11" placeholder="请输入作者" ng-model="material.author" maxlength="8">
+                <span class="col-md-1">{{material.author.length || 0}}/8</span>
+            </p>
+        </div>
+
+        <div id="editor"></div>
+
+        <div class="editor-page-bottom container-fluid">
+            <div class="form-group container-fluid">
+                <div class="row">
+                    <label for="contentAbstract" class="col-md-10">摘要</label>
+                    <span class="col-md-2 pull-right text-right">{{material.contentAbstract.length || 0}}/120</span>
+                </div>
+                <textarea id="contentAbstract" class="form-control" rows="4" placeholder="请输入内容摘要" ng-model="material.contentAbstract" maxlength="120"></textarea>
+            </div>
+            <div class="form-group container-fluid">
+                <label for="keywords">关键词</label>
+                <input type="text" class="form-control" id="keywords" placeholder="多个关键词时请使用空格隔开" ng-model="material.keywords">
+            </div>
+            <div class="form-group container-fluid">
+                <label for="classification">分类</label>
+                <input type="text" class="form-control" id="classification" placeholder="多个分类时请使用空格隔开" ng-model="material.classification">
+            </div>
+            <div class="form-group container-fluid">
+                <label for="source">来源</label>
+                <input type="text" class="form-control" id="source" placeholder="来源网站" ng-model="material.source">
+            </div>
+            <div class="form-group container-fluid">
+                <div class="row">
+                    <label class="col-md-2">封面</label>
+                    <span class="col-md-10 text-right">图片建议尺寸 900*500</span>
+                </div>
+                <div class="">
+                    <button type="button" ng-click="getTextImg()" class="btn btn-default {{ btnEnum[textImgBtnStatus] }}" data-toggle="modal">{{textImgBtnStatus=='loading' ? '正在提取…' : '从原文选择'}}</button>
+                    <button type="button" class="btn btn-default" onclick="$('#coverFile').val('').click();">本地上传</button>
+                </div>
+                <div class="cover">
+                    <img id="cover-pre" ng-src="{{material.picUrl}}" alt="封面图" />
+                    <input type="text" class="bjj-hidden" id="cover" ng-model="material.picUrl"/>
+                    <input type="file" class="bjj-hidden" id="coverFile" name="file" value="" />
+                    <div class="mask" ng-if="material.picUrl != ('/theme/default/images/default-cover.jpg')">&nbsp;</div>
+                    <div class="icon" ng-if="material.picUrl != ('/theme/default/images/default-cover.jpg')"><i class="fa fa-trash-o fa-2x" aria-hidden="true" ng-click="delCover();"></i></div>
+                </div>
+            </div>
+        </div>
+        <div class="choseTemplate" ng-show="templateShow" ng-mouseleave="mouseTemplateName()">
+            <ol class="list-unstyled">
+                <li ng-repeat="name in templateList track by $index" ng-click="useTemplate($index)">{{name}}</li>
+                <li data-toggle="modal" data-target="#TemplateModal" ng-click="setTemplate()"><i class="fa fa-cog ng-scope" aria-hidden="true"></i>设置</li>
+            </ol>
+        </div>
+        <div class="editor-page-tools">
+            <div ng-mouseenter="mouseTemplate()">一键排版</div>
+            <div ng-click="removeDuplicateParagraph();">段落去重</div>
+            <div ng-click="back2Top();" class="back-to-top-editor"><i class="fa fa-chevron-up" aria-hidden="true"></i></div>
+            <div ng-click="back2Bottom();" class="back-to-bottom"><i class="fa fa-chevron-down" aria-hidden="true"></i></div>
+        </div>
+    </form>
+    </div>
+</div>
+<div class="editor-opt container-fluid">
+    <div class="col-md-2 col-sm-2">
+        <a class="sideup" href="javascript:;" ng-click="toggleEditorArea();" role="button"> <span class="sign {{editorAreaStatus ? 'pack-up' : 'pull-down'}}"></span>{{editorAreaStatus ? '收起正文' : '展开正文'}}</a>
+    </div>
+    <div class="col-md-10 col-sm-10 pull-right text-right">
+        <button type="button" class="btn btn-default" ng-click="appPreview();">预览</button>
+        <button type="button" class="btn btn-default" ng-click="h5Public();">H5发布</button>
+        <button type="button" class="btn btn-default {{ btnEnum[saveBtnStatus] }}" ng-click="saveMaterial();">{{saveBtnStatus=='loading' ? '保存中…' : '保存'}}</button>
+        <button type="button" class="btn btn-primary" ng-click="syncMaterial();" ng-if="appInfo.appKey == 'default' || appInfo.appKey == 'ghms'" >同步</button>
+        <button type="button" class="btn btn-default {{ btnEnum[pushBtnStatus] }}" ng-click="pushMaterial();">{{pushBtnStatus=='loading' ? '推送中…' : '推送'}}</button>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="imgUrlsModal" tabindex="-1" role="dialog" aria-labelledby="imgUrlsLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title" id="imgUrlsLabel">从原文选择封面</h5>
+            </div>
+            <div class="modal-body">
+                <div class="pull-left img-item" ng-repeat="item in imgInfo.imgUrls track by $index" onclick="$(this).addClass('active').siblings().removeClass('active');">
+                    <img ng-src="{{item}}"/>
+                    <div class="mask">&nbsp;</div>
+                    <div class="icon"><i class="fa fa-check-circle fa-3x" aria-hidden="true"></i></div>
+                </div>
+                <div ng-if="imgInfo.imgUrls.length == 0" class="no-img-title">暂无图片</div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" ng-click="selectCover();">选择</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="channelsModal" tabindex="-1" role="dialog" aria-labelledby="channelsLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title" id="channelsLabel">同步到第三方平台<span class="text-right small"></span></h5>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid" ng-repeat="i in (appInfo.appKey != 'ghms'?[2, 3, 1, 4] : [2,1,4])">
+                    <div class="row">
+                        <h5 class="col-md-10 col-sm-10" ng-if="i != 2"><span class="channel-logo {{channelMap[i].name_en}}">&nbsp;</span> {{channelMap[i].name_zh}} <small>(已授权)</small></h5>
+                        <h5 class="col-md-6 col-sm-6" ng-if="i == 2"><span class="channel-logo {{channelMap[i].name_en}}">&nbsp;</span> {{channelMap[i].name_zh}} <small>(已授权)</small></h5>
+                        <div class="col-md-4 col-sm-4 text-right wechat-mass-send" ng-if="i == 2"><span class="bjj-checkbox {{wechatSyncType==1 ? 'active' : ''}}" ng-click="toggleWechatSyncType();"><i class="fa fa-square-o fa-lg" aria-hidden="true"></i></span><small>群发图文 (限认证号)</small></div>
+                        <div class="col-md-2 col-sm-2 text-right"><button type="button" class="btn btn-sm btn-primary" ng-click="syncMaterial2Channels(i);">同步</button></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5 col-sm-5 channel-item {{channel.active ? 'active' : ''}}"
+                             ng-repeat="channel in channelList | filter: {channelType : i}"
+                             ng-click="toggleSelectedChannel();">
+                            <img ng-src="{{channel.avatar}}">
+                            <span class="bjj-ellipsis">{{channel.name}}</span>
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn pull-left" href="javascript:;" role="button" ng-click="gotoChannelPage();">添加更多授权账号</a>
+                <span>已选择<em>{{selectedChannelList.length || 0}}</em>个同步账号 </span>
+                <button type="button" class="btn btn-primary pull-right" ng-click="syncMaterial2Channels(0);">一键同步</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="syncModal" tabindex="-1" role="dialog" aria-labelledby="syncLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title" id="syncLabel">一键同步</h5>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row channel-item" ng-repeat="item in syncChannelList">
+                        <div class="col-md-5 col-lg-5 channel-name bjj-ellipsis" title="{{item.name}}">
+                            <span class="col-md-1 col-lg-1 channel-logo {{channelMap[item.channelType].name_en}}"></span>
+                            {{item.name}}
+                        </div>
+                        <div class="col-md-7 col-lg-7 pull-right text-right channel-info" ng-if="item.syncStatus == -1">{{item.syncMsg}} <i class="fa fa-spinner fa-spin"></i></div>
+                        <div class="col-md-7 col-lg-7 pull-right text-right channel-info" ng-if="item.syncStatus == 1"><i class="fa fa-check-circle success"></i></div>
+                        <div class="col-md-7 col-lg-7 pull-right text-right channel-info" ng-if="item.syncStatus == 0"><em>{{item.syncMsg}}</em> <i class="fa fa-times-circle error"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn" href="/wiki/sync.html" role="button" target="_blank">同步失败？</a>
+                <button type="button" class="btn btn-primary" onclick="$('#syncModal').modal('hide');">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--手机预览-->
+<div class="modal fade" id="appModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-body">
+            <div class="body-text pull-left">
+                <div class="text-content">
+                    <p class="title">{{appInfo.appName}}</p>
+                    <div class="textScroll">
+                        <p class="contentTitle bjj-ellipsis">{{previewArticle.title}}</p>
+                        <p class="subTitle">文 | {{previewArticle.author}} {{previewArticle.updateTime | date: 'yyyy-M-dd HH:mm:ss'}}</p>
+                        <div class="abstract help-block">{{previewArticle.contentAbstract}}</div>
+                        <div class="cover"><img ng-src="{{previewArticle.picUrl}}" alt="{{previewArticle.title}}" title="{{previewArticle.title}}" ng-if="previewArticle.picUrl? 'true': 'false'"></div>
+                        <div class="news-content">
+                            <div ng-bind-html="data.content"></div>
+                            <div class="footer">
+                                <img ng-src="{{appInfo.qrcode || '/theme/default/images/qrcode.png'}}">
+                                <div class="shareChannel">文章由{{appInfo.appName}}生成</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="operation pull-left">
+                <div class="share-div" ng-show="appInfo.appKey == 'default' || appInfo.appKey == 'ghms'">
+                    <div class="share-btn">
+                        <div id="share-qrcode"></div>
+                        <span>分享到微信</span>
+                    </div>
+                </div>
+                <div class="previewBtn">
+                    <ul class="list-unstyled">
+                        <li class="btn-default btn-all btn-primary">APP端</li>
+                        <li class="btn-default btn-all pc-btn" ng-click="previewMaterial()" >PC端</li>
+                    </ul>
+                </div>
+                <div class="closePreview">
+                    <p class="btn-default" data-dismiss="modal" aria-hidden="true">关闭</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--模板设置-->
+<div class="modal fade template" id="TemplateModal" tabindex="-1" role="dialog" aria-labelledby="TemplateLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title">
+                    <span ng-click="choseTemplate(0)">{{templateNameList[0]}}</span>
+                    <span ng-click="choseTemplate(1)">{{templateNameList[1]}}</span>
+                    <span ng-click="choseTemplate(2)">{{templateNameList[2]}}</span>
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div ng-show="firstTemplate">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="pull-left leftTitle">模板名称</label>
+                                <div class="pull-left control-input">
+                                    <input type="text" class="pull-left form-control templateName" placeholder="请输入模板名称" ng-model="templateDefault.templateName" maxlength="4">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="pull-left leftTitle">正文字号</label>
+                                <div class="custom-text">
+                                    <input class="pull-left form-control" ng-model="templateDefault.bodyFontSize" ng-init="templateDefault.bodyFontSize = '16'" ng-blur="checkBodyFontSize($event, templateDefault.bodyFontSize)" maxlength="2" placeholder="可输入6~48" /><span>px</span>
+                                </div>
+                                <div class="pull-left rightTitle">
+                                    <input id="bodyLeft" ng-model="templateDefault.bodyAlignment" value="左对齐" name="body" type="radio" style="outline:none;" />
+                                    <label for="bodyLeft" class="pull-left">左对齐</label>
+                                    <input id="bodyRight" ng-model="templateDefault.bodyAlignment" value="右对齐" name="body" type="radio" style="outline:none;" />
+                                    <label for="bodyRight" class="pull-left">右对齐</label>
+                                    <input id="bodyCenter" ng-model="templateDefault.bodyAlignment" value="居中对齐" name="body" type="radio" style="outline:none;" />
+                                    <label for="bodyCenter" class="pull-left">居中对齐</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="pull-left leftTitle">正文图片</label>
+                                <div class="pull-left rightTitle">
+                                    <input id="bodyImgLeft" ng-model="templateDefault.bodyImgAlignment" value="左对齐" name="bodyImg" type="radio" style="outline:none;" />
+                                    <label for="bodyImgLeft" class="pull-left">左对齐</label>
+                                    <input id="bodyImgRight" ng-model="templateDefault.bodyImgAlignment" value="右对齐" name="bodyImg" type="radio" style="outline:none;" />
+                                    <label for="bodyImgRight" class="pull-left">右对齐</label>
+                                    <input id="bodyImgCenter" ng-model="templateDefault.bodyImgAlignment" value="居中对齐" name="bodyImg" type="radio" style="outline:none;" />
+                                    <label for="bodyImgCenter" class="pull-left">居中对齐</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="pull-left leftTitle">字间距</label>
+                                <div class="custom-text">
+                                    <input class="pull-left form-control" ng-model="templateDefault.wordSpace" ng-init="templateDefault.wordSpace = '1'" ng-blur="checkSpace($event, templateDefault.wordSpace)" maxlength="4" placeholder="可输入0~5" /><span>px</span>
+                                </div>
+                                <div class="pull-left rightTitle">
+                                    <lable class="pull-left textIndent">首行缩进</lable>
+                                    <input type="checkbox" id="toggle-button" class="toggle-button">
+                                    <label for="toggle-button" class="button-label offIndent">
+                                        <span class="circle"></span>
+                                        <span class="text on">ON</span>
+                                        <span class="text off">OFF</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="pull-left leftTitle">行间距</label>
+                                <div class="custom-text">
+                                    <input class="pull-left form-control" ng-model="templateDefault.lineSpace" ng-init="templateDefault.lineSpace = '2'" ng-blur="checkSpace($event, templateDefault.lineSpace)" maxlength="4" placeholder="可输入1~5" /><span>倍</span>
+                                </div>
+                                <div class="pull-left">
+                                    <label class="pull-left leftTitle">两端缩进</label>
+                                    <div class="custom-text">
+                                        <input class="pull-left form-control" ng-model="templateDefault.textIndent" ng-init="templateDefault.textIndent = '16'" ng-blur="checkTextIndent($event, templateDefault.textIndent)" maxlength="2" placeholder="可输入0~48" /><span>px</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="pull-left leftTitle">段前距</label>
+                                <div class="custom-text">
+                                    <input class="pull-left form-control" ng-model="templateDefault.beforeParagraphSpace" ng-init="templateDefault.beforeParagraphSpace = '20'" ng-blur="checkParagraphSpace($event, templateDefault.beforeParagraphSpace)" maxlength="2" placeholder="可输入0~25" /><span>px</span>
+                                </div>
+
+                                <div class="pull-left">
+                                    <label class="pull-left leftTitle">段后距</label>
+                                    <div class="custom-text">
+                                        <input class="pull-left form-control" ng-model="templateDefault.afterParagraphSpace"  ng-init="templateDefault.afterParagraphSpace = '20'" ng-blur="checkParagraphSpace($event, templateDefault.afterParagraphSpace)" maxlength="2" placeholder="可输入0~25" /><span>px</span>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div ng-show="secondTemplate">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="pull-left leftTitle">模板名称</label>
+                                <div class="pull-left control-input">
+                                    <input type="text" class="pull-left form-control templateName" placeholder="请输入模板名称" ng-model="customOne.templateName" maxlength="4">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="pull-left leftTitle">正文字号</label>
+                                <div class="custom-text">
+                                    <input class="pull-left form-control" ng-model="customOne.bodyFontSize" ng-init="customOne.bodyFontSize = '16'" ng-blur="checkBodyFontSize($event, customOne.bodyFontSize)"maxlength="2" placeholder="可输入6~48" /><span>px</span>
+                                </div>
+                                <div class="pull-left rightTitle">
+                                    <input id="secondDodyLeft" ng-model="customOne.bodyAlignment" value="左对齐" name="body" type="radio" style="outline:none;" />
+                                    <label for="secondDodyLeft" class="pull-left">左对齐</label>
+                                    <input id="secondDodyRight" ng-model="customOne.bodyAlignment" value="右对齐" name="body" type="radio" style="outline:none;" />
+                                    <label for="secondDodyRight" class="pull-left">右对齐</label>
+                                    <input id="secondDodyCenter" ng-model="customOne.bodyAlignment" value="居中对齐" name="body" type="radio" style="outline:none;" />
+                                    <label for="secondDodyCenter" class="pull-left">居中对齐</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="pull-left leftTitle">正文图片</label>
+                                <div class="pull-left rightTitle">
+                                    <input id="secondDodyImgLeft" ng-model="customOne.bodyImgAlignment" value="左对齐" name="bodyImg" type="radio" style="outline:none;" />
+                                    <label for="secondDodyImgLeft" class="pull-left">左对齐</label>
+                                    <input id="secondDodyImgRight" ng-model="customOne.bodyImgAlignment" value="右对齐" name="bodyImg" type="radio" style="outline:none;" />
+                                    <label for="secondDodyImgRight" class="pull-left">右对齐</label>
+                                    <input id="secondDodyImgCenter" ng-model="customOne.bodyImgAlignment" value="居中对齐" name="bodyImg" type="radio" style="outline:none;" />
+                                    <label for="secondDodyImgCenter" class="pull-left">居中对齐</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="pull-left leftTitle">字间距</label>
+                                <div class="custom-text">
+                                    <input class="pull-left form-control" ng-model="customOne.wordSpace" ng-init="customOne.wordSpace = '1'" ng-blur="checkSpace($event, customOne.wordSpace)" maxlength="4" placeholder="可输入0~5" /><span>px</span>
+                                </div>
+                                <div class="pull-left rightTitle">
+                                    <lable class="pull-left textIndent">首行缩进</lable>
+                                    <input type="checkbox" id="one-toggle-button" class="one-toggle-button">
+                                    <label for="one-toggle-button" class="button-label offIndent">
+                                        <span class="circle"></span>
+                                        <span class="text on">ON</span>
+                                        <span class="text off one-off">OFF</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="pull-left leftTitle">行间距</label>
+                                <div class="custom-text">
+                                    <input class="pull-left form-control" ng-model="customOne.lineSpace" ng-init="customOne.lineSpace = '2'" ng-blur="checkSpace($event, customOne.lineSpace)" maxlength="4" placeholder="可输入1~5" /><span>倍</span>
+                                </div>
+                                <div class="pull-left">
+                                    <label class="pull-left leftTitle">两端缩进</label>
+                                    <div class="custom-text">
+                                        <input class="pull-left form-control" ng-model="customOne.textIndent" ng-init="customOne.textIndent = '16'" ng-blur="checkTextIndent($event, customOne.textIndent)" maxlength="2" placeholder="可输入0~48" /><span>px</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="pull-left leftTitle">段前距</label>
+                                <div class="custom-text">
+                                    <input class="pull-left form-control" ng-model="customOne.beforeParagraphSpace" ng-init="customOne.beforeParagraphSpace = '20'" ng-blur="checkParagraphSpace($event, customOne.beforeParagraphSpace)" maxlength="2" placeholder="可输入0~25" /><span>px</span>
+                                </div>
+                                <div class="pull-left">
+                                    <label class="pull-left leftTitle">段后距</label>
+                                    <div class="custom-text">
+                                        <input class="pull-left form-control" ng-model="customOne.afterParagraphSpace"  ng-init="customOne.afterParagraphSpace = '20'" ng-blur="checkParagraphSpace($event, customOne.afterParagraphSpace)" maxlength="2" placeholder="可输入0~25" /><span>px</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div ng-show="thirdTemplate">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="pull-left leftTitle">模板名称</label>
+                                <div class="pull-left control-input">
+                                    <input type="text" class="pull-left form-control templateName" placeholder="请输入模板名称" ng-model="customTwo.templateName" maxlength="4">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="pull-left leftTitle">正文字号</label>
+                                <div class="custom-text">
+                                    <input class="pull-left form-control" ng-model="customTwo.bodyFontSize" ng-init="customTwo.bodyFontSize = '16'" ng-blur="checkBodyFontSize($event, customTwo.bodyFontSize)"maxlength="2" placeholder="可输入6~48" /><span>px</span>
+                                </div>
+                                <div class="pull-left rightTitle">
+                                    <input id="thirdBodyLeft" ng-model="customTwo.bodyAlignment" value="左对齐" name="body" type="radio" style="outline:none;" />
+                                    <label for="bodyLeft" class="pull-left">左对齐</label>
+                                    <input id="thirdBodyRight" ng-model="customTwo.bodyAlignment" value="右对齐" name="body" type="radio" style="outline:none;" />
+                                    <label for="thirdBodyRight" class="pull-left">右对齐</label>
+                                    <input id="thirdBodyCenter" ng-model="customTwo.bodyAlignment" value="居中对齐" name="body" type="radio" style="outline:none;" />
+                                    <label for="bodyCenter" class="pull-left">居中对齐</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="pull-left leftTitle">正文图片</label>
+                                <div class="pull-left rightTitle">
+                                    <input id="thirdBodyImgLeft" ng-model="customTwo.bodyImgAlignment" value="左对齐" name="bodyImg" type="radio" style="outline:none;" />
+                                    <label for="thirdBodyImgLeft" class="pull-left">左对齐</label>
+                                    <input id="thirdBodyImgRight" ng-model="customTwo.bodyImgAlignment" value="右对齐" name="bodyImg" type="radio" style="outline:none;" />
+                                    <label for="thirdBodyImgRight" class="pull-left">右对齐</label>
+                                    <input id="thirdBodyImgCenter" ng-model="customTwo.bodyImgAlignment" value="居中对齐" name="bodyImg" type="radio" style="outline:none;" />
+                                    <label for="thirdBodyImgCenter" class="pull-left">居中对齐</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="pull-left leftTitle">字间距</label>
+                                <div class="custom-text">
+                                    <input class="pull-left form-control" ng-model="customTwo.wordSpace" ng-init="customTwo.wordSpace = '1'" ng-blur="checkSpace($event, customTwo.wordSpace)" maxlength="4" placeholder="可输入0~5" /><span>px</span>
+                                </div>
+                                <div class="pull-left rightTitle">
+                                    <lable class="pull-left textIndent">首行缩进</lable>
+                                    <input type="checkbox" id="two-toggle-button" class="two-toggle-button">
+                                    <label for="two-toggle-button" class="button-label offIndent">
+                                        <span class="circle"></span>
+                                        <span class="text on">ON</span>
+                                        <span class="text off two-off">OFF</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="pull-left leftTitle">行间距</label>
+                                <div class="custom-text">
+                                    <input class="pull-left form-control" ng-model="customTwo.lineSpace" ng-init="customTwo.lineSpace = '2'" ng-blur="checkSpace($event, customTwo.lineSpace)"  maxlength="4" placeholder="可输入1~5" /><span>倍</span>
+                                </div>
+                                <div class="pull-left">
+                                    <label class="pull-left leftTitle">两端缩进</label>
+                                    <div class="custom-text">
+                                        <input class="pull-left form-control" ng-model="customTwo.textIndent" ng-init="customTwo.textIndent = '16'" ng-blur="checkTextIndent($event, customTwo.textIndent)" maxlength="2" placeholder="可输入0~48" /><span>px</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="pull-left leftTitle">段前距</label>
+                                <div class="custom-text">
+                                    <input class="pull-left form-control" ng-model="customTwo.beforeParagraphSpace" ng-init="customTwo.beforeParagraphSpace = '20'" ng-blur="checkParagraphSpace($event, customTwo.beforeParagraphSpace)" maxlength="2" placeholder="可输入0~25" /><span>px</span>
+                                </div>
+                                <div class="pull-left">
+                                    <label class="pull-left leftTitle">段后距</label>
+                                    <div class="custom-text">
+                                        <input class="pull-left form-control" ng-model="customTwo.afterParagraphSpace"  ng-init="customTwo.afterParagraphSpace = '20'" ng-blur="checkParagraphSpace($event, customTwo.afterParagraphSpace)" maxlength="2" placeholder="可输入0~25" /><span>px</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="saveTemplate()">保存</button>
+                <button type="button" class="btn btn-default apply applyTemplate" ng-show="firstApply" ng-click="applyTemplate(0)">应用</button>
+                <button type="button" class="btn btn-default apply applyTemplate" ng-show="secondApply" ng-click="applyTemplate(1)">应用</button>
+                <button type="button" class="btn btn-default apply applyTemplate" ng-show="thirdApply" ng-click="applyTemplate(2)">应用</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div ng-show="isBriefBed" ng-include="'/inc/guide_editor.html?1030'"></div>
+<script src="/lib/jquery/jquery.ajaxfileupload.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+<script>
+    $("#coverFile").AjaxFileUpload({
+        action      : "/api/upload/img?type=editor",
+        onComplete  : function(filename, response) {
+            console.log(response);
+            if(response.status == 200){
+                setTimeout(function () {
+                    $('#cover-pre').attr('src', response.msg);
+                    $('#cover').val(response.msg).change();
+                }, 0);
+            }else {
+                bjj.dialog.alert('danger', response.msg);
+            }
+        }
+    });
+    $(".previewBtn ul li.btn-all").mouseover(function() {
+        $(this).addClass("btn-primary").siblings().removeClass("btn-primary")
+    })
+    $(".news-content").on("click", "a", function() {
+        $(this).attr('target','_black')
+    })
+    $(".modal-title").on('click','span', function() {
+        $(this).addClass("active").siblings().removeClass('active');
+    })
+</script>

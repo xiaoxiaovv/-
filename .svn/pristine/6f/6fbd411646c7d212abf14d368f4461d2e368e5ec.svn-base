@@ -1,0 +1,5 @@
+<style>
+.data-list-bottom-final-view { text-align: center; margin: 0 20px; border-top: 1px solid #ddd; }
+.data-list-bottom-final-view .title { position: relative; top: -10px; color: #999; width: 100px; display: inline-block; height: 20px; background: #fff; }
+</style>
+<div class="data-list-bottom-final-view"><div class="title">没有更多内容</div></div>

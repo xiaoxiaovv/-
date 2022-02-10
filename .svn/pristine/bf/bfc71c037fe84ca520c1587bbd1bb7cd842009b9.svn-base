@@ -1,0 +1,22 @@
+.sync-setting .container-fluid { border-top: 1px solid #ededed; }
+.sync-setting .container-fluid:first-child { border: none; }
+.sync-setting .row:first-child h5 { line-height: 30px; }
+.sync-setting .row:first-child h5 span.toggle-btn { margin: 0; line-height: 50px; cursor: pointer; }
+.sync-setting .row:first-child h5 span.toggle-btn:before { content: '收起'; }
+.sync-setting .row:first-child h5 span.toggle-btn.active:before { content: '展开'; }
+.sync-setting .row:first-child h5 span.toggle-btn.active i:before { content: '\f103'; }
+.sync-setting .channel-item { margin: 0 0 15px 15px; }
+.sync-setting .channel-item > div:nth-child(1) { width: 65px; padding: 10px 0; text-align: center; }
+.sync-setting .channel-item > div:nth-child(2) { width: calc(100% - 65px); }
+.sync-setting .channel-item img { width: 50px; height: 50px; }
+.sync-setting .channel-item h5 { margin-top: 0; }
+.sync-setting .channel-item b { width: 12px; height: 12px; line-height: .8rem; background: #c3c3c3; border-radius: 50%; display: inline-block; }
+.sync-setting .channel-item b.active { background: #09BB07; }
+.sync-setting .channel-item.channel-item-add { line-height: 111px; color: #999; border: 2px dotted #ededed; cursor: pointer; }
+.sync-setting .channel-item.channel-item-add:hover { border: 2px dotted #2494f2; color: #2494f2; }
+.sync-setting .channel-item.channel-item-add.wechat { line-height: 125px; }
+.sync-setting .channel-logo { margin: 10px 10px 10px 0; width: 30px; height: 30px; background-image: url("/theme/default/images/channel-logo.png"); background-repeat: no-repeat; background-size: cover; display: inline-block; }
+.sync-setting .channel-logo.weibo { background-position: 0 3px; }
+.sync-setting .channel-logo.wechat { background-position: 0 -92px; }
+.sync-setting .channel-logo.toutiao { background-position: 0 -45px; }
+.sync-setting .channel-logo.qqom { background-position: 0 -135px; }

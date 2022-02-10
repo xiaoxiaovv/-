@@ -1,0 +1,22 @@
+<div class="bjj-cont-sidebar copyright-nav">
+    <div class="loading copyrightLoading" ng-if="copyrightLoading" ng-include="'/inc/loading.html'"></div>
+    <div class="nav bjj-nav">
+        <span>监控作品</span>
+        <b><a href="#" ui-sref="accountMonitor"><i ng-if="copyrightList.length > 0" class="fa fa-cog" aria-hidden="true"></i></a></b>
+    </div>
+    <div class="copyright-list copyright-subject">
+        <ul class="nav-list copyright-list">
+            <li ng-repeat="item in copyrightList" role="presentation"><a href="javascript:;" class="bjj-ellipsis-2" ng-click="monitorClick(item.monitorId)">{{item.title}}</a></li>
+        </ul>
+    </div>
+    <div ng-if="copyrightList.length <= 0" class="emptyList">
+        <button ui-sref="accountMonitor.modify({monitorId: '0'})" type="button" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> 新建作品</button>
+    </div>
+</div>
+<div class="bjj-cont-page" data-ui-view="">
+    <div ng-if="copyrightList.length <= 0" class="help-null">
+        <i class="fa fa-3x fa-exclamation-circle" aria-hidden="true"></i>
+        <div>暂无监控作品</div>
+    </div>
+</div>
+<div class="clearfix"></div>

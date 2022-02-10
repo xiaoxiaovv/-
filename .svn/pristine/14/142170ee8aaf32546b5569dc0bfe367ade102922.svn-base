@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN" ng-app="newsApp" ng-controller="newsCtrl">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, shrink-to-fit=no">
+    <meta name="format-detection" content="telephone=no">
+    <title ng-bind="appInfo.appName"></title>
+    <link rel="icon" ng-href="{{appInfo.icon}}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/default/css/ui.css">
+    <link rel="stylesheet" ng-href="{{'/theme/' + appInfo.appKey + '/css/diy.css'}}">
+    <!--[if lt IE 9]>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        .share-btn { position: fixed; top: 30%; display: none;}
+        .share-btn a { width: 40px; height: 42px; background: url(/theme/default/images/share.png) 0 -111px; display: block; }
+        .share-btn a:hover { opacity: .8; }
+        .share-btn #share-qrcode { width: 100px; height: 100px; display: none;}
+        @media (min-width: 992px) { .share-btn { display: block; left: 83.33%; } }
+        @media (min-width: 1200px) { .share-btn { display: block; left: 75%; } }
+    </style>
+</head>
+<body>
+<div class="bjj-header" ng-include="'/inc/header_pure.html'"></div>
+<div ng-include="'/inc/page.html'"></div>
+<div class="share-btn">
+    <a title="分享到微信" href="javascript:$('#share-qrcode').fadeToggle();"></a>
+    <div id="share-qrcode" onclick="$(this).fadeOut();"></div>
+</div>
+<script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.5/angular.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-sanitize/1.6.5/angular-sanitize.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.10.8/umd/popper.min.js"></script>
+<script src="/lib/common.js"></script>
+<script>
+    var app = angular.module("newsApp", ["ngSanitize"]);
+    app.controller('newsCtrl', function($scope, $http, $sce){
+        bjj.http.ng.get($scope, $http, '/api/capture/news/' + getUrlParam('id'), {}, function (res) {
+
+            getAppInfo($scope, $http);
+
+            $scope.data = res.msg;
+            console.log(res.msg)
+            var content = res.msg.content;
+            if($scope.data.isHtmlContent) {
+            }else{
+                angular.forEach($scope.data.imgUrls, function (v, i) {
+                    content += '<img src="' + v + '">\n';
+                });
+            }
+            $scope.data.content = $sce.trustAsHtml(content);
+            document.title = $scope.data.title;
+
+            $.getScript('/api/wechat/mp/config', function () {
+                wx.ready(function () {
+                    var shareInfo = {
+                        title: title, // 分享标题
+                        desc: desc, // 分享描述
+                        link: link, // 分享链接
+                        imgUrl: imgUrl, // 分享图标
+                        success: function () {
+                            // 用户确认分享后执行的回调函数
+                        },
+                        cancel: function () {
+                            // 用户取消分享后执行的回调函数
+                        }
+                    };
+                    wx.onMenuShareAppMessage(shareInfo);
+                    wx.onMenuShareTimeline(shareInfo);
+                    wx.onMenuShareQQ(shareInfo);
+                    wx.onMenuShareQZone(shareInfo);
+                });
+            });
+        }, function (res) {
+            bjj.dialog.alert('danger', res.msg);
+        });
+
+        $('#share-qrcode').qrcode({width: 100, height: 100, text: window.location.href + ''});
+    });
+    var getAppInfo = function ($scope, $http) {
+        bjj.http.ng.get($scope, $http, '/api/app/info', {}, function (res) {
+            $scope.appInfo = res.appInfo;
+        });
+    };
+</script>
+</body>
+</html>

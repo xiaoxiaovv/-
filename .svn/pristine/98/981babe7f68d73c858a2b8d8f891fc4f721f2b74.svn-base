@@ -1,0 +1,103 @@
+package com.istar.mediabroken.api.alioss
+
+import com.istar.mediabroken.entity.LoginUser
+import com.istar.mediabroken.service.alioss.CallbackService
+import com.istar.mediabroken.service.alioss.OssApiUrlService
+import com.istar.mediabroken.service.alioss.OssMaterialService
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.RestController
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
+
+/**
+ * @description: ossApi回调api
+ * @author: hexushuai
+ * @date: 2019/1/22 13:58
+ */
+
+@RestController
+@RequestMapping(value = 'api/oss')
+class CallbackController {
+
+    @Autowired
+    private CallbackService callbackService
+    @Autowired
+    private OssApiUrlService ossApiUrlService
+    @Autowired
+    private OssMaterialService materialService
+
+    @RequestMapping(value = '/callback', method = RequestMethod.POST)
+    public void doCallback(HttpServletRequest request, HttpServletResponse response) {
+        LoginUser user = new LoginUser()
+        println("回调阿里结果uri" + request.getRequestURI())
+        println("回调阿里结果user" + user.toString())
+        Map callbackMap = callbackService.doCheckCallback(request)
+        boolean check = callbackMap.get("result")
+        user.setUserId(Long.parseLong(callbackMap.get("userId").toString()))
+        user.setOrgId(callbackMap.get("orgId"))
+        println "回调阿里结果:" + check
+        println "回调阿里文件名:" + callbackMap.get("fileName")
+        check = true
+        if (check) {
+            String object = callbackMap.get("fileName")
+            def videoType = ['.mp4', '.flv', '.mov', '.avi', '.rm', '.rmvb'] as String[]
+            String material = "img"
+            videoType.each { it ->
+                if (object.endsWith(it)) {
+                    material = "video"
+                }
+            }
+            if (material.equals("video")) {
+                println "上传的是视频,开始入库->>>" + object
+                String materialId
+                try {
+                    materialId = materialService.addMaterial(user.getOrgId(), object)
+                } catch (Exception e) {
+                    println "入库失败" + e.message
+                    e.printStackTrace()
+                }
+                //提交转码
+                try {
+                    //获取提交转码url
+                    List urlList = ossApiUrlService.getSubmitTransCodeUrl(user.getOrgId(), object)
+                    urlList.each { it ->
+                        materialService.submitTransCode(it, materialId, user.getOrgId(), user.getUserId())
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace()
+                }
+            } else {
+                println "上传的是图片,开始入库->>>" + object
+                materialService.addImg("zhaochen", object)
+            }
+
+            callBackResponse(request, response, "{\"Status\":\"OK\"}", HttpServletResponse.SC_OK)
+        } else {
+            callBackResponse(request, response, "{\"Status\":\"verdify not ok\"}", HttpServletResponse.SC_BAD_REQUEST)
+        }
+    }
+
+    private void callBackResponse(HttpServletRequest request, HttpServletResponse response, String results, int status)
+            throws IOException {
+        String callbackFunName = request.getParameter("callback")
+        response.addHeader("Content-Length", String.valueOf(results.length()))
+        if (callbackFunName == null || callbackFunName.equalsIgnoreCase(""))
+            response.getWriter().println(results)
+        else
+            response.getWriter().println(callbackFunName + "( " + results + " )")
+        response.setStatus(status)
+        response.flushBuffer()
+    }
+
+    private void callBackResponse(HttpServletRequest request, HttpServletResponse response, String results) throws IOException {
+        String callbackFunName = request.getParameter("callback")
+        if (callbackFunName == null || callbackFunName.equalsIgnoreCase(""))
+            response.getWriter().println(results)
+        else
+            response.getWriter().println(callbackFunName + "( " + results + " )")
+        response.setStatus(HttpServletResponse.SC_OK)
+        response.flushBuffer()
+    }
+}

@@ -1,0 +1,6 @@
+#开始时间
+startDate=2017-09-11 00:00:00
+#结束时间
+endDate=2017-09-13 00:00:00
+#查询有无数据 true/false 查询时间段内全部站点false 查询时间段内无数据站点true
+searchData=false

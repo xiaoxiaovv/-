@@ -1,0 +1,88 @@
+/**
+ * Author : YCSnail
+ * Date : 2017-07-26
+ * Email : liyancai1986@163.com
+ */
+var accountSiteCtrl = function ($rootScope, $scope, $http, $state, $stateParams) {
+    bjj.http.ng.get($scope, $http, '/api/capture/sites', {}, function (res) {
+        $rootScope.siteList = res.msg;
+        if($stateParams.captureSiteId) {
+            if($stateParams.captureSiteId == -1 || $stateParams.captureSiteId == -2 || $stateParams.captureSiteId == -3) {
+                setTimeout(function () {
+                    $(".site-list ul li").eq(0).addClass("active");
+                    $state.go("accountSite.modify", { siteId: res.msg[0].siteId });
+                }, 0);
+            }else {
+                _.forEach($rootScope.siteList, function(v, i) {
+                    if(v.siteId == $stateParams.captureSiteId) {
+                        setTimeout(function () {
+                            $(".site-list ul li").eq(i).addClass("active");
+                            $state.go("accountSite.modify", { siteId: res.msg[i].siteId });
+                        }, 0);
+                    }
+                })
+            }
+        }else{
+            if($rootScope.siteList.length > 0){
+                setTimeout(function () {
+                    $(".site-list ul li").eq(0).addClass("active");
+                    $state.go("accountSite.modify", { siteId: res.msg[0].siteId });
+                }, 0);
+            }
+        }
+        $(".site-list .nav-list").on("click", "li", function() {
+            $(this).addClass("active").siblings().removeClass("active");
+        });
+    });
+
+    if($stateParams.pageType == 1) {
+        $state.go("accountSite.add");
+    }
+    if($stateParams.pageType == 2) {
+        $state.go("accountSite.modify");
+    }
+    $scope.siteId = '';
+    $scope.transmit = function($event) {
+        $rootScope.deleteFlag = false;
+        var _this = $event.target;
+        var siteId = _this.dataset.siteId;
+        $state.go("accountSite.modify",{ siteId: siteId });
+    };
+    /*删除站点*/
+    $scope.deleteSiteId = function($event) {
+        var siteId = $event.target.dataset.siteId;
+        $state.go("accountSite.modify", { siteId: siteId });
+        bjj.dialog.confirm('确定删除？', function(){
+            bjj.http.ng.del($scope, $http, '/api/capture/site/' + siteId + '?_method=delete', {}, function (res) {
+                bjj.dialog.alert('success', '删除成功');
+                $rootScope.editSaveSite = false;
+                bjj.http.ng.get($scope, $http, '/api/capture/sites', {}, function (res) {
+                    for(var i = 1;i<res.msg.length; i++) {
+                        if(res.msg[i].siteId == siteId) {
+                            res.msg.splice(i,1)
+                        }
+                    }
+                    $rootScope.siteList = res.msg;
+                    if($rootScope.siteList.length > 0){
+                        $state.go("accountSite.modify", { siteId: res.msg[0].siteId });
+                        setTimeout(function () {
+                            $(".site-list ul li").eq(0).addClass("active");
+                        }, 0);
+                    }
+                    $(".site-list .nav-list").on("click", "li", function() {
+                        $(this).addClass("active").siblings().removeClass("active");
+                    });
+                },function(res) {
+                    $rootScope.siteList = [];
+                });
+                if(!$rootScope.deleteFlag) {
+                    $rootScope.deleteFlag = true;
+                }
+                $rootScope.deleteFlag = true;
+            },function(res) {
+                bjj.dialog.alert('danger', res.msg);
+                $rootScope.deleteFlag = false;
+            });
+        });
+    };
+};

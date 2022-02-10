@@ -1,0 +1,350 @@
+<div class="bjj-page-title">
+    传播测评 / {{orgName}}
+    <span class="pull-right analysis-site">
+        <a href="javaScript:;" data-toggle="modal" data-target="#myModal" ng-click="sitesSet()">
+            <i class="fa fa-cog analysis-fa" aria-hidden="true"></i>
+            渠道设置
+        </a>
+    </span>
+</div>
+<div class="analysis-body">
+    <div class="loading weeklySummaryLoading" ng-if="weeklySummaryLoading" ng-include="'/inc/loading.html'"></div>
+    <div class="analysis-week-all">
+        <div class="bjj-every-title"><span class="sign"></span>一周综合传播测评</div>
+        <div class="bs-example" data-example-id="condensed-table">
+            <table class="table table-condensed table-striped table-hover">
+                <thead>
+                <tr>
+                    <td></td>
+                    <td>站点类别</td>
+                    <td class="analysis-siteName">站点名称</td>
+                    <td>传播力<i ng-mouseenter="spreadTips = true" ng-mouseleave="spreadTips = false" class="fa fa-question-circle" aria-hidden="true"><div ng-show="spreadTips" class="explain spreadTips">传播力是根据各渠道发稿量、转载量和传播路径等指标计算得出。</div></i></td>
+                    <td>影响力<i ng-mouseenter="influenceTips = true" ng-mouseleave="influenceTips = false" class="fa fa-question-circle" aria-hidden="true"><div ng-show="influenceTips" class="explain influenceTips">影响力是根据阅读量、评论量、点赞量等指标计算得出。</div></i></td>
+                    <td>引导力<i ng-mouseenter="channelTips = true" ng-mouseleave="channelTips = false" class="fa fa-question-circle" aria-hidden="true"><div ng-show="channelTips" class="explain channelTips">引导力是根据网民情绪指数、热词指数、阅读指数、评论指数等指标计算得出。</div></i></td>
+                    <td>公信力<i ng-mouseenter="credibilityTips = true" ng-mouseleave="credibilityTips = false" class="fa fa-question-circle" aria-hidden="true"><div ng-show="credibilityTips" class="explain credibilityTips">公信力是根据各渠道报到事件指数、互动指数等指标计算得出。</div></i></td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat = "item in list">
+                    <td class="analysis-num line-{{$index+1}} index" scope="row">{{$index+1}}
+                        <span ng-if="item.siteTypeName=='网站'" class="image site-image"></span>
+                        <span ng-if="item.siteTypeName=='微博'" class="image weibo-image"></span>
+                        <span ng-if="item.siteTypeName=='微信'" class="image wechart-image"></span>
+                    </td>
+                    <td>{{item.siteTypeName}}</td>
+                    <td>{{item.siteName}}</td>
+                    <td>{{item.psi}}</td>
+                    <td>{{item.mii}}</td>
+                    <td>{{item.bsi}}</td>
+                    <td>{{item.tsi}}</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>综合指数</td>
+                    <td></td>
+                    <td>{{sum.psi}}</td>
+                    <td>{{sum.mii}}</td>
+                    <td>{{sum.bsi}}</td>
+                    <td>{{sum.tsi}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="loading weeklyNewsLoading" ng-if="weeklyNewsLoading" ng-include="'/inc/loading.html'"></div>
+    <div class="analysis-week-all">
+        <div class="bjj-every-title"><span class="sign"></span>一周稿件排行</div>
+        <div class="bs-example" data-example-id="condensed-table">
+            <table class="table table-condensed table-striped active">
+                <thead>
+                <tr>
+                    <td></td>
+                    <td class="analysis-title">标题</td>
+                    <td>站点名称</td>
+                    <td>发布时间</td>
+                    <td>转载数</td>
+                    <td>评论数</td>
+                    <td>点赞数</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat = "item in weeklyNewsList">
+                    <td class="analysis-num line-{{$index+1}} order" scope="row">{{$index+1}}</td>
+                    <td class="ellipsis"><span>{{item.title}}</span></td>
+                    <td>{{item.siteName}}</td>
+                    <td class="analysis-date">{{item.publishTime | date:"yyyy/MM/dd HH:mm"}}</td>
+                    <td>{{item.reprintCount}}</td>
+                    <td>{{item.commentCount}}</td>
+                    <td>{{item.likeCount}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="analysis-week-all">
+        <div class="bjj-every-title"><span class="sign"></span>渠道发稿统计</div>
+        <div id="analysis-press"></div>
+    </div>
+    <div class="loading latestNewsLoading" ng-if="latestNewsLoading" ng-include="'/inc/loading.html'"></div>
+    <div class="analysis-week-all">
+        <div class="bjj-every-title"><span class="sign"></span>最新稿件</div>
+        <div class="bs-example" data-example-id="condensed-table">
+            <table class="table table-condensed table-striped active">
+                <tbody>
+                <tr ng-repeat = "item in latestNewsList">
+                    <td></td>
+                    <td class="latestNewName">{{item.siteName}}</td>
+                    <td class="latestNewTitle">{{item.title}}</td>
+                    <td class="analysis-date latestNewTime">{{item.publishTime | date:"yyyy/MM/dd HH:mm"}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="analysis-week-all">
+        <div class="bjj-every-title"><span class="sign"></span>一周词云</div>
+        <div id="analysis-word"></div>
+    </div>
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h5 class="modal-title" id="myModalLabel">
+                        渠道设置
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group analysis">
+                        <p><label for="exampleInputName" class="site-type">机构名称</label></p>
+                        <input type="text" class="form-control pull-left" id="exampleInputName" placeholder="输入机构名称" ng-model="orgName" maxlength="20"><span class="pull-left analysis-tip">*</span>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="modal-every analysis-modal-every" ng-repeat="mediaSetting in mediaSettingList" >
+                        <select class="pull-left bootstrap-select form-control" ng-model="mediaSetting.siteType" ng-change="changeType()">
+                            <option ng-repeat="x in siteTypes" value="{{x.value}}" ng-selected="mediaSetting.siteType == x.value" >{{x.siteType}}</option>
+                        </select>
+                        <input class="pull-left form-control" type="text" ng-model="mediaSetting.siteName" class="w160" value="{{mediaSetting.siteName}}" placeholder="{{mediaSetting.placeholder}}">
+                        <input class="pull-left form-control modal-website" type="text" ng-model="mediaSetting.siteDomain" ng-show="mediaSetting.siteType == 1 " class="w260" value="{{mediaSetting.siteDomain}}" placeholder="{{mediaSetting.placeholderDomain}}">
+                        <span class="pull-left modal-delete" ng-click="deleteRecord($index)" class="analysis-delete">删除</span>
+                        <span class="pull-left modal-add" ng-show="mediaSettingList.length == ($index + 1) " ng-click="addRecord()" class="ml18 C03a8b1">添加</span>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <span ng-click="saveSetting()" class="analysis-save btn btn-primary">&nbsp;&nbsp;保存&nbsp;&nbsp;</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--渠道设置-->
+<script>
+    function getData(callback) {
+        $.get('/api/analysis/channel/wordsCloud ', {}, function (data) {
+            callback(data);
+        });
+    }
+    function press(callback) {
+        $.get('/api/analysis/channel/weeklyNewsSummary  ', {}, function (data) {
+            callback(data);
+        });
+    }
+    /*得到前七天的日期*/
+    function getDate () {
+        var myDate = new Date();
+        myDate.setDate(myDate.getDate() - 7);
+        var dateArray = [];
+        var dateTemp;
+        var flag = 1;
+        var month = '';
+        var day = '';
+        for (var i = 0; i < 7; i++) {
+            if(myDate.getMonth() < 9 ){
+                month = '0'+(myDate.getMonth()+1)
+            }else {
+                month = myDate.getMonth()+1
+            }
+            if(myDate.getDate() < 9 ){
+                day = '0'+ myDate.getDate();
+            }else {
+                day = myDate.getDate();
+            }
+            dateTemp = month +"-"+ day;
+            dateArray.push(dateTemp);
+            myDate.setDate(myDate.getDate() + flag);
+        }
+        return dateArray
+    }
+    /*字符云的函数*/
+    function createRandomItemStyle() {
+        return {
+            normal: {
+                color: 'rgb(' + [
+                    Math.round(Math.random() * 10+2),
+                    Math.round(Math.random() * 60+2),
+                    Math.round(Math.random() * 160+2)
+                ].join(',') + ')'
+            }
+        };
+    }
+    function getNameValueList2(property, nameKey, valueKey) {
+        var list = [];
+        for (var i = 0; i < property.length; i++) {
+            var item = property[i];
+            list.push({
+                name: item[nameKey],
+                value: item[valueKey]*100
+            })
+        }
+        return list;
+    }
+    function getWordCloudList(data) {
+        var list = getNameValueList2(data, "word", "count");
+        for (var i = 0; i < list.length; i++) {
+            list[i].itemStyle = createRandomItemStyle()
+        }
+        return list;
+    }
+    function getLegend(data) {
+        var arr = [];
+        var siteType = "";
+        for(var i = 0; i<data.msg.length; i++) {
+            if(data.msg[i].siteType == 1) {
+                siteType = "网站"
+            }
+            if(data.msg[i].siteType == 2) {
+                siteType = "微博"
+            }
+            if(data.msg[i].siteType == 3) {
+                siteType = "微信"
+            }
+            arr.push(siteType +"--"+ data.msg[i].siteName)
+        }
+        return arr
+    }
+    function getSeries(data) {
+        var arrSeries = [];
+        var siteType = "";
+        for(var i = 0; i<data.msg.length; i++) {
+            if(data.msg[i].siteType == 1) {
+                siteType = "网站"
+            }
+            if(data.msg[i].siteType == 2) {
+                siteType = "微博"
+            }
+            if(data.msg[i].siteType == 3) {
+                siteType = "微信"
+            }
+            arrSeries.push({
+                name: siteType +"--"+ data.msg[i].siteName,
+                type:'line',
+                smooth:true,
+                itemStyle: {normal: {areaStyle: {type: 'default'}}},
+                data: data.msg[i].data
+            })
+
+        }
+        return arrSeries
+    }
+    /*渠道发稿统计*/
+    function analysisCount() {
+        press(function (data) {
+            require.config({
+                paths: {
+                    echarts: 'http://echarts.baidu.com/build/dist'
+                }
+            });
+            // 使用
+            require(
+                    [
+                        'echarts',
+                        'echarts/chart/line',
+                    ],
+                    function drawEcharts(ec) {
+                        press(ec, data)
+                    }
+            );
+            function press(ec, data) {
+                var multiple = ec.init(document.getElementById('analysis-press'));
+                var option1 = {
+                    tooltip : {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data:getLegend(data)
+                    },
+                    calculable : true,
+                    xAxis : [
+                        {
+                            type : 'category',
+                            boundaryGap : false,
+                            data :  getDate()
+                        }
+                    ],
+                    yAxis : [
+                        {
+                            type : 'value'
+                        }
+                    ],
+                    series : getSeries(data)
+                };
+                multiple.setOption(option1);
+            }
+        })
+    }
+    analysisCount();
+    /*一周词云*/
+    function weekWord() {
+        getData(function (data) {
+            require.config({
+                paths: {
+                    echarts: 'http://echarts.baidu.com/build/dist'
+                }
+            });
+            // 使用
+            require(
+                    [
+                        'echarts',
+                        'echarts/chart/wordCloud'
+                    ],
+                    function drawEcharts(ec) {
+                        weekWord(ec, data);
+                    }
+            );
+            function weekWord(ec, data) {
+                var multiple = ec.init(document.getElementById('analysis-word'));
+                var option = {
+                    tooltip: {
+                        show: true,
+                        formatter: function (value) {
+                            var item = value.data;
+                            return item.name + ' : ' + (parseInt(item.value) / 100)
+                        }
+                    },
+                    series: [{
+                        color:'blue',
+                        type: 'wordCloud',
+                        size: ['100%', '100%'],
+                        textRotation : [0, 45, 90, -45],
+                        textPadding: 2,
+                        autoSize: {
+                            enable: true,
+                            minSize: 14
+                        },
+                        data: getWordCloudList(data.list).sort(function(a,b){
+                            return b.value-a.value;
+                        })
+                    }]
+                };
+                multiple.setOption(option);
+            }
+    })
+    }
+    weekWord()
+
+</script>
+

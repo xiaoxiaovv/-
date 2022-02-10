@@ -1,0 +1,91 @@
+<div class="bjj-cont-page">
+    <div class="bjj-ellipsis bjj-page-title">
+        <span class="accountReturn" ui-sref="manage">< 返回</span><span class="pageTitle">账号管理</span> <span class="teamLine" ng-show="editShow">/</span>
+        <span ng-show="toEdit">{{userName}}</span>
+    </div>
+    <div class="container-fluid container-add">
+        <div class="form-group">
+            <label class="pull-left control-label control-label">登录用户名：</label>
+            <div class="pull-left control-input">
+                <input type="text" class="form-control" ng-model="orgUserName" placeholder="请输入用户名" ng-hide="editShow" maxlength="20">
+                <span class="hint" ng-show="userNameShow">请填写登录用户名</span>
+                <span class="hint" ng-show="userLengthShow">支持英文、数字、下划线</span>
+                <span class="editShow" ng-show="editShow">{{orgUserName}}</span>
+            </div>
+            <span class="pull-left analysis-tip" ng-hide="editShow"><i>*</i><b>1—20个字符，支持英文、数字、下划线</b> </span>
+        </div>
+        <div class="form-group">
+            <label class="pull-left control-label control-label">密码：</label>
+            <div class="pull-left control-input input-password">
+                <input type="password" class="form-control" id="inputPw" ng-model="orgPassword" placeholder="请输入密码" maxlength="20">
+                <div class="pull-left password-input">
+                    <div class="isPassword">
+                        <span class="weakPassword"></span>
+                        <span class="middlePassword"></span>
+                        <span class="strongPassword"></span>
+                    </div>
+                </div>
+                <span class="hint password passwordShow" ng-show="passwordShow">请填写密码</span>
+                <span class="hint password formatPassword">密码格式错误，请重新输入</span>
+                <span class="hint password dangerPassword">密码安全级别过低</span>
+            </div>
+            <span class="pull-left analysis-tip"><i>*</i></span>
+        </div>
+        <div class="form-group">
+            <label for="inputReallyName" class="pull-left control-label control-label">真实姓名：</label>
+            <div class="pull-left control-input">
+                <input type="text" class="form-control" id="inputReallyName" ng-model="realName" placeholder="请输入真实姓名" maxlength="20">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputPhone" class="pull-left control-label control-label">手机号：</label>
+            <div class="pull-left control-input">
+                <input type="text" class="form-control" id="inputPhone" ng-model="phoneNumber" maxlength="11" placeholder="请输入手机号">
+                <span class="hint" ng-show="phoneShow">手机号不能为空</span>
+                <span class="hint" ng-show="truePhoneShow">请输入正确的手机号</span>
+            </div>
+            <span class="pull-left analysis-tip"><i>*</i></span>
+        </div>
+        <div class="form-group">
+            <label class="teamChoice pull-left">所属分组：</label>
+            <select class="bootstrap-select form-control site-industry pull-left" ng-model="teamName" ng-show="toEdit">
+                <option value="0">未分组</option>
+                <option ng-repeat="x in team" value={{x.id}}>{{x.teamName}}</option>
+            </select>
+            <select class="bootstrap-select form-control site-industry pull-left" ng-model="teamName" ng-hide="toEdit">
+                <option value="">未分组</option>
+                <option ng-repeat="x in team" value={{x.id}}>{{x.teamName}}</option>
+            </select>
+            <span class="addTeam pull-left" ng-click="addTeam()">添加分组</span>
+        </div>
+        <div class="clearfix"></div>
+        <div class="form-group">
+            <label></label>
+            <input class="passwordButton btn btn-primary" type="button" value="提交" ng-click="submitUser()">
+        </div>
+    </div>
+</div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="modifyTeamModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h5 class="modal-title" id="myModalLabel">
+                    新建分组
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <p><label for="exampleInputName" class="site-type">分组名称</label></p>
+                    <input type="text" class="form-control pull-left" id="exampleInputName" placeholder="输入分组名称" ng-model="addTeamName" maxlength="20">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span ng-click="saveTeam()" class="analysis-save btn btn-primary">&nbsp;&nbsp;保存&nbsp;&nbsp;</span>
+            </div>
+        </div>
+    </div>
+</div>

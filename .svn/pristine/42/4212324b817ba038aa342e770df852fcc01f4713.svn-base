@@ -1,0 +1,215 @@
+<div class="">
+    <div class="evaluate-body">
+        <div class="evaluate-index evaluate-every-box">
+            <div class="evaluate-channel">
+                <div class="pull-left">
+                    <p class="pull-left">
+                        <span class="back" ui-sref="evaluateSummary">返回</span>
+                        <span class="channels-name">{{info.siteName || '渠道名称'}}</span>
+                        <span class="summary-time">测评时间: {{info.startTime | date: 'yyyy-MM-dd'}} {{info ? '至' : '--'}} {{info.endTime | date: 'yyyy-MM-dd'}}</span>
+                        <span class="summary-name">测评名称：{{info.evaluateName || '--'}}</span>
+                    </p>
+                </div>
+                <div class="pull-right">
+                    <span class="content-num">内容总量:<strong>{{info.contentCount || '--'}}</strong></span>
+                </div>
+            </div>
+            <div class="evaluate-detail-index">
+                <ul class="list-unstyled">
+                    <li class="pull-left">
+                        <p><span>综合指数</span> <span class="explain">?</span></p>
+                        <p class="content-tips">综合指数是根据传播力、影响力、引导力、公信力等指标计算出。<a ng-click="setIndex('')">设置倾向</a></p>
+                        <p class="detail-index">{{info.multiple? info.multiple : "--"}}</p>
+                        <p ng-class="{true:'top',false:'down'}[info.multipleRate.indexOf('-') == -1]"><b>周</b><i ng-show="info.multipleRate"></i>
+                            <span ng-class="{true:'trend',false:''}[info.multipleRate]" ng-if="info.multipleRate.indexOf('-') == 0">{{info.multipleRate? info.multipleRate.slice(1) : "--"}}</span>
+                            <span ng-class="{true:'trend',false:''}[info.multipleRate]" ng-if="info.multipleRate.indexOf('-') != 0">{{info.multipleRate? info.multipleRate : "--"}}</span>
+                        </p>
+                    </li>
+                    <li class="pull-left">
+                        <p><span>传播力</span> <span class="explain">?</span></p>
+                        <p class="content-tips">传播力是根据各渠道发稿量、转载量和传播路径等指标计算出。<a ng-click="setIndex('psi')">设置倾向</a></p>
+                        <p class="detail-index">{{info.psi? info.psi : "--"}}</p>
+                        <p></p>
+                        <p ng-class="{true:'top',false:'down'}[info.psiRate.indexOf('-') == -1]"><b>周</b><i ng-show="info.psiRate"></i>
+                            <span ng-class="{true:'trend',false:''}[info.psiRate]" ng-if="info.psiRate.indexOf('-') == 0">{{info.psiRate? info.psiRate.slice(1) : "--"}}</span>
+                            <span ng-class="{true:'trend',false:''}[info.psiRate]" ng-if="info.psiRate.indexOf('-') != 0">{{info.psiRate? info.psiRate : "--"}}</span>
+                        </p>
+                    </li>
+                    <li class="pull-left">
+                        <p><span>影响力</span> <span class="explain">?</span></p>
+                        <p class="content-tips">影响力是根据阅读指数、评论指数、点赞指数等指标计算出。<a ng-click="setIndex('mii')">设置倾向</a></p>
+                        <p class="detail-index">{{info.mii? info.mii : "--"}}</p>
+                        <p ng-class="{true:'top',false:'down'}[info.miiRate.indexOf('-') == -1]"><b>周</b><i ng-show="info.miiRate"></i>
+                            <span ng-class="{true:'trend',false:''}[info.miiRate]" ng-if="info.miiRate.indexOf('-') == 0">{{info.miiRate? info.miiRate.slice(1) : "--"}}</span>
+                            <span ng-class="{true:'trend',false:''}[info.miiRate]" ng-if="info.miiRate.indexOf('-') != 0">{{info.miiRate? info.miiRate : "--"}}</span>
+                        </p>
+                    </li>
+                    <li class="pull-left">
+                        <p><span>引导力</span> <span class="explain">?</span></p>
+                        <p class="content-tips">引导力是根据情绪指数、词云指数等指标计算出。<a ng-click="setIndex('bsi')">设置倾向</a></p>
+                        <p class="detail-index">{{info.bsi? info.bsi: "--"}}</p>
+                        <p ng-class="{true:'top',false:'down'}[info.bsiRate.indexOf('-') == -1]"><b>周</b><i ng-show="info.bsiRate"></i>
+                            <span ng-class="{true:'trend',false:''}[info.bsiRate]" ng-if="info.bsiRate.indexOf('-') == 0">{{info.bsiRate? info.bsiRate.slice(1) : "--"}}</span>
+                            <span ng-class="{true:'trend',false:''}[info.bsiRate]" ng-if="info.bsiRate.indexOf('-') != 0">{{info.bsiRate? info.bsiRate : "--"}}</span>
+                        </p>
+                    </li>
+                    <li class="pull-left">
+                        <p><span>公信力</span> <span class="explain">?</span></p>
+                        <p class="content-tips content-tsi-tips">公信力是质疑指数、公信指数等指标计算出。<a ng-click="setIndex('tsi')">设置倾向</a></p>
+                        <p class="detail-index">{{info.tsi? info.tsi : "--"}}</p>
+                        <p ng-class="{true:'top',false:'down'}[info.tsiRate.indexOf('-') == -1]"><b>周</b><i ng-show="info.tsiRate"></i>
+                            <span ng-class="{true:'trend',false:''}[info.tsiRate]" ng-if="info.tsiRate.indexOf('-') == 0">{{info.tsiRate? info.tsiRate.slice(1): "--"}}</span>
+                            <span ng-class="{true:'trend',false:''}[info.tsiRate]" ng-if="info.tsiRate.indexOf('-') != 0">{{info.tsiRate? info.tsiRate: "--"}}</span>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="trend-statistics evaluate-every-box">
+            <p class="module-name">趋势统计</p>
+            <ul class="list-unstyled list-ul">
+                <li ng-repeat="item in channelTendencyLabelList" class="{{item.active ? 'active' : ''}}"><span ng-click="toggleFourPowerTrend();">{{item.value}}</span></li>
+            </ul>
+            <div ng-show="!channelTrendEmptyView" class="echarts-box" id="channel-trend"></div>
+            <list-empty ng-if="channelTrendEmptyView" msg="{{channelTrendEmptyMsg}}"></list-empty>
+        </div>
+        <div class="trend-statistics evaluate-every-box">
+            <p class="module-name">内容排行TOP10</p>
+            <ul class="list-unstyled list-ul">
+                <li ng-repeat="item in channelContentList" class="{{item.active ? 'active' : ''}}"><span ng-click="contentType()">{{item.value}}</span></li>
+            </ul>
+            <table class="table table-condensed table-striped table-hover" ng-if="!contentListEmptyView">
+                <thead>
+                <tr>
+                    <td class="index">排行</td>
+                    <td class="title">标题</td>
+                    <td>{{numType}}</td>
+                    <td>编辑作者</td>
+                    <td>最后发文时间</td>
+                    <td class="index">操作</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat = "item in contentList">
+                    <td class="index">{{$index+1}}</td>
+                    <td class="title"><span>{{item.title}}</span></td>
+                    <td ng-if="numType == '累计阅读'">{{item.readCount}}</td>
+                    <td ng-if="numType == '累计点赞'">{{item.likeCount}}</td>
+                    <td ng-if="numType == '累计转载'">{{item.reprintCount}}</td>
+                    <td>{{item.poster}}</td>
+                    <td>{{item.publishTime | date: 'yyyy-MM-dd HH:mm'}}</td>
+                    <td class="index"><a href="{{item.url}}" target="_blank">原文链接</a></td>
+                </tr>
+                </tbody>
+            </table>
+            <list-empty ng-if="contentListEmptyView" msg="{{contentListEmptyMsg}}"></list-empty>
+        </div>
+        <div class="trend-statistics evaluate-every-box">
+            <p class="module-name">词云分析</p>
+            <div ng-if="!channelKeywordsEmptyView" class="echarts-box" id="channel-keywords"></div>
+            <list-empty ng-if="channelKeywordsEmptyView" msg="{{channelKeywordsEmptyMsg}}"></list-empty>
+        </div>
+    </div>
+</div>
+<div class="modal fade setIndex" id="setIndex" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h5 class="modal-title" id="myModalLabel">
+                    {{modalTitle}}
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <div ng-if="isMediaAttr">
+                        <div class="every-box">
+                            <label>媒体级别</label>
+                            <select ng-model="parameters.mediaAttrName">
+                                <option value="">无</option>
+                                <option ng-repeat="x in mediaAttrList" value="{{x.name}}">{{x.name}}</option>
+                            </select>
+                            <span class="channel-explain">?</span>
+                            <div class="channel-explain-content">
+                                <span>中央新闻网 0.9</span>
+                                <span>政府组织 0.8</span>
+                                <span>地方媒体 0.6</span>
+                                <span>网站 0.4</span>
+                                <span>无1</span>
+                            </div>
+                        </div>
+                        <div class="every-box">
+                            <label>传播力</label>
+                            <input type="text" ng-model="parameters.psiNum">%
+                        </div>
+                        <div class="every-box">
+                            <label>影响力</label>
+                            <input type="text" ng-model="parameters.miiNum">%
+                        </div>
+                        <div class="every-box">
+                            <label>引导力</label>
+                            <input type="text" ng-model="parameters.bsiNum">%
+                        </div>
+                        <div class="every-box">
+                            <label>公信力</label>
+                            <input type="text" ng-model="parameters.tsiNum">%
+                        </div>
+                    </div>
+                    <div ng-show="!isMediaAttr">
+                        <div class="every-box">
+                            <label>内容分类</label>
+                            <select ng-model="classificationName" ng-change="changeType()">
+                                <option value="">无</option>
+                                <option ng-repeat="x in fourPowerList" value="{{x.name}}">{{x.name}}</option>
+                            </select>
+                            <span class="channel-explain-four-power">?</span>
+                            <div class="channel-explain-content-four-power">
+                                <span>时事 1</span>
+                                <span>文化 0.99</span>
+                                <span>民生 0.98</span>
+                                <span>财富 0.99</span>
+                                <span>创业 0.98</span>
+                                <span>楼市 0.98</span>
+                                <span>教育 0.98</span>
+                                <span>政务 0.99</span>
+                                <span>健康 0.98</span>
+                                <span>美食 0.98</span>
+                                <span>旅行 0.98</span>
+                                <span>情感 0.98</span>
+                                <span>美体 0.98</span>
+                                <span>科技 0.98</span>
+                                <span>汽车 0.98</span>
+                                <span>职场 0.98</span>
+                                <span>学术 1.02</span>
+                                <span>企业 0.98</span>
+                                <span>文摘 0.92</span>
+                                <span>无 1</span>
+                            </div>
+                        </div>
+                        <div class="every-box">
+                            <label>设置标准值</label>
+                            <input type="text" ng-model="standard">
+                        </div>
+                    </div>
+                </div>
+            <div class="modal-footer">
+                <span ng-click="restoreDefault()" class="analysis-save btn btn-primary">&nbsp;&nbsp;恢复默认&nbsp;&nbsp;</span>
+                <span ng-click="saveIndex()" class="analysis-save btn btn-primary">&nbsp;&nbsp;保存&nbsp;&nbsp;</span>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(".explain").mouseenter(function() {
+        $(".content-tips").hide();
+        $(this).parent().next().show();
+        if(parseInt($(this).parents('li').css('width')) < 276) {
+            $('.content-tsi-tips').addClass('content-tsi-tips-p')
+        }
+    })
+    $(".content-tips").mouseleave(function() {
+        $(this).hide()
+    })
+</script>

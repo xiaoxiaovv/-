@@ -1,0 +1,172 @@
+.label-hover:hover
+{
+    color: #337ab7!important;
+}
+.label-hover-bg:hover
+{
+    background-color: #337ab7!important;
+}
+.label-title
+{
+    margin: 46px 0 0 46px;
+    font-size: 20px;
+}
+.label-content
+{
+    margin: 66px auto;
+    width: 385px;
+}
+.label-content .label-content-name span,
+.label-content .label-content-type span
+{
+    display: inline-block;
+    width: 58px;
+    margin-right: 12px;
+    text-align: right;
+    color: #6f6f6f;
+}
+.label-content input,
+.label-content select
+{
+    width: 300px;
+    height: 40px;
+    margin-bottom: 20px;
+    padding-left: 18px;
+    font-size: 13px;
+    border: 1px solid rgba(217,226,255,1);
+    border-radius: 4px;
+    background: rgba(236,239,248,1);
+}
+.label-content .label-content-button
+{
+    margin-left: 90px;
+}
+.label-content button
+{
+    width: 120px;
+    height: 40px;
+    border: 1px solid rgba(97,116,250,.2);
+}
+.label-content button:first-of-type
+{
+    margin-right: 20px;
+}
+.label-content button:last-of-type
+{
+    color: #fff;
+    background: #2494f2;
+}
+.label-content .label-content-input{
+    width: 385px;
+    padding-left: 74px;
+}
+.label-content .label-content-input .label-content-rel{
+    position: relative;
+}
+.label-content .label-content-input .label-content-rel span {
+    position: absolute;
+    top: 10px;
+    color: #2494f2;
+    cursor: pointer;
+}
+.label-content .label-content-input .label-content-rel span:first-of-type{
+    right: -30px;
+}
+.label-content .label-content-input .label-content-rel span:nth-of-type(2){
+    right: -100px;
+}
+.label-list
+{
+    position: relative;
+}
+.label-list .label-build
+{
+    position: absolute;
+    right: 4%;
+    top: -75px;
+    width:127px;
+    height:32px;
+    line-height: 32px;
+    background: #2494f2;
+    color: #fff;
+    text-align: center;
+    cursor: pointer;
+}
+.label-list .table
+{
+    border: 1px solid #eceff8;
+    width: 92%;
+    margin: 55px auto;
+}
+.label-list .table thead tr
+{
+    width: 100%;
+    height: 49px;
+    color: #6f6f6f;
+}
+.label-list .table tbody tr
+{
+    height: 49px;
+}
+.label-list .table > tbody > tr > td
+{
+    vertical-align: middle;
+}
+.label-list .table thead tr td
+{
+    line-height: 38px;
+    text-align: right;
+    border-bottom: 1px solid #eceff8;
+}
+.label-list .table tbody tr td
+{
+    text-align: right;
+    border-bottom: 1px solid #eceff8;
+}
+.label-list .table thead tr td.index,
+.label-list .table tbody tr td.index
+{
+    min-width: 60px; 
+    text-align: center;
+}
+.label-list .table thead tr td.title,
+.label-list .table tbody tr td.title
+{
+    width: 40%;
+    text-align: left;
+}
+.label-list .table thead tr td.operation,
+.label-list .table tbody tr td.operation
+{
+    min-width: 100px; 
+    padding-right: 15px;
+    text-align: right;
+}
+.label-list .table tbody tr td.operation
+{
+    color: #2494f2;
+}
+.label-list .table tbody tr td.operation>span
+{
+    cursor: pointer;
+}
+.label-list .table tbody tr td.operation>span:first-of-type
+{
+    margin-right: 20px;
+}
+@media (min-width: 768px)
+{
+    .label-list .table thead tr td.title,
+    .label-list .table tbody tr td.title
+    {
+        overflow: hidden; 
+        width: 30%;
+        text-align: left;
+    }
+}
+.label-list .table-striped>tbody>tr:nth-of-type(odd),
+.label-list .table-striped>tbody>tr:nth-of-type(odd):hover
+{ 
+	background: #fff; 
+}
+

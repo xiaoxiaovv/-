@@ -1,0 +1,32 @@
+.bjj-account-save-view.profile-view { width: calc(100% - 220px); }
+.bjj-main.min-bar .bjj-account-save-view.profile-view { width: calc(100% - 50px); }
+.bjj-cont-page .profile-content { width: 80%; }
+.bjj-cont-page .profile-prompt { line-height: 34px; background: #f5f5f5; color: #999; margin-top: 10px; padding: 0 10px; }
+.bjj-cont-page .profile-container { padding: 0 15px 15px 15px; }
+.bjj-cont-page .profile-prompt>span { font-size: 12px; }
+@media (max-width: 1000px) { .profile-content { width: 100%; }}
+.profile-content .profile-prompt { color: #999; }
+.profile-info{ width: 60%; }
+.profile-info .form-horizontal { margin: 30px 0 90px; }
+.profile-content .form-group { margin-bottom: 20px; }
+.profile-content .nowDuty { display: none; }
+.profile-content .form-group input[type=radio] { margin-top: 11px; }
+.profile-content .form-group .control-input,.form-group .bootstrap-select { width: 56%;}
+.profile-content .form-group .control-label { width: 110px; color:#666; margin-right: 15px; margin-left: 15px; font-weight: normal; text-align: left; }
+.profile-content .form-group .account,.form-group .mobile {margin-top: 7px;}
+.form-group .genderChoice { font-size: 16px; }
+.bjj-checkbox { cursor: pointer; }
+.genderChoice span { font-size: 14px; font-weight: 400; margin-left: 5px; }
+.form-group .genderWoman { margin-left: 15px; }
+.infoPrompt { color: red; margin-top: 10px; }
+/*修改头像*/
+.content-right{width: 200px; height: 200px; margin-top: 45px; }
+.content-right span { color: #999; }
+.avatar-view img { width: 120px; height: 120px; box-sizing: border-box; }
+.content-right .btn { width: 120px; height: 38px; border: 1px solid #ddd; line-height: 26px; margin-left: 80px; margin-top: 15px; }
+.content-right .btn:hover { background: #f5f5f5; }
+.errorClass1{position: absolute;left: 433px;top: 23px;color: red;}
+.errorClass2{position: absolute;left: 433px;top: 73px;color: red;}
+#inputStyle{width: 252px;margin: 0 auto;}
+#verifyStyle{width: 135px;margin-left: 157px;margin-top: 15px;}
+.editor-img{width: 15px;height: 15px;transform: translate(7px,5px);}

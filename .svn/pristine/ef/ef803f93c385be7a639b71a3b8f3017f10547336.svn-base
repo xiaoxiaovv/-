@@ -1,0 +1,127 @@
+<div class="bjj-cont-page">
+    <div class="bjj-ellipsis bjj-page-title">
+        账号管理
+    </div>
+    <div class="container-fluid container-list">
+        <div class="account-info">
+            <p class="account-title">账号 <span>({{orgInfo.nowUserCount}}/{{orgInfo.maxUserCount}})</span></p>
+            <div class="account-detail">
+                <p><span>机构ID：</span> {{orgInfo.orgName}}</p>
+                <p><span>机构管理有效期：</span> {{orgInfo.expDate}} </p>
+            </div>
+        </div>
+        <div class="account-body">
+            <ul class="list-unstyled operationBtn">
+                <li role="presentation" class="pull-left operationBtn operationMoveBtn  moveBtn" ng-click="moveTeamClick($event)">移动到</li> <!--"-->
+                <div style="display: none; position: absolute; margin-left: 40px; margin-top: 45px; z-index: 10;" class="setTeamBox" >
+                    <ol class="setTeam list-unstyled">
+                        <li ng-repeat="team in allTeam" class="bjj-ellipsis" ng-click="moveTeam($event, team.id)" data-news-id="{{team.id}}">{{team.teamName}}</li>
+                    </ol>
+                </div>
+                <li role="presentation" class="pull-left operationBtn" ui-sref="modifyAccount">添加账号</li>
+                <li role="presentation" class="pull-left operationBtn" ng-click="listAddTeam()">新建分组</li>
+                <div class="input-group">
+                    <input ng-model="userWords" type="text" class="form-control " placeholder="请输入姓名、登录名、手机号" maxlength="20">
+                    <span class="input-group-btn">
+                        <button ng-click="keywordsSearchClick()" class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </span>
+                </div>
+            </ul>
+            <div class="member-list">
+                <div class="box-condensed clearfix">
+                    <ol class="list-unstyled">
+                        <li class="seize"></li>
+                        <li class="account">账号</li>
+                        <li class="phone">电话</li>
+                        <li class="name">真实姓名</li>
+                        <li class="really">绑定账号</li>
+                        <li class="edit pull-right">操作</li>
+                    </ol>
+                </div>
+                <div>
+                    <ul class="list-unstyled" ng-repeat="team in teamList">
+                        <li class="everyGroup">
+                            <span class="line"></span>
+                            <div class="pull-left bjj-checkbox {{ team.active ? 'active' : '' }}" ng-click="toggleAllUser(team.id)" >
+                                <i class="fa fa-square-o fa-lg" aria-hidden="true"></i>
+                            </div>
+                            <input type="text" class="inputTeamName" ng-model='team.teamName' ng-show="team.editName" ng-blur="blurTeamName(team)" maxlength="20">
+                            <span class="account-people bjj-ellipsis"><span class="spanTeamName" ng-hide="team.editName">{{team.teamName}}</span>（{{(team.accountList | orFilter: ['userName','realName', 'phoneNumber']: userWords).length}}）</span>
+                            <span class="pull-right editMember">
+                                <span class="editTeam" ng-click="editTeamName(team)" ng-hide="team.id == 0">编辑</span>
+                                <span class="deleteTeam" ng-click="deleteTeam(team.id)" ng-hide="team.id == 0">删除</span>
+                                <span class="toggleGroup"><b class="caret"></b></span>
+                            </span>
+                        </li>
+                        <div class="groupMember {{team.id}}">
+                            <li ng-repeat="account in team.accountList| orFilter: ['userName','realName', 'phoneNumber']: userWords " class="{{account.id}}">
+                                <div class="pull-left bjj-checkbox {{ account.active ? 'active' : '' }}" ng-click="toggleUser()" >
+                                    <i class="fa fa-square-o fa-lg" aria-hidden="true"></i>
+                                </div>
+                                <span class="account-people"><b>{{account.userName}}</b>
+                                    <small class="label label-warning ismanager" ng-show='account.isManager'>管理</small>
+                                </span>
+                                <span class="account-phone">{{account.phoneNumber}}</span>
+                                <span class="account-name"><b class="bjj-ellipsis">{{account.realName}}</b></span>
+                                <span class="account-really" ng-mouseenter="channel($event, account.id)" ng-mouseleave="leaveChannel(account.id)">{{ channelMap[account.id].length > 0 ? '是' : '否'  }}</span>
+                                <span class="pull-right editMember team{{account.teamId}} {{ account.isManager? 'isManager': ''}}" >
+                                    <span class="editTeam" ui-sref="modifyAccount({id : account.id})" ng-if="!account.isManager">编辑</span>
+                                    <span class="deleteTeam deleteUser" ng-click="deleteUser(account.id)" ng-if="!account.isManager">删除</span>
+                                    <span class="moveTeam" ng-click="moveOutTeam(account.id)" ng-hide="account.teamId == 0">移出组</span>
+                                    <span class="toggleGroup"></span>
+                                </span>
+                                <div class="channels user{{account.id}}" ng-if="channelMap[account.id].length > 0">
+                                    <div class="channelsBox" ng-repeat="(k, v) in userChannelMap[account.id]"  >
+                                        <span class="icon{{k}}" ></span><b ng-repeat="channelName in v">{{channelName.name}}</b>
+                                    </div>
+                                </div>
+                            </li>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="modifyTeamModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h5 class="modal-title" id="myModalLabel">
+                    编辑分组
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <p><label for="exampleInputName" class="site-type">分组名称</label></p>
+                    <input type="text" class="form-control pull-left" id="exampleInputName" placeholder="输入分组名称" ng-model="addTeamName" maxlength="20">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span ng-click="listSaveTeam()" class="analysis-save btn btn-primary">&nbsp;&nbsp;保存&nbsp;&nbsp;</span>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(".member-list").on('click','.toggleGroup',function() {
+        $(this).parents('.everyGroup').next(".groupMember").slideToggle();
+        if($(this).children('.caret').css('border-top') == '4px dashed rgb(51, 51, 51)') {
+            $(this).children('.caret').css('border-top','none');
+            $(this).children('.caret').css('border-bottom','4px dashed rgb(51, 51, 51)')
+        }else {
+            $(this).children('.caret').css('border-bottom','none');
+            $(this).children('.caret').css('border-top','4px dashed rgb(51, 51, 51)')
+        }
+    })
+    $(".member-list").on('mouseenter','.channels', function() {
+        $(this).show();
+    });
+    $(".member-list").on('mouseleave','.channels', function() {
+       $(this).hide();
+    });
+</script>

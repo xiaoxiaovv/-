@@ -1,0 +1,227 @@
+<div class="">
+    <div class="evaluate-header" ng-if='isDemo'>以下内容为演示数据，请联系销售或客服了解更多传播测评功能详情，电话<span>010-83051272</span></div>
+    <div class="evaluate-body">
+        <div class="evaluate-index evaluate-every-box">
+            <div class="evaluate-channel">
+                <div class="pull-left">
+                    <p class="pull-left">
+                        <span class="channels-name">{{info.channelsName || '总渠道名称'}}</span>
+                        <span class="summary-time">测评时间: {{info.startTime | date: 'yyyy-MM-dd'}} {{info ? '至' : '--'}} {{info.endTime | date: 'yyyy-MM-dd'}}</span>
+                        <span class="summary-name">测评名称：{{info.evaluateName || '--'}}</span>
+                    </p>
+                </div>
+                <div class="pull-right">
+                    <span class="channels-num">渠道总量: <strong>{{info.channelCount || '--'}}</strong></span>
+                    <span class="content-num">内容总量:<strong>{{info.articleCount || '--'}}</strong></span>
+                </div>
+            </div>
+            <div class="evaluate-detail-index">
+                <ul class="list-unstyled">
+                    <li class="pull-left">
+                        <p><span>综合指数</span> <span class="explain">?</span></p>
+                        <p class="tips">根据所有子渠道综合指数计算得出。</p>
+                        <p class="detail-index">{{info.multiple? info.multiple : "--"}}</p>
+                        <p ng-class="{true:'top',false:'down'}[info.multipleRate.indexOf('-') == -1]"><b>周</b><i ng-show="info.multipleRate"></i>
+                            <span ng-class="{true:'trend',false:''}[info.multipleRate]" ng-if="info.multipleRate.indexOf('-') == 0">{{info.multipleRate? info.multipleRate.slice(1) : "--"}}</span>
+                            <span ng-class="{true:'trend',false:''}[info.multipleRate]" ng-if="info.multipleRate.indexOf('-') != 0">{{info.multipleRate? info.multipleRate : "--"}}</span>
+                        </p>
+                    </li>
+                    <li class="pull-left">
+                        <p><span>传播力</span> <span class="explain">?</span></p>
+                        <p class="tips">根据所有子渠道传播力指数计算得出。</p>
+                        <p class="detail-index">{{info.psi? info.psi : "--"}}</p>
+                        <p></p>
+                        <p ng-class="{true:'top',false:'down'}[info.psiRate.indexOf('-') == -1]"><b>周</b><i ng-show="info.psiRate"></i>
+                            <span ng-class="{true:'trend',false:''}[info.psiRate]" ng-if="info.psiRate.indexOf('-') == 0">{{info.psiRate? info.psiRate.slice(1) : "--"}}</span>
+                            <span ng-class="{true:'trend',false:''}[info.psiRate]" ng-if="info.psiRate.indexOf('-') != 0">{{info.psiRate? info.psiRate : "--"}}</span>
+                        </p>
+                    </li>
+                    <li class="pull-left">
+                        <p><span>影响力</span> <span class="explain">?</span></p>
+                        <p class="tips">根据所有子渠道影响力指数计算得出。</p>
+                        <p class="detail-index">{{info.mii? info.mii : "--"}}</p>
+                        <p ng-class="{true:'top',false:'down'}[info.miiRate.indexOf('-') == -1]"><b>周</b><i ng-show="info.miiRate"></i>
+                            <span ng-class="{true:'trend',false:''}[info.miiRate]" ng-if="info.miiRate.indexOf('-') == 0">{{info.miiRate? info.miiRate.slice(1) : "--"}}</span>
+                            <span ng-class="{true:'trend',false:''}[info.miiRate]" ng-if="info.miiRate.indexOf('-') != 0">{{info.miiRate? info.miiRate : "--"}}</span>
+                        </p>
+                    </li>
+                    <li class="pull-left">
+                        <p><span>引导力</span> <span class="explain">?</span></p>
+                        <p class="tips">根据所有子渠道引导力指数计算得出。</p>
+                        <p class="detail-index">{{info.bsi? info.bsi: "--"}}</p>
+                        <p ng-class="{true:'top',false:'down'}[info.bsiRate.indexOf('-') == -1]"><b>周</b><i ng-show="info.bsiRate"></i>
+                            <span ng-class="{true:'trend',false:''}[info.bsiRate]" ng-if="info.bsiRate.indexOf('-') == 0" >{{info.bsiRate? info.bsiRate.slice(1) : "--"}}</span>
+                            <span ng-class="{true:'trend',false:''}[info.bsiRate]" ng-if="info.bsiRate.indexOf('-') != 0">{{info.bsiRate? info.bsiRate : "--"}}</span>
+                        </p>
+                    </li>
+                    <li class="pull-left">
+                        <p><span>公信力</span> <span class="explain">?</span></p>
+                        <p class="tips tsi-tips">根据所有子渠道公信力指数计算得出。</p>
+                        <p class="detail-index">{{info.tsi? info.tsi : "--"}}</p>
+                        <p ng-class="{true:'top',false:'down'}[info.tsiRate.indexOf('-') == -1]"><b>周</b><i ng-show="info.tsiRate"></i>
+                            <span ng-class="{true:'trend',false:''}[info.tsiRate]" ng-if="info.tsiRate.indexOf('-') == 0">{{info.tsiRate? info.tsiRate.slice(1): "--"}}</span>
+                            <span ng-class="{true:'trend',false:''}[info.tsiRate]" ng-if="info.tsiRate.indexOf('-') != 0">{{info.tsiRate? info.tsiRate: "--"}}</span>
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="trend-statistics evaluate-every-box">
+            <p class="module-name">趋势统计TOP10</p>
+            <ul class="list-unstyled list-ul">
+                <li ng-repeat="item in tendencyLabelList" class="{{item.active ? 'active' : ''}}"><span ng-click="getTendency();">{{item.value}}</span></li>
+            </ul>
+            <div class="echarts-box" ng-if="!tendencyEmptyView" id="echartsEvaluateTendency"></div>
+            <list-empty ng-if="tendencyEmptyView" msg="{{tendencyEmptyMsg}}"></list-empty>
+        </div>
+        <div class="site-ranking evaluate-every-box" ng-if='!websiteEmptyView'>
+            <p>网站排行</p>
+            <ul class="list-unstyled list-ul">
+                <li class="active" ng-click="websiteRank('publishCount')">发文量</li>
+                <li ng-click="websiteRank('multiple')">综合</li>
+                <li ng-click="websiteRank('psi')">传播力</li>
+                <li ng-click="websiteRank('mii')">影响力</li>
+                <li ng-click="websiteRank('bsi')">引导力</li>
+                <li ng-click="websiteRank('tsi')">公信力</li>
+            </ul>
+            <table class="table table-condensed table-striped table-hover" ng-if="!websiteListEmptyView">
+                <thead>
+                <tr>
+                    <td class="index">排行</td>
+                    <td>渠道名称</td>
+                    <td>所属分组</td>
+                    <td>{{webType}}</td>
+                    <td>渠道状态</td>
+                    <td>最后发文时间</td>
+                    <td class="index">操作</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat = "item in websiteList">
+                    <td class="index">{{$index+1 +((webPage-1)*10)}}</td>
+                    <td>{{item.channelName}}</td>
+                    <td>{{item.teamName}}</td>
+                    <td>{{item.index}}</td>
+                    <td class="channel-active" ng-show="item.channelStatus == 1">活跃中</td>
+                    <td class="channel-no-active" ng-show="item.channelStatus == 2">不活跃</td>
+                    <td class="channel-abnormal" ng-show="item.channelStatus == 3">异常</td>
+                    <td>{{item.lastPublishTime | date: 'yyyy-MM-dd HH:mm'}}</td>
+                    <td class="index"><span ui-sref="evaluateChannel({channelId: item.id, siteType: item.siteType})">查看</span></td>
+                </tr>
+                </tbody>
+            </table>
+            <list-empty ng-if="websiteListEmptyView" msg="{{websiteListEmptyMsg}}"></list-empty>
+            <div class="num-page" ng-if="!websiteListEmptyView" >
+                <p class="total-count">共{{webTotalCount}}条</p>
+                <my-pagination class="page-tion pull-left" page-option="webOption"></my-pagination>
+            </div>
+        </div>
+        <div class="site-ranking evaluate-every-box" ng-if='!wechatEmptyView'>
+            <p class="module-name">公众号排行</p>
+            <ul class="list-unstyled  list-ul">
+                <li class="active" ng-click="wechatRank('publishCount')">发文量</li>
+                <li ng-click="wechatRank('multiple')">综合</li>
+                <li ng-click="wechatRank('psi')">传播力</li>
+                <li ng-click="wechatRank('mii')">影响力</li>
+                <li ng-click="wechatRank('bsi')">引导力</li>
+                <li ng-click="wechatRank('tsi')">公信力</li>
+                <li ng-click="wechatRank('sumRead')">累计阅读</li>
+                <li ng-click="wechatRank('sumLike')">累计点赞</li>
+                <li ng-click="wechatRank('avgRead')">平均阅读</li>
+                <li ng-click="wechatRank('avgLike')">平均点赞</li>
+            </ul>
+            <table class="table table-condensed table-striped table-hover" ng-if="!wechatListEmptyView">
+                <thead>
+                <tr>
+                    <td class="index">排行</td>
+                    <td>渠道名称</td>
+                    <td>所属分组</td>
+                    <td>{{wechatType}}</td>
+                    <td>渠道状态</td>
+                    <td>最后发文时间</td>
+                    <td class="index">操作</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat = "item in wechatRankList">
+                    <td class="index">{{($index+1) + ((wechatPage-1)*10)}}</td>
+                    <td>{{item.channelName}}</td>
+                    <td>{{item.teamName}}</td>
+                    <td>{{item.index}}</td>
+                    <td class="channel-active" ng-show="item.channelStatus == 1">活跃中</td>
+                    <td class="channel-no-active" ng-show="item.channelStatus == 2">不活跃</td>
+                    <td class="channel-abnormal" ng-show="item.channelStatus == 3">异常</td>
+                    <td>{{item.lastPublishTime | date: 'yyyy-MM-dd HH:mm'}}</td>
+                    <td class="index"><span ui-sref="evaluateChannel({channelId: item.id, siteType: item.siteType})">查看</span></td>
+                </tr>
+                </tbody>
+            </table>
+            <list-empty ng-if="wechatListEmptyView" msg="{{wechatListEmptyMsg}}"></list-empty>
+            <div class="num-page" ng-if="!wechatListEmptyView">
+                <p class="total-count">共{{wechatTotalCount}}条</p>
+                <my-pagination class="page-tion pull-left" page-option="wechatOption"></my-pagination>
+            </div>
+        </div>
+        <div class="site-ranking evaluate-every-box" ng-if='!weiboEmptyView'>
+            <p class="module-name">微博排行</p>
+            <ul class="list-unstyled list-ul">
+                <li class="active" ng-click="weiboRank('publishCount')">发文量</li>
+                <li ng-click="weiboRank('multiple')">综合</li>
+                <li ng-click="weiboRank('psi')">传播力</li>
+                <li ng-click="weiboRank('mii')">影响力</li>
+                <li ng-click="weiboRank('bsi')">引导力</li>
+                <li ng-click="weiboRank('tsi')">公信力</li>
+                <li ng-click="weiboRank('sumReprint')">累计转载</li>
+                <li ng-click="weiboRank('sumLike')">累计点赞</li>
+                <li ng-click="weiboRank('avgReprint')">平均转载</li>
+                <li ng-click="weiboRank('avgLike')">平均点赞</li>
+            </ul>
+            <table class="table table-condensed table-striped table-hover" ng-if="!weiboListEmptyView">
+                <thead>
+                <tr>
+                    <td class="index">排行</td>
+                    <td>渠道名称</td>
+                    <td>所属分组</td>
+                    <td>{{weiboType}}</td>
+                    <td>渠道状态</td>
+                    <td>最后发文时间</td>
+                    <td class="index">操作</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat = "item in weiboRankList">
+                    <td class="index">{{($index+1)+ ((weiboPage-1)*10)}}</td>
+                    <td>{{item.channelName}}</td>
+                    <td>{{item.teamName}}</td>
+                    <td>{{item.index}}</td>
+                    <td class="channel-active" ng-show="item.channelStatus == 1">活跃中</td>
+                    <td class="channel-no-active" ng-show="item.channelStatus == 2">不活跃</td>
+                    <td class="channel-abnormal" ng-show="item.channelStatus == 3">异常</td>
+                    <td>{{item.lastPublishTime | date: 'yyyy-MM-dd HH:mm'}}</td>
+                    <td class="index"><span ui-sref="evaluateChannel({channelId: item.id, siteType: item.siteType})">查看</span></td>
+                </tr>
+                </tbody>
+            </table>
+            <list-empty ng-if="weiboListEmptyView" msg="{{weiboListEmptyMsg}}"></list-empty>
+            <div class="num-page" ng-if="!weiboListEmptyView">
+                <p class="total-count">共{{weiboTotalCount}}条</p>
+                <my-pagination class="page-tion pull-left" page-option="weiboOption"></my-pagination>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('.evaluate-every-box ul li').click(function() {
+        $(this).addClass('active').siblings().removeClass('active');
+    })
+    $(".explain").mouseenter(function() {
+        $(this).parent().next().show()
+        if(parseInt($(this).parents('li').css('width')) < 276) {
+            $('.tsi-tips').addClass('tsi-tips-p')
+        }
+    })
+    $(".explain").mouseleave(function() {
+        $(this).parent().next().hide()
+    })
+</script>

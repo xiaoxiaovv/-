@@ -1,0 +1,42 @@
+a { color: #ed4040; }
+a:link,
+a:hover,
+a:focus,
+a:active { color: #f16666; text-decoration: none; }
+.bjj-checkbox.active i { color: #ed4040; }
+
+.btn-default:hover { background-color: #ed4040; border-color: #ed4040; }
+.btn-primary { background-color: #ed4040; border-color: #ed4040; }
+.btn-primary:hover,
+.btn-primary.focus,
+.btn-primary:focus,
+.btn-primary.active,
+.btn-primary:active,
+.btn-primary.active.focus,
+.btn-primary.active:focus,
+.btn-primary.active:hover,
+.btn-primary:active.focus,
+.btn-primary:active:focus,
+.btn-primary:active:hover,
+.btn-primary.disabled.focus,
+.btn-primary.disabled:focus,
+.btn-primary.disabled:hover,
+.btn-primary[disabled].focus,
+.btn-primary[disabled]:focus,
+.btn-primary[disabled]:hover,
+fieldset[disabled] .btn-primary.focus,
+fieldset[disabled] .btn-primary:focus,
+fieldset[disabled] .btn-primary:hover { background-color: #f16666; border-color: #f16666; }
+
+.bjj-nav li.active > a { color: #ed4040; box-shadow: 0px -3px 0px #ed4040 inset; background-color: #fff; }
+.bjj-nav li:hover > a:hover { color: #ed4040; box-shadow: 0px -3px 0px #ddd inset; }
+.bjj-nav li.active > a:hover { color: #ed4040; box-shadow: 0px -3px 0px #ed4040 inset; }
+.bjj-nav b > a > i:hover { color: #f16666; }
+
+.bjj-header .navbar-default { background-color: #ed4040; }
+.bjj-header .navbar-nav > .open > a,
+.bjj-header .navbar-nav > .open > a:hover,
+.bjj-header .navbar-nav > .open > a:focus { background-color: #f16666; }
+
+.bjj-menu .title.active,
+.bjj-menu .title-group-normal > a.active { color: #ed4040; border-left: 1px solid #ed4040; }

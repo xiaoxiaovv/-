@@ -1,0 +1,142 @@
+<div class="subscription-Page" ng-show="subscriptionEditPage">
+    <div id="bjj-page-title" class="bjj-page-title">
+        <span ng-show="EditPage"><span>{{subjectName}}</span><span class="siteId">ID:{{subjectId}}</span></span>
+        <span ng-hide="EditPage">新建主题</span>
+        <span class="pull-right delete-subscription"><a href="javascript:;" ng-show="EditPage" ng-click="deleteSubscription()">删除主题</a></span>
+    </div>
+    <div class="new-site-body">
+        <div class="subscription-container">
+            <form name="subscriptionName">
+                <label class="site-type">订阅主题名称</label>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="在此输入主题名称" ng-model="subjectName" maxlength="20">
+                    <span class="navigation"><b>*</b></span>
+                </div>
+                <div class="clearfix"></div>
+                <label class="site-type">关键词表达式</label>
+                <div class="form-group">
+                    <textarea class="form-control" placeholder="在此输入关键词表达式 例如：（北京或上海的地铁打人事件  “(北京 or 上海) and 地铁 and 打人 and 事件”）" ng-model="expression"></textarea>
+                    <span class="navigation"><b>*</b></span>
+                </div>
+                <div class="clearfix"></div>
+                <label class="site-type">排除词</label>
+                <textarea rows="4" type="text" class="form-control" placeholder="请在此输入不包含的关键词，如关键词为'社保定点'，排除词为'保定'" ng-model="excludeWords"></textarea>
+                <div class="clearfix"></div>
+                <label class="site-type sitePushTime">推送时间：</label>
+                <div class="subscription-time">
+                    <input type="text" name="date" class='laydateTime form-control pull-left siteStartTime' id="siteStartTime" ng-model="startTime" value="{{startTime | date: 'yyyy-M-dd HH:mm:ss'}}"/>
+                    <span class="pull-left">至</span>
+                    <input type="text" name="date" class='laydateTime form-control pull-left siteEndTime' id="siteEndTime" ng-model="endTime"  value="{{endTime | date: 'yyyy-M-dd HH:mm:ss'}}"/>
+                    <span class="navigation"><b>*</b></span>
+                </div>
+                <div class="clearfix"></div>
+                <label class="site-type site-border">指定站点范围：</label>
+                <div class="clearfix"></div>
+                <div><button class="btn btn-primary"  data-toggle="modal" data-target="#modifyModal" ng-click="addSite()">新建站点</button></div>
+                <div class="allSite">
+                    <p class="siteType">网站：</p>
+                    <div class="rightSite">
+                        <span class="line-t media" ng-repeat="site in allSite | filter: {siteType: 1} ">
+                            <div class="pull-left bjj-checkbox {{ site.active ? 'active' : '' }}" ng-click="toggleSubscription()">
+                                <i class="fa fa-square-o fa-lg" aria-hidden="true"></i>
+                            </div>
+                            <span class="lable_check mediaType bjj-ellipsis">{{site.siteName}}</span>
+                            <i ng-click="deleteSite($event)" data-site-id={{site.siteId}} class="fa fa-times pull-left" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="allSite">
+                    <p class="siteType">公众号：</p>
+                    <div class="rightSite">
+                        <span class="line-t media" ng-repeat="site in allSite | filter: {siteType: 2} ">
+                            <div class="pull-left bjj-checkbox {{ site.active ? 'active' : '' }}" ng-click="toggleSubscription()">
+                                <i class="fa fa-square-o fa-lg" aria-hidden="true"></i>
+                            </div>
+                            <span class="lable_check mediaType bjj-ellipsis">{{site.siteName}}</span>
+                            <i ng-click="deleteSite($event)" data-site-id={{site.siteId}} class="fa fa-times pull-left" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                </div>
+                <div class="allSite">
+                    <p class="siteType">微博：</p>
+                    <div class="rightSite">
+                        <span class="line-t media" ng-repeat="site in allSite | filter: {siteType: 3} ">
+                            <div class="pull-left bjj-checkbox {{ site.active ? 'active' : '' }}" ng-click="toggleSubscription()">
+                                <i class="fa fa-square-o fa-lg" aria-hidden="true"></i>
+                            </div>
+                            <span class="lable_check mediaType bjj-ellipsis">{{site.siteName}}</span>
+                            <i ng-click="deleteSite($event)" data-site-id={{site.siteId}} class="fa fa-times pull-left" aria-hidden="true"></i>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div ng-hide="false" class="bjj-account-save-view">
+    <div><button class="btn btn-primary" ng-click="saveSubscription()" ng-show="subscriptionEditPage">开始推送</button></div>
+</div>
+<div ng-show="isSubscription" class="subscription-deleted-view"><p>该主题已删除</p></div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="modifyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h5 class="modal-title" id="myModalLabel">
+                    新建站点
+                </h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <p><label for="exampleInputName" class="site-type">类型</label></p>
+                    <select class="pull-left bootstrap-select form-control" ng-model="siteType" ng-change="choiceType()" ng-init="siteType='1'">
+                        <option value="1">网站</option>
+                        <option value="2">公众号</option>
+                        <option value="3">微博</option>
+                    </select>
+                    <div class="clearfix"></div>
+                    <p ng-show="wechatType"><label for="exampleInputName" class="site-type">微信BIZ</label></p>
+                    <div class="everySite">
+                        <input type="text" ng-show="wechatType" class="form-control pull-left" id="accountId" placeholder="输入站点BIZ" ng-model="accountId" maxlength="20">
+                        <span ng-show="wechatType" >*</span>
+                    </div>
+                    <div class="clearfix"></div>
+                    <span ng-show="isAccountId" class="promptInfo">请输入微信BIZ</span>
+                    <p ng-show="webType"><label for="exampleInputName" class="site-type">站点域名</label></p>
+                    <div class="everySite">
+                        <input type="text" ng-show="webType" class="form-control pull-left" id="exampleInputName" placeholder="输入站点域名" ng-model="siteDomain" maxlength="100">
+                        <span ng-show="webType">*</span>
+                    </div>
+                    <div class="clearfix"></div>
+                    <span ng-show="isSiteDomain" class="promptInfo">请输入站点域名</span>
+                    <p><label for="exampleInputName" class="site-type">站点名称</label></p>
+                    <div class="everySite">
+                        <input type="text" class="form-control pull-left" id="exampleName" placeholder="输入站点名称" ng-model="siteName" maxlength="20">
+                        <span>*</span>
+                    </div>
+                    <div class="clearfix"></div>
+                    <span ng-show="isSiteName" class="promptInfo">请输入站点名称</span>
+                    <p ng-show="urlTypeShow"><label for="exampleInputName" class="site-type">采集方式</label></p>
+                    <select ng-show="urlTypeShow" class="pull-left bootstrap-select form-control url-type" ng-model="urlType" ng-change="urlTypeChange()" ng-init="urlType='1'">
+                        <option value="1" selected="selected">全站</option>
+                        <option value="2">频道</option>
+                    </select>
+                    <span ng-show="matchTypeShow" class="toggle" ng-click="toggle()">
+                        <span ng-show="showON" class="ON">ON</span>
+                        <i ng-show="showON" class="toggle-on toggle-item"></i>
+                        <span ng-hide="showON" class="OFF">OFF</span>
+                        <i ng-hide="showON" class="toggle-off toggle-item"></i>
+                    </span>
+                    <label ng-show="matchTypeShow" for="exampleInputName" class="match-type-title">精准采集</label>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span ng-click="SaveSite()" class="analysis-save btn btn-primary">&nbsp;&nbsp;保存&nbsp;&nbsp;</span>
+            </div>
+        </div>
+    </div>
+</div>

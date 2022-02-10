@@ -1,0 +1,125 @@
+<div class="bjj-cont-page bjj-bg-white container-fluid">
+    <div class="bjj-page-title">同步设置</div>
+    <div class="bjj-page-container sync-setting">
+        <div class="container-fluid">
+            <div class="row">
+                <h5>
+                    <span class="channel-logo weibo">&nbsp;</span>
+                    新浪微博
+                    <small>({{list1.length || 0}}/2) 授权后可将采集内容直接发布到微博</small>
+                    <span class="pull-right help-block small toggle-btn"><i class="fa fa-angle-double-up" aria-hidden="true"></i></span>
+                </h5>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3 thumbnail channel-item channel-item-{{channel.id}}"
+                     ng-repeat="channel in channelList | filter: {channelType : 1}">
+                    <div class="pull-left"><img ng-src="{{channel.avatar}}"></div>
+                    <div class="caption pull-left">
+                        <h5 class="bjj-ellipsis">{{channel.name}}</h5>
+                        <p class="help-block">绑定时间：{{channel.createTime | date: 'yyyy/MM/dd'}}</p>
+                        <button type="button" class="btn btn-primary btn-sm" ng-click="delChannel();">删除</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 thumbnail channel-item channel-item-add text-center" ng-click="addChannel(1);">
+                    <i class="fa fa-plus"></i> 添加账号
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <h5>
+                    <span class="channel-logo wechat">&nbsp;</span>
+                    微信公众号
+                    <small>({{list2.length || 0}}/2) 授权后可将采集内容同步到微信公众平台素材库</small>
+                    <span class="pull-right help-block small toggle-btn"><i class="fa fa-angle-double-up" aria-hidden="true"></i></span>
+                </h5>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3 thumbnail channel-item channel-item-{{channel.id}}"
+                     ng-repeat="channel in channelList | filter: {channelType : 2}">
+                    <div class="pull-left">
+                        <img ng-src="{{channel.avatar}}">
+                        <p class="help-block"><b class="{{channel.verifyType == -1 ? '' : 'active'}}"></b> {{channel.verifyType == -1 ? '未认证' : '已认证'}}</p>
+                    </div>
+                    <div class="caption pull-left">
+                        <h5 class="bjj-ellipsis">{{channel.name}}</h5>
+                        <p class="help-block">绑定时间：{{channel.createTime | date: 'yyyy/MM/dd'}}</p>
+                        <button type="button" class="btn btn-primary btn-sm" ng-click="delChannel();">删除</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 thumbnail channel-item channel-item-add text-center" ng-click="addChannel(2);">
+                    <i class="fa fa-plus"></i> 添加账号
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid" ng-if="appInfo.appKey != 'ghms'">
+            <div class="row">
+                <h5>
+                    <span class="channel-logo toutiao">&nbsp;</span>
+                    头条号
+                    <small>({{list3.length || 0}}/2) 授权后可将采集内容同步到头条号素材库</small>
+                    <span class="pull-right help-block small toggle-btn"><i class="fa fa-angle-double-up" aria-hidden="true"></i></span>
+                </h5>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3 thumbnail channel-item channel-item-{{channel.id}}"
+                     ng-repeat="channel in channelList | filter: {channelType : 3}">
+                    <div class="pull-left"><img ng-src="{{channel.avatar}}"></div>
+                    <div class="caption pull-left">
+                        <h5 class="bjj-ellipsis">{{channel.name}}</h5>
+                        <p class="help-block">绑定时间：{{channel.createTime | date: 'yyyy/MM/dd'}}</p>
+                        <button type="button" class="btn btn-primary btn-sm" ng-click="delChannel();">删除</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 thumbnail channel-item channel-item-add text-center" ng-click="addChannel(3);">
+                    <i class="fa fa-plus"></i> 添加账号
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <h5>
+                    <span class="channel-logo qqom">&nbsp;</span>
+                    企鹅媒体平台
+                    <small>({{list4.length || 0}}/2) 授权后可将采集内容同步到企鹅媒体平台素材库</small>
+                    <span class="pull-right help-block small toggle-btn"><i class="fa fa-angle-double-up" aria-hidden="true"></i></span>
+                </h5>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-3 col-sm-3 thumbnail channel-item channel-item-{{channel.id}}"
+                     ng-repeat="channel in channelList | filter: {channelType : 4}">
+                    <div class="pull-left"><img ng-src="{{channel.avatar}}"></div>
+                    <div class="caption pull-left">
+                        <h5 class="bjj-ellipsis">{{channel.name}}</h5>
+                        <p class="help-block">绑定时间：{{channel.createTime | date: 'yyyy/MM/dd'}}</p>
+                        <button type="button" class="btn btn-primary btn-sm" ng-click="delChannel();">删除</button>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 thumbnail channel-item channel-item-add text-center" ng-click="addChannel(4);">
+                    <i class="fa fa-plus"></i> 添加账号
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" class="callbackBtn" ng-click="updateList();" />
+<script>
+    $('.toggle-btn').click(function () {
+        $(this).toggleClass('active').parents('.row').siblings().slideToggle();
+    });
+    var oauthCallback = function (success, msg) {
+        if(success){
+            $('.callbackBtn').click();
+        }else {
+            if(msg == '-1'){
+                bjj.dialog.alert('success', '您已取消操作！');
+            } else {
+                bjj.dialog.alert('danger', '应用授权失败！');
+            }
+        }
+    };
+</script>

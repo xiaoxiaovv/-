@@ -1,0 +1,106 @@
+{
+  "status"  : 200,
+  "data"    : [{
+    "sort"  : "b",
+    "name"  : "北京"
+  }, {
+    "sort"  : "a",
+    "name"  : "安徽"
+  }, {
+    "sort"  : "c",
+    "name"  : "重庆"
+  }, {
+    "sort"  : "f",
+    "name"  : "福建"
+  }, {
+    "sort"  : "g",
+    "name"  : "广东"
+  }, {
+    "sort"  : "g",
+    "name"  : "甘肃"
+  }, {
+    "sort"  : "g",
+    "name"  : "广西"
+  }, {
+    "sort"  : "g",
+    "name"  : "贵州"
+  }, {
+    "sort"  : "a",
+    "name"  : "澳门"
+  },{
+    "sort"  : "h",
+    "name"  : "河南"
+  }, {
+    "sort"  : "h",
+    "name"  : "湖北"
+  }, {
+    "sort"  : "h",
+    "name"  : "湖南"
+  }, {
+    "sort"  : "h",
+    "name"  : "河北"
+  }, {
+    "sort"  : "h",
+    "name"  : "海南"
+  }, {
+    "sort"  : "j",
+    "name"  : "江西"
+  }, {
+    "sort"  : "j",
+    "name"  : "江苏"
+  }, {
+    "sort"  : "j",
+    "name"  : "吉林"
+  }, {
+    "sort"  : "h",
+    "name"  : "黑龙江"
+  },{
+    "sort"  : "l",
+    "name"  : "辽宁"
+  }, {
+    "sort"  : "n",
+    "name"  : "宁夏"
+  }, {
+    "sort"  : "q",
+    "name"  : "青海"
+  }, {
+    "sort"  : "s",
+    "name"  : "山东"
+  }, {
+    "sort"  : "s",
+    "name"  : "上海"
+  }, {
+    "sort"  : "s",
+    "name"  : "山西"
+  }, {
+    "sort"  : "s",
+    "name"  : "陕西"
+  }, {
+    "sort"  : "s",
+    "name"  : "四川"
+  }, {
+    "sort"  : "n",
+    "name"  : "内蒙古"
+  },{
+    "sort"  : "t",
+    "name"  : "天津"
+  }, {
+    "sort"  : "x",
+    "name"  : "新疆"
+  }, {
+    "sort"  : "x",
+    "name"  : "西藏"
+  }, {
+    "sort"  : "y",
+    "name"  : "云南"
+  }, {
+    "sort"  : "z",
+    "name"  : "浙江"
+  }, {
+    "sort"  : "t",
+    "name"  : "台湾"
+  }, {
+    "sort"  : "x",
+    "name"  : "香港"
+  }]
+}

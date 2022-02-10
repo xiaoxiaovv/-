@@ -1,0 +1,25 @@
+.bjj-page-title .teamLine { color: #999; }
+.accountReturn { color: #2494f2; margin-right: 15px; display: inline-block; cursor: pointer;}
+.container-add { height: calc( 100% - 88px); margin: 12px 15px 15px 15px; padding: 40px 20px 20px 20px; background: #fff; }
+.container-add .form-group { height: 50px; clear: both; }
+.container-add .form-group label { width: 110px; color: #666; margin-right: 15px; margin-left: 15px; font-weight: normal; text-align: left; }
+.container-add .form-group .hint { display: inline-block; color: red; margin-top: 5px;}
+.container-add .form-group .hint.password { margin-top: 15px; }
+.container-add .form-group .hint.password.dangerPassword,.container-add .form-group .hint.password.formatPassword { float: left; display: none; }
+.container-add .form-group .hint.password.passwordShow { margin-top: 15px; float: left;}
+.container-add .form-group .analysis-tip { margin-left: 15px; }
+.container-add .form-group .analysis-tip i { font-style: normal; color: red; font-size: 14px; }
+.container-add .form-group .analysis-tip b { font-weight: 400; color: #999; font-size: 12px; margin-left: 10px; }
+.container-add .form-group .editShow { display: inline-block; margin-top: 8px; }
+.container-add .control-input .isPassword { height: 7px; margin-top: 10px; margin-bottom: -10px; }
+.container-add .control-input .isPassword span { width: 33%; height: 7px; background: #f3f3f3; float: left; margin-right: 0.33%;}
+.container-add .control-input .isPassword span.weak { background: #f15533; }
+.container-add .control-input .isPassword span.middle { background: #ff9900; }
+.container-add .control-input .isPassword span.strong { background: #5cb70e; }
+.container-add .control-input { width: 17%; margin-top: -8px; }
+.container-add .password-input { width: 100%; }
+.container-add .input-password.control-input { height: 88px; }
+.container-add .form-group select { width: 17%; margin-top: -8px; border-color: #ddd; }
+.container-add .form-group .addTeam { color: #2494f2; cursor: pointer; margin-left: 15px; }
+.container-add .form-group .passwordButton{    width: 270px; margin-right: 25px; margin-top: 20px; outline: none; }
+#modifyTeamModal .modal-body { height: 100px; }

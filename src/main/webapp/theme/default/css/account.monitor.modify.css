@@ -1,0 +1,43 @@
+.site-modify-page .site-container { padding: 0 15px; }
+.site-modify-page .site-container .modifyForm { margin: 30px 0 80px; }
+.site-modify-page .site-container .modifyForm label.site-type { font-weight: 400; margin-bottom: 15px; color: #999; }
+.site-modify-page .site-container .modifyForm label.black-site-type { margin-bottom: 0; }
+.site-modify-page .site-container .modifyForm label.white-site-type { margin-bottom: -5px; }
+.bjj-cont-sidebar .site-list ul li.monitorSet { width: 100%; height: 65px; border-bottom: 1px solid #ddd; }
+.bjj-cont-sidebar .site-list ul li:hover { background: #eee; }
+.bjj-cont-sidebar .site-list ul li.monitorSet.on { background: #eee; }
+.bjj-cont-sidebar .site-list ul li.monitorSet a { color: #333; padding: 10px 16px 0; line-height: 20px; display: -webkit-box; }
+.site-modify-page { width: 100%; height: calc(100% - 50px); position: relative; }
+.site-modify-page .isShow { position: absolute; top: 50%; left: 50%; }
+.list-title { width: 100%; height: 65px; padding-top: 15px; padding-left: 20px; }
+.list-title li { float: left; padding: 10px 20px; }
+.list-title a { color: #333; }
+.new-site-nav { border: 1px solid #2494f2; }
+.new-site-nav a { color: #2494f2; }
+.site-modify-page .site-container .self-write .modifyForm .form-group label { font-weight: 400; color: #666; }
+.site-modify-page .site-container .self-write .modifyForm .form-group p { display: flex; }
+.site-modify-page .site-container .self-write .modifyForm .form-group p .sigin { color: red; margin: 5px 5px 0 5px;}
+.site-modify-page .site-container .self-write .modifyForm .form-group .contain { width: 420px; line-height: 25px; margin-top: 5px; }
+.site-modify-page .site-container .self-write .modifyForm .form-group .contain span.media{ margin-right: 30px; display: inline-flex; }
+.site-modify-page .site-container .self-write .modifyForm .form-group .contain span.set { color: #2494f2; cursor: pointer; }
+.site-modify-page .site-container .self-write .modifyForm .form-group .contain .label_check { background-size: 12px 12px; padding-left: 19px; color: #000; margin:0 30px 0 8px; display: inline-block; width: 75px;}
+.site-modify-page .site-container .self-write .modifyForm .form-group .long{ width: 80%; }
+.site-modify-page .site-container .self-write .modifyForm .form-group .short { width: 20%; min-width: 180px; display: inline-block; }
+.site-modify-page .site-container .self-write .modifyForm .form-group .monitorTime { display: inline-block; color: #999; margin-left: 10px; }
+.site-modify-page .site-container .self-write .modifyForm .form-group p .search-btn { margin-left: 10px; }
+.site-modify-page .site-container .self-write .modifyForm .form-group .site-type { color: #999; display: block; }
+
+/*弹出框*/
+.modal .modal-dialog .modal-content .modal-body .editForm .long { width: 80%; margin-right: 10px; }
+.modal .modal-dialog .modal-content .modal-body .editForm .short { width: 20%; margin-right: 10px; }
+#whiteExampleModal .modal-dialog .modal-content .modal-body,
+#blackExampleModal .modal-dialog .modal-content .modal-body { padding: 15px 35px 15px; }
+.modal .modal-dialog .modal-content .modal-body .editForm .editTitle { color:#999; margin-bottom: 15px; }
+.modal .modal-dialog .modal-content .modal-body .editIpt { margin-bottom: 16px; display: flex; }
+.modal .modal-dialog .modal-content .modal-body .editIpt .short { width: 30%; background: #fff; }
+.modal .modal-dialog .modal-content .modal-body .editIpt .long { width: 40%; margin: 0 20px; background: #fff; }
+.modal .modal-dialog .modal-content .modal-body .deleteBlackBtn,
+.modal .modal-dialog .modal-content .modal-body .deleteWhiteBtn { color:#999; display: inline-block; line-height: 34px; cursor: pointer; }
+.modal .modal-dialog .modal-content .modal-body .editForm .editIpt .siteDomain { margin:0 20px 0 10px; }
+.modal .modal-dialog .modal-content .modal-body .editForm .addBtn { line-height: 34px; color: #2494f2; margin-left: 20px; cursor: pointer; }
+

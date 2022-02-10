@@ -1,0 +1,192 @@
+<div class="capture-news-page">
+    <div class="loading captureWeiboNewsLoading" ng-if="captureWeiboNewsLoading" ng-include="'/inc/loading.html'"></div>
+    <div class="bjj-ellipsis bjj-page-title">
+        {{captureSiteFilter.siteName}}
+    </div>
+    <div class="container-fluid containerBox" ng-class="{true : 'containerSite', false : ''}[captureSiteFilter.containerSiteBox]">
+        <div class="news-condition container-fluid">
+            <div class="conditions">
+                <div class="capture-conditions"><label>热度:</label>
+                    <span class="conditions {{captureSiteFilter.heat == 0 ? 'on' : ''}}" ng-click="newsHeatListClick($event)" data-heat="0">全部</span>
+                    <span class="conditions {{captureSiteFilter.heat == 3 ? 'on' : ''}}" ng-click="newsHeatListClick($event)" data-heat="3">高</span>
+                    <span class="conditions {{captureSiteFilter.heat == 2 ? 'on' : ''}}" ng-click="newsHeatListClick($event)" data-heat="2">中</span>
+                    <span class="conditions {{captureSiteFilter.heat == 1 ? 'on' : ''}}" ng-click="newsHeatListClick($event)" data-heat="1">低</span>
+                </div>
+                <div class="isShowBox">
+                    <div class="capture-conditions"><label class="pull-left">时间:</label>
+                        <input type="text" name="date" class='laydateTime form-control pull-left' id="weiboStartTime" value="{{captureSiteFilter.startTime | date: 'yyyy-M-dd HH:mm:ss'}}"/>
+                        <input type="text" name="date" class='laydateTime form-control pull-left' id="weiboEndTime" value="{{captureSiteFilter.endTime | date: 'yyyy-M-dd HH:mm:ss'}}"/>
+                        <a href="javascript:;" ng-click="clearWeiBoTimeClick()">重置</a>
+                    </div>
+                    <div class="capture-conditions"><label>倾向性:</label>
+                        <span class="conditions {{captureSiteFilter.orientation == 0 ? 'on' : ''}}" ng-click="newsOrientationListClick($event)" data-orientation="0">全部</span>
+                        <span class="conditions {{captureSiteFilter.orientation == 1 ? 'on' : ''}}" ng-click="newsOrientationListClick($event)" data-orientation="1">正面</span>
+                        <span class="conditions {{captureSiteFilter.orientation == 2 ? 'on' : ''}}" ng-click="newsOrientationListClick($event)" data-orientation="2">负面</span>
+                        <span class="conditions {{captureSiteFilter.orientation == 3 ? 'on' : ''}}" ng-click="newsOrientationListClick($event)" data-orientation="3">中性</span>
+                    </div>
+                    <div class="capture-conditions"><label> 类别:</label>
+                        <span class="conditions {{captureSiteFilter.hasPic == 0 ? 'on' : ''}}" ng-click="newsHasPicListClick($event)" data-has-pic="0">全部</span>
+                        <span class="conditions {{captureSiteFilter.hasPic == 1 ? 'on' : ''}}" ng-click="newsHasPicListClick($event)" data-has-pic="1">带图</span>
+                    </div>
+                    <div class="capture-weiboConditions"><label> 关键词:</label>
+                        <span class="conditions weiboConditions" ng-click="keywordsClick($event)" ng-repeat="item in weiboKeyWords"  ng-hide="item.keyword == ''" data-has-keywords="{{item.keyword}}">{{item.keyword}}</span>
+                        <a class="set-btn" href="javaScript:;" data-toggle="modal" data-target="#myModal" ng-click="keywordSet()">设置</a>
+                    </div>
+                </div>
+            </div>
+            <div class="capture-conditions-toggle hidden-conditions"><a>隐藏筛选条件 <i class="fa fa-angle-double-up" aria-hidden="true"></i></a></div>
+            <div class="capture-conditions-toggle show-conditions"><a>展开筛选条件 <i class="fa fa-angle-double-down" aria-hidden="true"></i></a></div>
+        </div>
+        <div class="view-news-list">
+            <div class="news-list-content">
+            <div class="row news-list-search">
+                <div class="news-list-condition col-lg-8">
+                    <ul class="nav-pills">
+                        <li role="presentation" class="news-list-condition-total" ng-click="toggleAllNewsList()">
+                            <a>全选</a>
+                            <div class="pull-left bjj-checkbox checkboxAll {{ active ? 'active' : '' }}">
+                                <i class="fa fa-square-o fa-lg" aria-hidden="true"></i>
+                            </div>
+                        </li>
+                        <li role="presentation" class="news-condition conditionBorder"><a href="javascript:;" ng-click="favoriteAll($event)">批量收藏</a>
+                            <div style="display: none; position: absolute; margin-left: -40px; z-index: 1;" class="showGroup">
+                                <ol id="siteAllFavorite">
+                                    <li ng-repeat="i in normalGroup" class="bjj-ellipsis" ng-click="favoriteAllGroup($event, i.id)">{{i.groupName}}</li>
+                                </ol>
+                            </div>
+                        </li>
+                        <li ng-click="pushAll()" role="presentation" class="news-condition conditionBorder"><a href="javascript:;">批量推送</a></li>
+                        <li role="presentation" class="news-condition-line">|</li>
+                        <div class="btn-group news-condition-line">
+                            <button type="button" class="btn btn-default dropdown-toggle time-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="order">{{newsListOrder == 1 ? '时间降序' : '热度降序'}}</span><span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a ng-click="orderClick($event)" data-order="1" href="javascript:;">时间降序</a></li>
+                                <li><a ng-click="orderClick($event)" data-order="2" href="javascript:;">热度降序</a></li>
+                            </ul>
+                        </div>
+                    </ul>
+                </div>
+                <div class="col-lg-offset-3">
+                    <div class="input-group">
+                        <input ng-model="keywords" type="text" class="form-control" ng-keyup="myKeyup($event)"  placeholder="请输入关键词" maxlength="20">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" ng-click="keywordsSearchClick()" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+                </span>
+                    </div>
+                </div>
+            </div>
+            <div class="newsList">
+                <div class="news-list-table">
+                    <div class="weibo-news weibo-news-list">
+                        <ul class="list-unstyled">
+                            <li class="weibo-li" ng-repeat="item in dataList">
+                                <div class="pull-left bjj-checkbox {{ item.active ? 'active' : '' }}" ng-click="toggleNewsList();">
+                                    <i class="fa fa-square-o fa-lg" aria-hidden="true"></i>
+                                </div>
+                                <div class="pull-left weibo-user-image"><img ng-src="{{item.posterAvatar || '/theme/default/images/default-avatar-weibo.png'}}" onerror="this.src='/theme/default/images/default-avatar-weibo.png'" alt="微博昵称"></div>
+                                <div class="weibo-user-list pull-left">
+                                    <div class="weibo-site">
+                                        <span>{{item.siteName}}</span>
+                                        <span ng-if="item.vflag.verified" class="v-image weibo-v-{{item.vflag.vflag}}"></span>
+                                    </div>
+                                    <div class="weibo-news-update-time">{{item.publishTime | date:'yyyy-M-dd HH:mm:ss'}}</div>
+                                    <div class="weibo-news-contentAbstract"><span class="contentAbstract" ng-bind-html="item.content"></span><a href="{{item.url}}" target="_blank" class="url">原文链接</a></div>
+                                    <div class="weibo-images" id="weibo-list-img-viewer-{{item.id}}">
+                                        <img
+                                                ng-repeat="imgItem in item.imgUrls"
+                                                data-original="{{imgItem}}"
+                                                ng-src="{{imgItem}}"
+                                                class="weibo-{{item.imgUrls.length == 1 ? '1' : '3'}}-image"
+                                                onerror="javascript:this.src='/theme/default/images/error-img.jpg';"
+                                        >
+                                    </div>
+                                    <div class="weibo-title-handle">
+                                        <div class="pull-left">
+                                            <span class="sign"><i class="fa fa-commenting-o" aria-hidden="true"></i>{{item.commentCount}}</span>
+                                            <span class="push sign"><i class="fa fa-share-square-o" aria-hidden="true" ng-click="push(item.id)"></i>{{item.reprintCount}}</span>
+                                            <span class="sign"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>{{item.likeCount}}</span>
+                                        </div>
+                                        <div class="pull-left">
+                                        <span class="handle pull-left">
+                                            <a href="javascript:;" class=""><i class="fa fa-pencil bjj-un-select" aria-hidden="true" ui-sref="editor({newsId:item.id})" title="编辑"></i></a>
+                                            <i class="fa fa-share-square-o push-{{item.id}} {{item.isPush ? 'bjj-select-square' : 'bjj-un-select' }}" aria-hidden="true" ng-click="push(item.id, item)" title="推送"></i>
+                                            <div class="pull-right">
+                                                <i class="fa fa-star {{ item.isCollection ? 'bjj-select-star' : 'bjj-un-select' }}" aria-hidden="true" ng-click="favoriteClick($event, item.id, item)" title="收藏文稿"></i>
+                                                <div class="id{{item.id}} news-favorite-box">
+                                                    <ol class="list-unstyled news-favorite">
+                                                        <li ng-repeat="group in normalGroup" class="bjj-ellipsis group" ng-click="favoriteGroup($event, group.id)" data-news-id="{{item.id}}">{{group.groupName}}</li>
+                                                    </ol>
+                                                </div>
+                                            </div>
+                                         </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div ng-show="dataListBottomFinalView" ng-include="'/inc/data_list_bottom_final_view.html'"></div>
+                </div>
+                <div ng-if="dataListEmptyView" class="bjj-list-empty"><i class="fa fa-3x fa-exclamation-circle" aria-hidden="true"></i><div ng-bind-html="listEmptyMsg"></div></div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                        &times;
+                    </button>
+                    <h5 class="modal-title" id="myModalLabel">
+                        常用关键词设置
+                    </h5>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-every modal-every-site" ng-repeat="item in weiboKeyWords">
+                        <label class="modal-keywords">第{{$index+1}}组</label>
+                        <input class="pull-left form-control form-keywords" type="text" ng-model="item.keyword" class="w260" placeholder="请设置关键词组，并以空格隔开" maxlength="20">
+                        <span class="pull-left modal-delete" ng-click="deleteRecord($index)" class="analysis-delete">删除</span>
+                        <span class="pull-left modal-add" ng-show="weiboKeyWords.length == ($index + 1) " ng-click="addRecord()" class="ml18 C03a8b1">添加</span>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <span ng-click="saveSetting()" class="analysis-save btn btn-primary">&nbsp;&nbsp;保存&nbsp;&nbsp;</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="capture-news-detail-page bjj-hide" ng-include="'/capture/news/detail_list_page.html'"></div>
+<back-to-top container="bjj-cont-page"></back-to-top>
+<script>
+    $('.news-condition .hidden-conditions').click(function(){
+        $('.news-condition .conditions .isShowBox').slideUp();
+        $('.hidden-conditions').hide();
+        $('.show-conditions').show();
+        $(".container-fluid").addClass("toggle-condition-site");
+    });
+    $('.news-condition .show-conditions').click(function(){
+        $('.news-condition .conditions .isShowBox').slideDown();
+        $('.hidden-conditions').show();
+        $('.show-conditions').hide();
+        $(".container-fluid").removeClass("toggle-condition-site");
+    });
+    $('.news-condition .conditions .capture-weiboConditions').on("click", "span", function(){
+        $(this).toggleClass('on').siblings().removeClass('on');
+    });
+    $(function() {
+        $(".newsList").on("mouseover", ".rubbish-news", function(){
+            $(this).next().toggle()
+        });
+        $(".newsList").on("mouseout", ".rubbish-news", function(){
+            $(this).next().toggle()
+        });
+    })
+</script>

@@ -1,0 +1,42 @@
+<div class="bjj-cont-sidebar list-group bjj-siteList account-site-nav">
+    <div class="nav bjj-nav">
+        <span>站点设置</span>
+        <b><a ui-sref="captureSite({type: 'list'})">返回</a></b>
+    </div>
+    <div class="site-list">
+        <div class="new-add-site">
+            <select ng-model="siteType.addSiteType" ng-change="searchSite()">
+                <option value="">全部</option>
+                <option value="1">网站</option>
+                <option value="2">公众号</option>
+                <option value="3">微博</option>
+            </select>
+        </div>
+        <ul class="nav-list list-unstyled">
+            <li class="siteName bjj-checkbox">
+                <div class="bjj-ellipsis bjj-checkbox {{ allSiteActive ? 'active' : '' }}"  ng-click="allgetSite()">
+                    <i class="fa fa-square-o fa-lg" aria-hidden="true"></i>全选
+                </div>
+                <strong ng-click="deleteAllSite()">批量删除</strong>
+            </li>
+            <li class="{{item.siteId}}" ng-repeat="item in siteList">
+                <div class="bjj-checkbox  {{ item.active ? 'active' : '' }}" ng-click="getSite()"><i class="fa fa-square-o fa-lg" aria-hidden="true"></i></div>
+                <a class="bjj-ellipsis pull-left ellipsis" ui-sref=".modify" ng-click="transmit($event)" data-site-id="{{item.siteId}}">{{item.siteName}}</a>
+                <span ng-click="deleteSiteId($event)" data-site-id="{{item.siteId}}" >×</span>
+
+            </li>
+        </ul>
+        <div ng-if="siteListEmpty" class="{{siteList.length > 0? 'un-show-site-list': 'empty-site-list'}} ">
+            <button ui-sref="accountSite.add" type="button" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> 新建站点</button>
+        </div>
+    </div>
+</div>
+<div class="col-lg-12 search-input account-site-search-option ">
+    <div class="input-group input-site input-search">
+        <input ng-model="siteType.keywords" type="text" class="form-control" placeholder="请输入站点名称" maxlength="20" ng-keyup="myKeyup($event)">
+            <span class="input-group-btn">
+                <button ng-click="searchSites()" class="btn btn-default" type="button"><i class="fa fa-search" aria-hidden="true"></i></button>
+            </span>
+    </div>
+</div>
+<div class="bjj-cont-page bjj-bg-white container-fluid" data-ui-view=""></div>

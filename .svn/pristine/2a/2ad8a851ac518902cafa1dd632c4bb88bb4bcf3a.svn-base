@@ -1,0 +1,38 @@
+<div class="siteAddPage">
+    <div class="bjj-page-title" ng-hide="deleteFlag"><p class="bjj-ellipsis">{{websiteName}}</p> <a href="javascript:;" class="pull-right" ng-click="deletesSiteId()">删除站点</a></div>
+    <div class="site-container edit-site-container" ng-hide="deleteFlag">
+        <div class="self-write">
+            <form>
+                <div class="site-edit">
+                    <label for="exampleInputEmail1" class="site-type">类型</label>
+                    <select class="bootstrap-select form-control self-write-type" ng-change="editTypeChange()" id="exampleInputEmail1" ng-model="siteType">
+                        <option value="网站" selected="selected">网站</option>
+                        <option value="公众号">公众号</option>
+                        <option value="微博">微博</option>
+                    </select>
+                </div>
+                <label for="basic-url" class="site-type basic-label" ng-show="siteFlag">站点域名</label>
+                <div class="input-group" ng-show="siteFlag">
+                    <span class="input-group-addon" id="basic-addon3">http(s)://</span>
+                    <input type="text" class="form-control input-site" placeholder="输入站点域名" id="basic-url" aria-describedby="basic-addon3" ng-model="websiteDomain">
+                </div>
+                <div class="form-group" ng-show="wechatFlag">
+                    <label for="setSiteName" class="site-type">站点名称</label>
+                    <input type="text" class="form-control" placeholder="输入站点名称" id="setSiteName" placeholder="" ng-model="websiteName" maxlength="20">
+                </div>
+                <div class="form-group" ng-show="weiboFlag">
+                    <label for="weiboSiteName" class="site-type">微博名称</label>
+                    <input type="text" class="form-control" placeholder="输入微博名称" id="weiboSiteName" placeholder="" ng-model="websiteName" maxlength="20">
+                </div>
+                <div class="form-group">
+                    <label for="siteInputShowName" class="site-type">显示名称</label>
+                    <input type="text" class="form-control" name="ModifySiteName" id="siteInputShowName" placeholder="输入导航栏的显示名称" ng-model="siteName" maxlength="20">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="defaultText" ng-show="deleteFlag"><p>该站点已删除</p></div>
+</div>
+<div ng-show="editSaveSite" class="bjj-account-save-view">
+    <div><button class="btn btn-primary" ng-click="editSaveSite()">保存</button></div>
+</div>

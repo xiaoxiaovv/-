@@ -1,0 +1,62 @@
+<div class="loading captureSubjectNewsLoading" ng-if="captureSubjectNewsLoading" ng-include="'/inc/loading.html'"></div>
+<div class="capture-news-page">
+    <div class="bjj-ellipsis bjj-page-title">{{captureSubjectFilter.subjectName}}</div>
+    <div class="container-fluid containerBox" ng-class="{true : 'containerSubject', false : ''}[captureSubjectFilter.containerSubjectBox]">
+        <div class= "news-condition container-fluid">
+            <div class="conditions">
+                <div class="capture-conditions"><label>媒体类型:</label>
+                    <span class="conditions {{captureSubjectFilter.siteType == 0 ? 'on' : ''}}" ng-click="mediaTypeClick($event)" data-site-type="0">全部</span>
+                    <span class="conditions {{captureSubjectFilter.siteType == 1 ? 'on' : ''}}" ng-click="mediaTypeClick($event)" data-site-type="1">网站</span>
+                    <span class="conditions {{captureSubjectFilter.siteType == 2 ? 'on' : ''}}" ng-click="mediaTypeClick($event)" data-site-type="2">微信公众号</span>
+                </div>
+                <div class="isShowBox">
+                    <div class="capture-conditions"><label>热度:</label>
+                        <span class="conditions {{captureSubjectFilter.heat == 0 ? 'on' : ''}}" ng-click="newsHeatListClick($event)" data-heat="0">全部</span>
+                        <span class="conditions {{captureSubjectFilter.heat == 3 ? 'on' : ''}}" ng-click="newsHeatListClick($event)" data-heat="3">高</span>
+                        <span class="conditions {{captureSubjectFilter.heat == 2 ? 'on' : ''}}" ng-click="newsHeatListClick($event)" data-heat="2">中</span>
+                        <span class="conditions {{captureSubjectFilter.heat == 1 ? 'on' : ''}}" ng-click="newsHeatListClick($event)" data-heat="1">低</span>
+                    </div>
+                    <div class="capture-conditions clearfix"><label class="pull-left">时间:</label>
+                        <input type="text" name="date" class='laydateTime form-control pull-left' id="subjectStartTime" value="{{captureSubjectFilter.startTime | date: 'yyyy-M-dd HH:mm:ss'}}"/>
+                        <input type="text" name="date" class='laydateTime form-control pull-left' id="subjectEndTime" value="{{captureSubjectFilter.endTime | date: 'yyyy-M-dd HH:mm:ss'}}"/>
+                        <a href="javascript:;" ng-click="clearSubjectTimeClick()">重置</a>
+                    </div>
+                    <div class="capture-conditions"><label>倾向性:</label>
+                        <span class="conditions {{captureSubjectFilter.orientation == 0 ? 'on' : ''}}" ng-click="orientationListClick($event)" data-orientation="0">全部</span>
+                        <span class="conditions {{captureSubjectFilter.orientation == 1 ? 'on' : ''}}" ng-click="orientationListClick($event)" data-orientation="1">正面</span>
+                        <span class="conditions {{captureSubjectFilter.orientation == 2 ? 'on' : ''}}" ng-click="orientationListClick($event)" data-orientation="2">负面</span>
+                        <span class="conditions {{captureSubjectFilter.orientation == 3 ? 'on' : ''}}" ng-click="orientationListClick($event)" data-orientation="3">中性</span>
+                    </div>
+                    <div class="capture-conditions"><label> 类别:</label>
+                        <span class="conditions {{captureSubjectFilter.hasPic == 0 ? 'on' : ''}}" ng-click="hasPicListClick($event)" data-has-pic="0">全部</span>
+                        <span class="conditions {{captureSubjectFilter.hasPic == 1 ? 'on' : ''}}" ng-click="hasPicListClick($event)" data-has-pic="1">带图</span>
+                    </div>
+                </div>
+            </div>
+            <div class="capture-conditions-toggle hidden-conditions"><a>隐藏筛选条件 <i class="fa fa-angle-double-up" aria-hidden="true"></i></a></div>
+            <div class="capture-conditions-toggle show-conditions"><a>展开筛选条件 <i class="fa fa-angle-double-down" aria-hidden="true"></i></a></div>
+        </div>
+        <div class="view-news-list" data-ui-view=""></div>
+    </div>
+</div>
+<div class="capture-news-detail-page bjj-hide" ng-include="'/capture/news/detail_list_page.html'"></div>
+<back-to-top container="bjj-cont-page"></back-to-top>
+<script>
+    $('.news-condition .hidden-conditions').click(function(){
+        $('.news-condition .conditions .isShowBox').slideUp();
+        $('.hidden-conditions').hide();
+        $('.show-conditions').show();
+        $(".container-fluid").addClass("toggle-condition-subject");
+        $(".containerSubject").css("height","calc(100% - 80px)");
+    });
+    $('.news-condition .show-conditions').click(function(){
+        $('.news-condition .conditions .isShowBox').slideDown();
+        $('.hidden-conditions').show();
+        $('.show-conditions').hide();
+        $(".container-fluid").removeClass("toggle-condition-subject");
+        $(".containerSubject").css("height","calc(100% - 130px)");
+    });
+    $('.news-condition .conditions .capture-conditions span ').click(function(){
+        $(this).addClass('on').siblings().removeClass('on');
+    });
+</script>

@@ -1,0 +1,88 @@
+package com.istar.mediabroken.api.compile
+
+import com.istar.mediabroken.api.CurrentUserId
+import com.istar.mediabroken.service.compile.ImgLibraryService
+import groovy.util.logging.Slf4j
+import org.apache.http.HttpStatus
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
+
+import static com.istar.mediabroken.api.ApiResult.apiResult
+import static org.springframework.web.bind.annotation.RequestMethod.*
+
+/**
+ * 素材管理相关
+ * Author: zc
+ * Time: 20180704
+ */
+@RestController
+@Slf4j
+@RequestMapping(value = "/api/compile")
+class ImgLibraryApiController {
+    @Autowired
+    ImgLibraryService imgLibraryService
+
+    /**
+     * 查询用户素材列表
+     * @param userId
+     * @param mina
+     * @param imgGroupId
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @RequestMapping(value = "/imgLibrary/imgs", method = GET)
+    public Map getUserImgs(
+            @CurrentUserId long userId,
+            @RequestParam(value = "mina", required = false, defaultValue = "false") boolean mina,
+            @RequestParam(value = "imgGroupId", required = false, defaultValue = "0") String imgGroupId,
+            @RequestParam(value = "pageNo", required = false, defaultValue = "1") int pageNo,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize
+    ) {
+        List result = imgLibraryService.getUserImgs(userId, mina, imgGroupId, pageNo, pageSize)
+        return apiResult([status: HttpStatus.SC_OK, list: result])
+    }
+
+    /**
+     * 上传素材保存
+     * @param userId
+     * @param imgUrl
+     * @param mina
+     * @return
+     */
+    @RequestMapping(value = "imgLibrary/img", method = POST)
+    public Map addUserImg(
+            @CurrentUserId Long userId,
+            @RequestParam(value = "imgUrl", required = true) String imgUrl,
+            @RequestParam(value = "mina", required = false, defaultValue = "false") boolean mina
+    ) {
+        def result = imgLibraryService.addUserImg(userId, imgUrl, mina)
+        if (result){
+            return apiResult([status: HttpStatus.SC_OK, msg: "上传素材成功"])
+        }else {
+            return apiResult([status: HttpStatus.SC_INTERNAL_SERVER_ERROR, msg: "上传素材失败"])
+        }
+    }
+
+    /**
+     * 移除素材，并将服务器端保存的图片移除
+     * @param userId
+     * @param imgId
+     * @return
+     */
+    @RequestMapping(value = "imgLibrary/img/{imgId}", method = DELETE)
+    public Map removeUserImg(
+            @CurrentUserId userId,
+            @PathVariable("imgId") String imgId
+    ){
+        def result = imgLibraryService.removeUserImg(userId, imgId)
+        if (result) {
+            return apiResult([status: HttpStatus.SC_OK, msg: "移除素材成功"])
+        } else {
+            return apiResult([status: HttpStatus.SC_INTERNAL_SERVER_ERROR, msg: "移除素材失败"])
+        }
+    }
+}
